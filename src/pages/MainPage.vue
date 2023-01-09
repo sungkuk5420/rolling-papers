@@ -4,11 +4,14 @@
     <div class="container">
       <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" />
       <div class="title-row">
-        <div class="title">{{ nickname?nickname: "게스트" }}의 롤인 그룹</div>
+        <div class="title">롤링 페이퍼 로고</div>
       </div>
-      <div class="group-list">
-        <div class="add-group" @click="bottomLayer = true">
-          + 추가하기
+      <div class="button-list">
+        <div class="add-group" @click="createGroup">
+          롤링페이퍼 만들기
+        </div>
+        <div class="join-group" @click="bottomLayer = true">
+          참가하기
         </div>
       </div>
       <van-action-sheet v-model="bottomLayer" :actions="actions" @select="onSelectBottomLayer" cancel-text="Cancel"
@@ -29,10 +32,6 @@ export default {
     return {
       localNickname: "",
       bottomLayer: false,
-      actions: [
-        { name: '생성하기' },
-        { name: '참여하기' },
-      ],
     };
   },
   mounted () {
@@ -44,11 +43,8 @@ export default {
         nickname: this.localNickname
       })
     },
-    onSelectBottomLayer (value) {
-      console.log(value.name)
-      if (value.name == "생성하기") {
-        this.$router.push("/create-group")
-      }
+    createGroup () {
+      this.$router.push("/create-group")
     },
     logout () {
       const auth = getAuth();
@@ -69,42 +65,36 @@ export default {
   flex: 1;
   height: 100vh;
   align-items: flex-start;
-  justify-content: flex-start;
-  padding: 10vh 5vw;
+  justify-content: center;
+  padding: 5vw;
 
   .container {
     width: 100%;
+    height: 667px;
+    display: flex;
+    flex-direction: column;
   }
 
   .title-row {
     display: flex;
-    padding-bottom: 5vh;
+    background: #ddd;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
     ;
 
-    .title {
-      font-size: 24px;
 
+    .title {
+      font-size: 36px;
+      font-weight: bold;
     }
   }
 
-  .group-list {
+  .button-list {
     width: 100%;
     display: flex;
     flex-direction: column;
-
-    .add-group {
-      width: 100%;
-      height: 80px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      border-radius: 15px;
-      background: black;
-      width: 100%;
-
-      cursor: pointer;
-    }
+    margin-top: auto;
   }
 
   .bottom-layer {

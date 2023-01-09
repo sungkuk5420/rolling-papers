@@ -31,9 +31,13 @@ export default {
         const groupUid = localStorage.getItem("groupUid")
         const groupName = localStorage.getItem("groupName")
         if (groupUid) {
+          localStorage.removeItem("groupUid")
+          localStorage.removeItem("groupName")
           set(ref(db, 'groups/' + groupUid), {
             groupName: groupName,
-            uid: user.uid
+            uid: user.uid,
+            code: groupUid,
+            createUserEmail: this.email,
           });
           this.$q.notify({
             position: "top",
@@ -41,7 +45,7 @@ export default {
             message: "그룹생성완료",
             icon: "announcement"
           });
-          this.$router.push("/group-info")
+          this.$router.push(`/group-info?code=${groupUid}`)
         } else {
 
           const starCountRef = ref(db, 'nicknames/' + user.uid);
@@ -52,7 +56,6 @@ export default {
             if (data) {
               const nickname = data.nickname
               this.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname })
-              thisObj.$router.push("/")
             } else {
               thisObj.$router.push("/set-nickname")
             }
@@ -67,7 +70,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #q-app,
 .q-footer,
 .q-header {
@@ -78,5 +81,28 @@ export default {
   align-items: center;
   justify-content: flex-start;
   border: 1px solid #ddd;
+}
+
+.add-group,
+.join-group {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background: #ddd;
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+
+
+  &:first-child {
+    margin-bottom: 10px;
+    ;
+  }
+
+
+  cursor: pointer;
 }
 </style>

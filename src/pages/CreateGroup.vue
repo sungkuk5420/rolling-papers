@@ -3,14 +3,26 @@
 
     <div class="group-name">
       <div class="container">
-        <div class="row-div">
-          그룹 이름을 입력해주세요.
+        <div class="header q-mb-md">
+          <q-icon name="arrow_back_ios" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
         </div>
-        <div class="row-div"><q-input v-model="groupName" />
+        <div class="row-div title">
+          제목 입력
         </div>
-      </div>
-      <div class="footer-div">
-        <q-btn color="white" text-color="black" label="다음" @click="saveNickname" />
+        <div class="row-div"><q-input class="group-name-input" :rules="[val => val.length <= 20]" outlined
+            v-model="groupName" placeholder="이름이나 단어, 문장을 입력해주세요.">
+            <span class="input-length">{{ groupName.toString().length }}/20</span>
+          </q-input>
+        </div>
+        <div class="row-div title q-mt-xl">
+          테마 선택
+        </div>
+        <div class="theme-list">
+          <div class="theme" v-for="(item, index) in themeList" :key="index" :class="`theme-${index}`">{{ item }}</div>
+        </div>
+        <div class="add-group" @click="createGroup">
+          롤링페이퍼 만들기
+        </div>
       </div>
     </div>
 
@@ -22,20 +34,34 @@ import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { T } from "../store/module-example/types"
 import { getDatabase, ref, set, child, get } from "firebase/database";
-import { uid } from 'quasar'
-import { resolve } from "path";
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
       groupName: "",
+      themeList: [
+        "직접추가",
+        "🎉",
+        "🎉",
+        "🎉",
+        "🎉",
+        "🎉",
+        "🎉",
+        "🎉",
+        "🎉",
+      ]
     };
+  },
+  watch: {
+    groupName (value) {
+      this.groupName = value.slice(0, 20)
+    }
   },
   mounted () {
     // this.showLoading();
   },
   methods: {
-    async saveNickname () {
+    async createGroup () {
       let groupUid = "";
       const db = getDatabase();
       await this.createGroupUid().then(resultGroupId => {
@@ -46,11 +72,13 @@ export default {
       if (this.uid) {
         set(ref(db, 'groups/' + groupUid), {
           groupName: this.groupName,
-          uid: this.uid
+          code: groupUid,
+          createUserUid: this.uid,
+          createUserEmail: this.email,
         });
-        this.$router.push("/group-info")
+        this.$router.push(`/group-info?code=${groupUid}`)
       } else {
-        // this.$router.push("/login")
+        this.$router.push("/login")
       }
     },
     checkGroupUidIsUnique ({ groupUid }) {
@@ -60,12 +88,10 @@ export default {
         const dbRef = ref(getDatabase());
         get(child(dbRef, `groups/${groupUid}`)).then((snapshot) => {
           if (snapshot.exists()) {
-            console.log(snapshot.val());
-            console.log("그룹코드가 존재합니다")
+            // console.log("그룹코드가 존재합니다")
             reject()
           } else {
-            console.log("No data available");
-            console.log("그룹코드가 없습니다!")
+            // console.log("그룹코드가 없습니다!")
             resolve()
           }
         }).catch((error) => {
@@ -121,41 +147,91 @@ export default {
   flex: 1;
   height: 100vh;
 
+  .header {
+    padding: 0 0 20px 0;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    ;
+  }
+
+  .group-name-input {
+    height: 66px;
+
+    .q-field__inner,
+    .q-field__control {
+      height: 66px;
+    }
+
+    .q-field__control {
+      padding-left: 20px;
+    }
+  }
+
+  .input-length {
+    color: #000;
+    margin-top: 23px;
+    margin-right: 10px;
+  }
+
+  .theme-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .theme {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 18px;
+      background: #ddd;
+      width: calc(33.3% - 6.6px);
+      height: calc(33.3vw - 26.6px);
+      max-height: 100px;
+      cursor: pointer;
+
+
+      &-0 {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      &-1,
+      &-2,
+      &-3,
+      &-4,
+      &-5,
+      &-6,
+      &-7,
+      &-8 {
+        font-size: 40px;
+      }
+    }
+  }
+
+
+
   .group-name {
-    padding: 10vh 0;
     height: 100%;
     width: 100%;
 
     .container {
       width: 100%;
-      padding: 0 20px;
-      ;
+      height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: none;
     }
 
-    .row-div {
-      flex: 1;
-    }
   }
 
-  .footer-div {
+  .add-group {
+    margin-top: auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ddd;
-    height: 50px;
-    bottom: 0;
-    position: absolute;
-    width: 100%;
-
-    .q-btn {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #ddd;
-    }
-
-    .q-btn__wrapper:before {
-      box-shadow: none;
-    }
   }
 }
 </style>
