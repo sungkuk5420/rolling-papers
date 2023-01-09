@@ -2,7 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import Vant from 'vant';
+import 'vant/lib/index.css';
 
+Vue.use(Vant);
 Vue.use(VueRouter)
 /*
  * If not building with SSR mode, you can

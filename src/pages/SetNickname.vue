@@ -32,7 +32,7 @@ export default {
   watch: {
     nickname () {
       console.log("닉네임저장완료 ")
-      this.$router.push("/main")
+      this.$router.push("/")
     }
   },
   mounted () {

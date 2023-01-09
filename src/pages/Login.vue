@@ -11,7 +11,7 @@
         아이디
       </div>
       <div class="join-row">
-        <q-input outlined v-model="email" />
+        <q-input outlined v-model="email2" />
       </div>
       <div class="join-row">
         비밀번호
@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-      email: "",
+      email2: "",
       password: "",
     };
   },
@@ -50,7 +50,7 @@ export default {
     },
     login () {
       const auth = getAuth();
-      signInWithEmailAndPassword(auth, this.email, this.password)
+      signInWithEmailAndPassword(auth, this.email2, this.password)
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
