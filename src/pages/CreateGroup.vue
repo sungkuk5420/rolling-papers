@@ -50,10 +50,10 @@ export default {
         });
         this.$router.push("/group-info")
       } else {
-        this.$router.push("/login")
+        // this.$router.push("/login")
       }
     },
-    checkGroupUidIsUnique ({ groupUid, successCB, errorCB }) {
+    checkGroupUidIsUnique ({ groupUid }) {
       return new Promise((resolve, reject) => {
         const db = getDatabase();
         console.log(groupUid)
@@ -62,11 +62,11 @@ export default {
           if (snapshot.exists()) {
             console.log(snapshot.val());
             console.log("그룹코드가 존재합니다")
-            errorCB()
+            reject()
           } else {
             console.log("No data available");
             console.log("그룹코드가 없습니다!")
-            successCB()
+            resolve()
           }
         }).catch((error) => {
           console.error(error);
@@ -79,16 +79,31 @@ export default {
         setTimeout(async () => {
           let fixGroupUid = "";
           while (fixGroupUid == "") {
-            let groupUid = uid().split("-")[0]
+            console.log("while")
+            function getRandomIntInclusive (min, max) {
+              min = Math.ceil(min);
+              max = Math.floor(max);
+              return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+            }
+            let groupUid = getRandomIntInclusive(1, 999)
+            // let groupUid = uid().slice(0, 4)
+            if (groupUid.toString().length == 3) {
+              groupUid = "0" + groupUid;
+            } else if (groupUid.toString().length == 2) {
+              groupUid = "00" + groupUid;
+            } else if (groupUid.toString().length == 1) {
+              groupUid = "000" + groupUid;
+            }
             console.log("그룹 코드 체크!", groupUid)
             await this.checkGroupUidIsUnique({
-              groupUid, successCB: () => {
-                fixGroupUid = groupUid
-                console.log("그룹 코드 저장!")
-                resolve(groupUid)
-              }, errorCB: () => {
-                console.log("그룹 코드 재탐색!")
-              }
+              groupUid
+            }).then(() => {
+              fixGroupUid = groupUid
+              console.log("그룹 코드 저장!")
+              resolve(groupUid)
+            }).catch(() => {
+              console.log("그룹 코드 재탐색!")
+              fixGroupUid = "";
             })
           }
         }, 0);
