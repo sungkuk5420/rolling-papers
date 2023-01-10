@@ -8,7 +8,7 @@
         </div>
         <div class="header__center">
           <q-icon name="celebration" style="font-size: 24px;cursor: pointer;"></q-icon>
-          {{ groupName }}
+          <div class="group-name">{{ groupName }}</div>
         </div>
         <div class="header__right">
           <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;"></q-icon>
@@ -95,11 +95,30 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    &__left {}
+    &__left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-    &__center {}
+    &__center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    &__right {}
+      .group-name {
+        margin-left: 5px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    &__right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .code {
