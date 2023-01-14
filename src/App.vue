@@ -84,7 +84,7 @@ export default {
 .share-action-sheet,
 .van-number-keyboard {
   width: 100%;
-  max-width: 375px;
+  max-width: 390px;
   left: 0;
   right: 0;
   margin: auto;

@@ -126,6 +126,12 @@ export default {
     }
   }
 
+  .label {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
   .code-group {
     display: flex;
     gap: 10px;
