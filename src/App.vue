@@ -6,7 +6,7 @@
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { T } from "./store/module-example/types"
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 export default {
   name: "App",
   mounted () {
@@ -25,8 +25,6 @@ export default {
           email: user.email,
           uid: user.uid,
         })
-
-
         const db = getDatabase();
         const groupUid = localStorage.getItem("groupUid")
         const groupName = localStorage.getItem("groupName")
@@ -37,33 +35,45 @@ export default {
             groupName: groupName,
             uid: user.uid,
             code: groupUid,
-            createUserEmail: this.email,
+            createUserEmail: user.email,
           });
-          this.$q.notify({
-            position: "top",
-            timeout: 500,
-            message: "그룹생성완료",
-            icon: "announcement"
-          });
-          this.$router.push(`/group-info?code=${groupUid}`)
+          setTimeout(() => {
+
+            thisObj.$q.notify({
+              position: "top",
+              timeout: 500,
+              message: "그룹생성완료",
+              icon: "announcement"
+            });
+          }, 0);
+          thisObj.$router.push(`/group-info?code=${groupUid}`)
         } else {
-
-          const starCountRef = ref(db, 'nicknames/' + user.uid);
-          onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            console.log(data)
-
-            if (data) {
-              const nickname = data.nickname
-              this.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname })
+          const dbRef = ref(getDatabase());
+          get(child(dbRef, `nicknames/${user.uid}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+              console.log(data)
+              if (data) {
+                const nickname = data.nickname
+                thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname })
+                thisObj.$router.push("/")
+              } else {
+                thisObj.$router.push("/set-nickname")
+              }
             } else {
-              thisObj.$router.push("/set-nickname")
             }
+          }).catch((error) => {
+            console.error(error);
           });
         }
       } else {
-        // User is signed out
-        this.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname: null, email: null, uid: null })
+        thisObj.$q.notify({
+          position: "top",
+          timeout: 500,
+          message: "로그아웃",
+          icon: "announcement"
+        });
+        thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname: null, email: null, uid: null })
       }
     });
   },
@@ -81,6 +91,11 @@ export default {
   align-items: center;
   justify-content: flex-start;
   border: 1px solid #ddd;
+}
+
+.footer-button {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .add-group,

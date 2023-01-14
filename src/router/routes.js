@@ -30,9 +30,16 @@ const routes = [
   },
   {
     path: '/login',
-    component: () => import('layouts/LoginLayout.vue'),
+    component: () => import('layouts/PlainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login.vue') }
+    ]
+  },
+  {
+    path: '/join',
+    component: () => import('layouts/PlainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Join.vue') }
     ]
   },
 

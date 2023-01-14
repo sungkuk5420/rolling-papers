@@ -2,7 +2,7 @@
   <q-page class="flex flex-center main-page">
 
     <div class="container">
-      <!-- <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" /> -->
+      <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" />
       <div class="title-row">
         <div class="title">롤링 페이퍼 로고</div>
       </div>
@@ -14,8 +14,7 @@
           참가하기
         </div>
       </div>
-      <van-action-sheet v-model="bottomLayer" :actions="actions" @select="onSelectBottomLayer" cancel-text="Cancel"
-        close-on-click-action>
+      <van-action-sheet v-model="bottomLayer" cancel-text="Cancel" close-on-click-action>
       </van-action-sheet>
     </div>
   </q-page>

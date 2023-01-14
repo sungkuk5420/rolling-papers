@@ -1,30 +1,25 @@
 <template>
   <q-page class="flex flex-center login-page">
     <div class="container">
-      <div class="q-mb-xs title-text">
-        간편하게 로그인하고
+      <div class="header q-mb-md">
+        <q-icon name="arrow_back_ios" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
       </div>
-      <div class="title-text">
-        롤링페이퍼를 이용해보세요.
-      </div>
-      <div class="join-row">
+      <div class="join-row label">
         아이디
       </div>
       <div class="join-row">
         <q-input outlined v-model="email2" />
       </div>
-      <div class="join-row">
+      <div class="join-row label">
         비밀번호
       </div>
       <div class="join-row">
         <q-input outlined type="password" v-model="password" />
       </div>
-      <div class="join-row"><q-btn outline color="primary" class="q-mb-md" label="로그인" @click="login" />
-      </div>
     </div>
     <div class="buttons">
-      <q-btn outline color="primary" class="q-mb-md" label="이메일 회원가입" @click="openDrawer" />
-      <q-btn outline color="primary" label="카카오로 로그인" />
+      <q-btn outline color="primary" class="q-mb-md footer-button" label="로그인" @click="login" />
+      <q-btn outline color="black" class="q-mb-md footer-button" label="회원가입" @click="$router.push('join')" />
     </div>
   </q-page>
 </template>
@@ -52,11 +47,10 @@ export default {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, this.email2, this.password)
         .then((userCredential) => {
-          // Signed in 
-          const user = userCredential.user;
-          // ...
+          this.successMessage("login")
         })
         .catch((error) => {
+          this.errorMessage(error)
           const errorCode = error.code;
           const errorMessage = error.message;
         });
@@ -70,11 +64,20 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 10vh;
+
+  .header {
+    padding: 0 0 20px 0;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 20px;
+  }
 
   .container {
+    padding: 20px;
+    width: 100%;
     max-width: 375px;
-    ;
   }
 
 
@@ -83,11 +86,15 @@ export default {
   }
 
   .buttons {
-    padding-bottom: 10vh;
+    padding: 0 20px;
+    width: 100%;
     margin-top: auto;
     display: flex;
     flex-direction: column;
 
+    .q-btn {
+      min-height: 60px;
+    }
   }
 
   .join-row {
