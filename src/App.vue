@@ -81,16 +81,52 @@ export default {
 </script>
 
 <style lang="scss">
+.share-action-sheet,
+.van-number-keyboard {
+  width: 100%;
+  max-width: 375px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+html {
+  position: fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: auto;
+  bottom: 0;
+
+}
+
+html,
+body,
 #q-app,
+.q-layout,
 .q-footer,
 .q-header {
   width: 100%;
-  max-width: 375px;
+  max-width: 390px;
+  height: 100%;
+  max-height: 844px;
   margin-left: auto;
   margin-right: auto;
-  align-items: center;
+  margin-top: auto;
+  align-items: flex-end;
   justify-content: flex-start;
   border: 1px solid #ddd;
+}
+
+#q-app {
+  overflow: auto;
+}
+
+.q-page-container,
+.q-layout,
+.q-page {
+  height: 100%;
+  min-height: inherit !important;
 }
 
 .footer-button {

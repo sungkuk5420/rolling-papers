@@ -56,7 +56,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100vh;
+  height: 100%;
 
   .setting-nickname {
     padding: 10vh 0;

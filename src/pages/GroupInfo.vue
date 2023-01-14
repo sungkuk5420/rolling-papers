@@ -92,7 +92,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100vh;
+  height: 100%;
 
   .share-action-sheet {
     padding: 20px;
@@ -111,7 +111,7 @@ export default {
 
   .container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
