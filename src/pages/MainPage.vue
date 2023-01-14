@@ -2,7 +2,6 @@
   <q-page class="flex flex-center main-page">
 
     <div class="container">
-      <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" />
       <div class="title-row">
         <div class="title">롤링 페이퍼 로고</div>
       </div>
@@ -10,12 +9,15 @@
         <div class="add-group" @click="createGroup">
           롤링페이퍼 만들기
         </div>
-        <div class="join-group" @click="bottomLayer = true">
+        <div class="join-group" @click="$router.push('join-group')">
           참가하기
         </div>
+        <div class="login-join-buttons">
+          <div @click="$router.push('/login')" v-show="!uid">로그인</div>
+          <div @click="logout" v-show="uid">로그아웃</div>
+          <div @click="$router.push('/join')" v-show="!uid">회원가입</div>
+        </div>
       </div>
-      <van-action-sheet v-model="bottomLayer" cancel-text="Cancel" close-on-click-action>
-      </van-action-sheet>
     </div>
   </q-page>
 </template>
@@ -30,13 +32,13 @@ export default {
   data () {
     return {
       localNickname: "",
-      bottomLayer: false,
     };
   },
   mounted () {
     // this.showLoading();
   },
   methods: {
+
     saveNickName () {
       this.$store.dispatch(T.SET_LOGIN_USER_INFO, {
         nickname: this.localNickname
@@ -64,12 +66,12 @@ export default {
   flex: 1;
   height: 100vh;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 20px;
 
   .container {
     width: 100%;
-    height: 667px;
+    height: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -116,6 +118,20 @@ export default {
   .logout-button {
     width: 120px;
     ;
+  }
+
+  .login-join-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0 5px;
+
+    &>div {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+      ;
+    }
   }
 }
 </style>
