@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import '@vant/touch-emulator';
 
 Vue.use(Vant);
 Vue.use(VueRouter)
