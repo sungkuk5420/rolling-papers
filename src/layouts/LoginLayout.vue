@@ -9,7 +9,7 @@
           <div class="join-title">
             회원가입
           </div>
-          <div class="join-row">
+          <div class="join-row">  
             아이디
           </div>
           <div class="join-row">

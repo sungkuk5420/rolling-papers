@@ -2,7 +2,7 @@
   <q-page class="flex flex-center main-page">
 
     <div class="container">
-      <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" />
+      <!-- <q-btn v-show="uid" outline color="primary" class="q-mb-md logout-button" label="로그아웃" @click="logout" /> -->
       <div class="title-row">
         <div class="title">롤링 페이퍼 로고</div>
       </div>
@@ -66,7 +66,7 @@ export default {
   height: 100vh;
   align-items: flex-start;
   justify-content: center;
-  padding: 5vw;
+  padding: 20px;
 
   .container {
     width: 100%;
