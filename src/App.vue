@@ -28,13 +28,15 @@ export default {
         const db = getDatabase();
         const groupUid = localStorage.getItem("groupUid")
         const groupName = localStorage.getItem("groupName")
+        const groupCode = localStorage.getItem("groupCode")
         if (groupUid) {
           localStorage.removeItem("groupUid")
           localStorage.removeItem("groupName")
+          localStorage.removeItem("groupCode")
           set(ref(db, 'groups/' + groupUid), {
             groupName: groupName,
-            uid: user.uid,
-            code: groupUid,
+            code: groupCode,
+            createUserUid: user.uid,
             createUserEmail: user.email,
           });
           setTimeout(() => {
@@ -46,7 +48,7 @@ export default {
               icon: "announcement"
             });
           }, 0);
-          thisObj.$router.push(`/group-info?code=${groupUid}`)
+          this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
         } else {
           const dbRef = ref(getDatabase());
           get(child(dbRef, `nicknames/${user.uid}`)).then((snapshot) => {

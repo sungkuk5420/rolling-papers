@@ -33,6 +33,7 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { T } from "../store/module-example/types"
+import { uid } from 'quasar'
 import { getDatabase, ref, set, child, get } from "firebase/database";
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
@@ -63,23 +64,50 @@ export default {
   methods: {
     async createGroup () {
       let groupUid = "";
+      let groupCode = "";
       const db = getDatabase();
-      await this.createGroupUid().then(resultGroupId => {
-        groupUid = resultGroupId
+      await this.createGroupUid().then(result => {
+        groupUid = result
       });
-      localStorage.setItem("groupUid", groupUid)
-      localStorage.setItem("groupName", this.groupName)
+      await this.createGroupCode().then(result => {
+        groupCode = result
+      });
       if (this.uid) {
         set(ref(db, 'groups/' + groupUid), {
           groupName: this.groupName,
-          code: groupUid,
+          code: groupCode,
           createUserUid: this.uid,
           createUserEmail: this.email,
         });
-        this.$router.push(`/group-info?code=${groupUid}`)
+        set(ref(db, 'groupCodes/' + groupCode), {
+          groupUid: groupUid,
+        });
+        this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
       } else {
+        localStorage.setItem("groupUid", groupUid)
+        localStorage.setItem("groupName", this.groupName)
+        localStorage.setItem("groupCode", groupCode)
         this.$router.push("/login")
       }
+    },
+    checkGroupCodeIsUnique ({ groupCode }) {
+      return new Promise((resolve, reject) => {
+        const db = getDatabase();
+        console.log(groupCode)
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `groupCodes/${groupCode}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("그룹코드가 존재합니다")
+            reject()
+          } else {
+            console.log("그룹코드가 없습니다!")
+            resolve()
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+      })
+
     },
     checkGroupUidIsUnique ({ groupUid }) {
       return new Promise((resolve, reject) => {
@@ -100,6 +128,42 @@ export default {
       })
 
     },
+    async createGroupCode () {
+      return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          let fixGroupCode = "";
+          while (fixGroupCode == "") {
+            console.log("while")
+            function getRandomIntInclusive (min, max) {
+              min = Math.ceil(min);
+              max = Math.floor(max);
+              return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+            }
+            let groupCode = getRandomIntInclusive(1, 9999)
+            // let groupCode = uid().slice(0, 4)
+            if (groupCode.toString().length == 3) {
+              groupCode = "0" + groupCode;
+            } else if (groupCode.toString().length == 2) {
+              groupCode = "00" + groupCode;
+            } else if (groupCode.toString().length == 1) {
+              groupCode = "000" + groupCode;
+            }
+            console.log("그룹 코드 체크!", groupCode)
+            await this.checkGroupCodeIsUnique({
+              groupCode
+            }).then(() => {
+              fixGroupCode = groupCode
+              console.log("그룹 코드 저장!")
+              resolve(fixGroupCode)
+            }).catch(() => {
+              console.log("그룹 코드 재탐색!")
+              fixGroupCode = "";
+            })
+          }
+        }, 0);
+      });
+
+    },
     async createGroupUid () {
       return new Promise((resolve, reject) => {
         setTimeout(async () => {
@@ -111,15 +175,7 @@ export default {
               max = Math.floor(max);
               return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
             }
-            let groupUid = getRandomIntInclusive(1, 999)
-            // let groupUid = uid().slice(0, 4)
-            if (groupUid.toString().length == 3) {
-              groupUid = "0" + groupUid;
-            } else if (groupUid.toString().length == 2) {
-              groupUid = "00" + groupUid;
-            } else if (groupUid.toString().length == 1) {
-              groupUid = "000" + groupUid;
-            }
+            let groupUid = uid().slice(0, 8)
             console.log("그룹 코드 체크!", groupUid)
             await this.checkGroupUidIsUnique({
               groupUid

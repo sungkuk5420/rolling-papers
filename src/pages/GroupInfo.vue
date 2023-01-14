@@ -4,7 +4,7 @@
     <div class="container">
       <div class="header q-mb-md">
         <div class="header__left">
-          <q-icon name="menu" style="font-size: 24px;cursor: pointer;"></q-icon>
+          <q-icon name="menu" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
         </div>
         <div class="header__center">
           <q-icon name="celebration" style="font-size: 24px;cursor: pointer;"></q-icon>
@@ -53,6 +53,12 @@ export default {
   },
   mounted () {
     // this.showLoading();
+    const groupCode = this.$route.query["groupCode"];
+    const groupUid = this.$route.query["groupUid"];
+    if (!groupCode) {
+      this.$router.push(`/join-group?groupUid=${groupUid}`)
+      return false;
+    }
     this.getGroupInfo();
   },
   methods: {
@@ -63,7 +69,7 @@ export default {
       }
     },
     getGroupInfo () {
-      const groupUid = this.$route.query.code;
+      const groupUid = this.$route.query["groupUid"];
       console.log(groupUid)
       const dbRef = ref(getDatabase());
       get(child(dbRef, `groups/${groupUid}`)).then((snapshot) => {
@@ -170,7 +176,7 @@ export default {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 9px;
-    ;
+
   }
 
 }
