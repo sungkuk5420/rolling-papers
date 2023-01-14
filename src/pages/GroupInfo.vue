@@ -11,7 +11,7 @@
           <div class="group-name">{{ groupName }}</div>
         </div>
         <div class="header__right">
-          <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;" @click="bottomLayer = true"></q-icon>
+          <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;" @click="shareMobile"></q-icon>
         </div>
       </div>
       <div class="row-div code">
@@ -62,6 +62,20 @@ export default {
     this.getGroupInfo();
   },
   methods: {
+    async shareMobile () {
+      const _this = this;
+      let url = location.href;
+      const shareData = {
+        title: "Share",
+        url,
+      };
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        _this.shareModalVisiable = false;
+        await navigator.share(shareData);
+      } else {
+        _this.shareModalVisiable = true;
+      }
+    },
     onSelectBottomLayer (value) {
       console.log(value.name)
       if (value.name == "생성하기") {
