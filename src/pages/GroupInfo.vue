@@ -11,7 +11,7 @@
           <div class="group-name">{{ groupName }}</div>
         </div>
         <div class="header__right">
-          <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;"></q-icon>
+          <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;" @click="bottomLayer = true"></q-icon>
         </div>
       </div>
       <div class="row-div code">
@@ -23,6 +23,10 @@
       <div class="add-group" @click="writeMessage">
         롤링페이퍼 작성
       </div>
+      <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
+        <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
+        <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
+      </van-action-sheet>
     </div>
 
   </q-page>
@@ -39,7 +43,12 @@ export default {
     return {
       groupName: "",
       groupCode: "",
-      messageList: []
+      messageList: [],
+      bottomLayer: false,
+      actions: [
+        { name: '생성하기' },
+        { name: '참여하기' },
+      ],
     };
   },
   mounted () {
@@ -47,6 +56,12 @@ export default {
     this.getGroupInfo();
   },
   methods: {
+    onSelectBottomLayer (value) {
+      console.log(value.name)
+      if (value.name == "생성하기") {
+        this.$router.push("/create-group")
+      }
+    },
     getGroupInfo () {
       const groupUid = this.$route.query.code;
       console.log(groupUid)
@@ -78,6 +93,20 @@ export default {
   flex-direction: column;
   flex: 1;
   height: 100vh;
+
+  .share-action-sheet {
+    padding: 20px;
+
+    .van-action-sheet__content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .footer-button:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 
 
   .container {
