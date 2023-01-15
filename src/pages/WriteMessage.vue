@@ -6,7 +6,7 @@
         <div class="header q-mb-md">
           <q-icon name="arrow_back_ios" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
         </div>
-        <div class="row-div"><q-input class="message-input" :class="fontClass" type="textarea"
+        <div class="row-div"><q-input class="message-input" :class="fontStyle" type="textarea"
             :rules="[val => val.length <= 20]" outlined v-model="message" placeholder="메세지를 남겨주세요.">
             <span class="input-length">{{ message.toString().length }}/20</span>
           </q-input>
@@ -14,9 +14,9 @@
         <div class="row-div title q-mt-md">
           작성자명
         </div>
-        <div class="row-div"><q-input class="writer-input" :rules="[val => val.length <= 10]" outlined v-model="writer"
-            placeholder="이름이나 단어, 문장을 입력해주세요.">
-            <span class="input-length">{{ writer.toString().length }}/10</span>
+        <div class="row-div"><q-input class="writer-input" :rules="[val => val.length <= 10]" outlined
+            v-model="writerNickName" placeholder="이름이나 단어, 문장을 입력해주세요.">
+            <span class="input-length">{{ writerNickName.toString().length }}/10</span>
           </q-input>
           <div class="row-div title q-mt-md">
             폰트
@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <div class="add-group" @click="createGroup">
+        <div class="add-group" @click="writeMessage">
           메세지 남기기
         </div>
       </div>
@@ -56,15 +56,15 @@ import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { T } from "../store/module-example/types"
 import { uid } from 'quasar'
-import { getDatabase, ref, set, child, get } from "firebase/database";
+import { getDatabase, ref, set, child, get, push, update } from "firebase/database";
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
       toggle: false,
       message: "",
-      writer: "",
-      fontClass: "",
+      writerNickName: "",
+      fontStyle: "",
       themeList: [
         "직접추가",
         "🎉",
@@ -82,8 +82,8 @@ export default {
     message (value) {
       this.message = value.slice(0, 20)
     },
-    writer (value) {
-      this.writer = value.slice(0, 10)
+    writerNickName (value) {
+      this.writerNickName = value.slice(0, 10)
     }
   },
   mounted () {
@@ -93,149 +93,52 @@ export default {
     changeFont (value) {
       switch (value) {
         case 1:
-          this.fontClass = "first-font"
+          this.fontStyle = "first-font"
           break;
         case 2:
-          this.fontClass = "second-font"
+          this.fontStyle = "second-font"
           break;
         case 3:
-          this.fontClass = "third-font"
+          this.fontStyle = "third-font"
           break;
 
         default:
           break;
       }
     },
-    async createGroup () {
-      let groupUid = "";
-      let groupCode = "";
+    async writeMessage () {
+      let groupUid = this.$route.query["groupUid"];
       const db = getDatabase();
-      await this.createGroupUid().then(result => {
-        groupUid = result
-      });
-      await this.createGroupCode().then(result => {
-        groupCode = result
-      });
       if (this.uid) {
-        set(ref(db, 'groups/' + groupUid), {
-          groupName: this.groupName,
-          code: groupCode,
-          createUserUid: this.uid,
-          createUserEmail: this.email,
+        const updates = {};
+        const dbRef = ref(db);
+        get(child(dbRef, `groups/${groupUid}`)).then((snapshot) => {
+          const data = snapshot.val();
+          const groupCode = data.code
+
+          updates['/groups/' + groupUid] = {
+            ...data,
+            messages: [
+              ...data.messages,
+              {
+                createUserUid: this.uid,
+                createUserEmail: this.email,
+                message: this.message,
+                writerNickName: this.writerNickName,
+                toggle: this.toggle,
+                fontStyle: this.fontStyle
+              }
+            ]
+          };
+          update(dbRef, updates);
+          this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
+        }).catch((error) => {
+          console.error(error);
         });
-        set(ref(db, 'groupCodes/' + groupCode), {
-          groupUid: groupUid,
-        });
-        this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
       } else {
-        localStorage.setItem("groupUid", groupUid)
-        localStorage.setItem("groupName", this.groupName)
-        localStorage.setItem("groupCode", groupCode)
         this.$router.push("/login")
       }
     },
-    checkGroupCodeIsUnique ({ groupCode }) {
-      return new Promise((resolve, reject) => {
-        const db = getDatabase();
-        console.log(groupCode)
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, `groupCodes/${groupCode}`)).then((snapshot) => {
-          if (snapshot.exists()) {
-            console.log("그룹코드가 존재합니다")
-            reject()
-          } else {
-            console.log("그룹코드가 없습니다!")
-            resolve()
-          }
-        }).catch((error) => {
-          console.error(error);
-        });
-      })
-
-    },
-    checkGroupUidIsUnique ({ groupUid }) {
-      return new Promise((resolve, reject) => {
-        const db = getDatabase();
-        console.log(groupUid)
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, `groups/${groupUid}`)).then((snapshot) => {
-          if (snapshot.exists()) {
-            // console.log("그룹코드가 존재합니다")
-            reject()
-          } else {
-            // console.log("그룹코드가 없습니다!")
-            resolve()
-          }
-        }).catch((error) => {
-          console.error(error);
-        });
-      })
-
-    },
-    async createGroupCode () {
-      return new Promise((resolve, reject) => {
-        setTimeout(async () => {
-          let fixGroupCode = "";
-          while (fixGroupCode == "") {
-            console.log("while")
-            function getRandomIntInclusive (min, max) {
-              min = Math.ceil(min);
-              max = Math.floor(max);
-              return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-            }
-            let groupCode = getRandomIntInclusive(1, 9999)
-            // let groupCode = uid().slice(0, 4)
-            if (groupCode.toString().length == 3) {
-              groupCode = "0" + groupCode;
-            } else if (groupCode.toString().length == 2) {
-              groupCode = "00" + groupCode;
-            } else if (groupCode.toString().length == 1) {
-              groupCode = "000" + groupCode;
-            }
-            console.log("그룹 코드 체크!", groupCode)
-            await this.checkGroupCodeIsUnique({
-              groupCode
-            }).then(() => {
-              fixGroupCode = groupCode
-              console.log("그룹 코드 저장!")
-              resolve(fixGroupCode)
-            }).catch(() => {
-              console.log("그룹 코드 재탐색!")
-              fixGroupCode = "";
-            })
-          }
-        }, 0);
-      });
-
-    },
-    async createGroupUid () {
-      return new Promise((resolve, reject) => {
-        setTimeout(async () => {
-          let fixGroupUid = "";
-          while (fixGroupUid == "") {
-            console.log("while")
-            function getRandomIntInclusive (min, max) {
-              min = Math.ceil(min);
-              max = Math.floor(max);
-              return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-            }
-            let groupUid = uid().slice(0, 8)
-            console.log("그룹 코드 체크!", groupUid)
-            await this.checkGroupUidIsUnique({
-              groupUid
-            }).then(() => {
-              fixGroupUid = groupUid
-              console.log("그룹 코드 저장!")
-              resolve(groupUid)
-            }).catch(() => {
-              console.log("그룹 코드 재탐색!")
-              fixGroupUid = "";
-            })
-          }
-        }, 0);
-      });
-
-    }
   }
 };
 </script>

@@ -85,7 +85,6 @@ export default {
     },
     getGroupInfo () {
       this.groupUid = this.$route.query["groupUid"];
-      console.log(groupUid)
       const dbRef = ref(getDatabase());
       get(child(dbRef, `groups/${this.groupUid}`)).then((snapshot) => {
         if (snapshot.exists()) {
