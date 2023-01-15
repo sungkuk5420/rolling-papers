@@ -15,6 +15,13 @@ const routes = [
     ]
   },
   {
+    path: '/write-message',
+    component: () => import('layouts/PlainLayout.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/WriteMessage.vue') }
+    ]
+  },
+  {
     path: '/group-info',
     component: () => import('layouts/PlainLayout.vue'),
     children: [

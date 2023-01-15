@@ -41,6 +41,7 @@ export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
+      groupUid: "",
       groupName: "",
       groupCode: "",
       messageList: [],
@@ -83,10 +84,10 @@ export default {
       }
     },
     getGroupInfo () {
-      const groupUid = this.$route.query["groupUid"];
+      this.groupUid = this.$route.query["groupUid"];
       console.log(groupUid)
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `groups/${groupUid}`)).then((snapshot) => {
+      get(child(dbRef, `groups/${this.groupUid}`)).then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
           const data = snapshot.val();
@@ -101,7 +102,7 @@ export default {
       });
     },
     writeMessage () {
-
+      this.$router.push(`/write-message?groupUid=${this.groupUid}`)
     }
   }
 };
