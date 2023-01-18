@@ -116,10 +116,11 @@ export default {
           const data = snapshot.val();
           const groupCode = data.code
 
+          let originalMessage = data.messages ? data.messages : []
           updates['/groups/' + groupUid] = {
             ...data,
             messages: [
-              ...data.messages,
+              ...originalMessage,
               {
                 createUserUid: this.uid,
                 createUserEmail: this.email,
