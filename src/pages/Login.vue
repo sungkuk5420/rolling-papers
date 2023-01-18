@@ -48,6 +48,10 @@ export default {
       signInWithEmailAndPassword(auth, this.email2, this.password)
         .then((userCredential) => {
           this.successMessage("login")
+          const groupUid = localStorage.getItem("groupUid")
+          if (!groupUid) {
+            this.$router.push("/")
+          }
         })
         .catch((error) => {
           this.errorMessage(error)

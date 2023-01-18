@@ -49,24 +49,6 @@ export default {
             });
           }, 0);
           this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
-        } else {
-          const dbRef = ref(getDatabase());
-          get(child(dbRef, `nicknames/${user.uid}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-              console.log(data)
-              if (data) {
-                const nickname = data.nickname
-                thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname })
-                thisObj.$router.push("/")
-              } else {
-                thisObj.$router.push("/set-nickname")
-              }
-            } else {
-            }
-          }).catch((error) => {
-            console.error(error);
-          });
         }
       } else {
         thisObj.$q.notify({

@@ -282,23 +282,20 @@ export default {
   .q-btn {
     flex: 1;
   }
-}
 
+  .container {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+  }
 
-
-
-.container {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  flex: none;
-}
-
-.add-group {
-  margin-top: auto;
-  display: flex;
+  .add-group {
+    margin-top: auto;
+    display: flex;
+  }
 }
 </style>

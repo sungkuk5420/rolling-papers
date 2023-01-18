@@ -17,8 +17,24 @@
       <div class="row-div code">
         입장 코드 {{ groupCode }}
       </div>
-      <div class="row-div q-mt-xl empty" v-show="messageList.length == 0">
+      <div class="row-div q-mt-xl empty" v-show="messages.length == 0">
         글 없음
+      </div>
+      <div class="row-div q-mt-md message-wapper">
+        <div class="message-list">
+          <div v-for="(item, index) in messages" :key="index" class="message-post">
+            <div :class="`${item.fontStyle}`" v-show="uid ? uid == item.createUserUid : !item.toggle"
+              v-html="item.message.replaceAll('\n', '<br>')">
+            </div>
+            <div v-show="uid ? uid !== item.createUserUid : item.toggle" class="flex justify-center">
+              <div style="font-size: 40px;">🤫</div>
+              <div>당사자만 볼 수 있어</div>
+            </div>
+            <div class="message-writer">
+              {{ (uid ? uid !== item.createUserUid : item.toggle) ? "익명" : item.writerNickName }}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="add-group" @click="writeMessage">
         롤링페이퍼 작성
@@ -44,7 +60,7 @@ export default {
       groupUid: "",
       groupName: "",
       groupCode: "",
-      messageList: [],
+      messages: [],
       bottomLayer: false,
       actions: [
         { name: '생성하기' },
@@ -92,6 +108,7 @@ export default {
           const data = snapshot.val();
           this.groupName = data.groupName
           this.groupCode = data.code
+          this.messages = data.messages ? data.messages : []
           // console.log("그룹코드가 존재합니다")
         } else {
           // console.log("그룹코드가 없습니다!")
@@ -186,12 +203,65 @@ export default {
     flex: 1;
   }
 
+  .message-wapper {
+    display: block;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overflow: hidden;
+    padding-bottom: 10px;
+  }
+
+  .message-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 0;
+    gap: 10px;
+    height: 100%;
+    overflow: auto;
+    flex-wrap: wrap;
+  }
+
+  .message-post {
+    background: #ddd;
+    width: calc(50% - 5px);
+    height: calc(50% - 30px);
+    max-height: 200px;
+    ;
+    padding: 20px;
+    position: relative;
+  }
+
+  .message-writer {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 12px;
+  }
+
+  .first-font {
+    font-family: 'Black Han Sans', sans-serif;
+  }
+
+  .second-font {
+    font-size: 20px;
+    font-family: 'Dongle', sans-serif;
+  }
+
+  .third-font {
+    font-size: 20px;
+    font-family: 'Nanum Pen Script', cursive;
+  }
+
   .title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 9px;
 
   }
+
 
 }
 </style>
