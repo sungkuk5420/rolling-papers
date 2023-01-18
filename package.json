@@ -2,7 +2,7 @@
   "name": "quasar-boilerplate",
   "version": "0.0.1",
   "description": "롤링페이퍼 웹앱입니다.",
-  "productName": "rollring-papers",
+  "productName": "rolling-papers",
   "author": "sungkuk5420 <sungkuk5420@gamil.com>",
   "private": true,
   "scripts": {
