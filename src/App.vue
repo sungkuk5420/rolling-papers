@@ -136,10 +136,15 @@ body,
   font-weight: bold;
 }
 
+.join-group {
+  margin-top: 20px;
+}
+
 .add-group,
 .join-group {
   width: 100%;
   height: 60px;
+  flex: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,11 +154,6 @@ body,
   font-weight: bold;
   font-size: 20px;
 
-
-  &:first-child {
-    margin-bottom: 10px;
-    ;
-  }
 
 
   cursor: pointer;

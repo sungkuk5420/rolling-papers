@@ -1,50 +1,48 @@
 <template>
   <q-page class="flex flex-center write-message-page">
 
-    <div class="group-name">
-      <div class="container">
-        <div class="header q-mb-md">
-          <q-icon name="arrow_back_ios" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
+    <div class="container">
+      <div class="header q-mb-md">
+        <q-icon name="arrow_back_ios" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
+      </div>
+      <div class="row-div"><q-input class="message-input" :class="fontStyle" type="textarea"
+          :rules="[val => val.length <= 20]" outlined v-model="message" placeholder="메세지를 남겨주세요.">
+          <span class="input-length">{{ message.toString().length }}/20</span>
+        </q-input>
+      </div>
+      <div class="row-div title q-mt-md">
+        작성자명
+      </div>
+      <div class="row-div"><q-input class="writer-input" :rules="[val => val.length <= 10]" outlined
+          v-model="writerNickName" placeholder="이름이나 단어, 문장을 입력해주세요.">
+          <span class="input-length">{{ writerNickName.toString().length }}/10</span>
+        </q-input>
+        <div class="row-div title q-mt-md">
+          폰트
         </div>
-        <div class="row-div"><q-input class="message-input" :class="fontStyle" type="textarea"
-            :rules="[val => val.length <= 20]" outlined v-model="message" placeholder="메세지를 남겨주세요.">
-            <span class="input-length">{{ message.toString().length }}/20</span>
-          </q-input>
+        <div class="font-button-group">
+          <q-btn class="first-font" push label="폰트 1" @click="function () {
+            changeFont(1)
+          }" />
+          <q-btn class="second-font" push label="폰트 2" @click="function () {
+            changeFont(2)
+          }" />
+          <q-btn class="third-font" push label="폰트 3" @click="function () {
+            changeFont(3)
+          }" />
         </div>
         <div class="row-div title q-mt-md">
-          작성자명
-        </div>
-        <div class="row-div"><q-input class="writer-input" :rules="[val => val.length <= 10]" outlined
-            v-model="writerNickName" placeholder="이름이나 단어, 문장을 입력해주세요.">
-            <span class="input-length">{{ writerNickName.toString().length }}/10</span>
-          </q-input>
-          <div class="row-div title q-mt-md">
-            폰트
+          <div class="title__left">
+            <div>익명</div>
+            <div class="title__sub">작성자만 볼 수 있습니다.</div>
           </div>
-          <div class="font-button-group">
-            <q-btn class="first-font" push label="폰트 1" @click="function () {
-              changeFont(1)
-            }" />
-            <q-btn class="second-font" push label="폰트 2" @click="function () {
-              changeFont(2)
-            }" />
-            <q-btn class="third-font" push label="폰트 3" @click="function () {
-              changeFont(3)
-            }" />
-          </div>
-          <div class="row-div title q-mt-md">
-            <div class="title__left">
-              <div>익명</div>
-              <div class="title__sub">작성자만 볼 수 있습니다.</div>
-            </div>
-            <div class="title__right">
-              <q-toggle size="xl" v-model="toggle" />
-            </div>
+          <div class="title__right">
+            <q-toggle size="xl" v-model="toggle" />
           </div>
         </div>
-        <div class="add-group" @click="writeMessage">
-          메세지 남기기
-        </div>
+      </div>
+      <div class="add-group" @click="writeMessage">
+        메세지 남기기
       </div>
     </div>
 
@@ -289,19 +287,14 @@ export default {
 
 
 
-.group-name {
-  height: 100%;
+.container {
   width: 100%;
-
-  .container {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex: none;
-  }
-
+  height: 100%;
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex: none;
 }
 
 .add-group {
