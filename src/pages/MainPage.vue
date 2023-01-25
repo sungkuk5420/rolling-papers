@@ -15,7 +15,7 @@
           作りましょう。
         </div>
         <div class="content__sub">
-          友達、理性、同僚が考える匿名の率直な話
+          友達、異性、同僚に匿名で伝えたい率直な意見
         </div>
       </div>
       <div class="button-list">
