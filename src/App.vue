@@ -119,7 +119,7 @@ body,
 }
 
 .join-group {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .add-group,

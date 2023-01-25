@@ -3,19 +3,34 @@
 
     <div class="container">
       <div class="title-row">
-        <div class="title">롤링 페이퍼 로고</div>
+        <div class="main-image">
+          <img src="~assets/main-image.svg" alt="" srcset="">
+        </div>
+      </div>
+      <div class="content">
+        <div class="content__main">
+          ローリングペーパーを
+        </div>
+        <div class="content__main">
+          作りましょう。
+        </div>
+        <div class="content__sub">
+          友達、理性、同僚が考える匿名の率直な話
+        </div>
       </div>
       <div class="button-list">
         <div class="add-group" @click="createGroup">
-          롤링페이퍼 만들기
+          ローリングペーパー作成
         </div>
         <div class="join-group" @click="$router.push('join-group')">
-          참가하기
+          参加する
         </div>
         <div class="login-join-buttons">
-          <div @click="$router.push('/login')" v-show="!uid">로그인</div>
+          <span>すでに会員であれば</span>
+          <div @click="$router.push('/login')" v-show="!uid">ログイン</div>
+          <!-- 
           <div @click="logout" v-show="uid">로그아웃</div>
-          <div @click="$router.push('/join')" v-show="!uid">회원가입</div>
+          <div @click="$router.push('/join')" v-show="!uid">회원가입</div> -->
         </div>
       </div>
     </div>
@@ -67,7 +82,7 @@ export default {
   height: 100%;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 
   .container {
     width: 100%;
@@ -78,16 +93,14 @@ export default {
 
   .title-row {
     display: flex;
-    background: #ddd;
     justify-content: center;
     align-items: center;
-    height: 300px;
-    ;
 
 
-    .title {
-      font-size: 36px;
-      font-weight: bold;
+    .main-image {
+      top: 0;
+      position: relative;
+      height: 100%;
     }
   }
 
@@ -96,6 +109,27 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: auto;
+  }
+
+  .add-group {
+    width: 100%;
+    height: 44px;
+    background: #FAE54D;
+    border-radius: 8px;
+    color: #000000;
+    font-weight: 700;
+    font-size: 14px;
+
+  }
+
+  .join-group {
+    width: 335px;
+    height: 44px;
+    background: #000000;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
   }
 
   .bottom-layer {
@@ -117,20 +151,34 @@ export default {
 
   .logout-button {
     width: 120px;
-    ;
+  }
+
+  .content {
+    &__main {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    &__sub {
+      margin-top: 12px;
+      ;
+      line-height: 20px;
+    }
   }
 
   .login-join-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 
-    padding: 0 5px;
+    padding: 12px 5px 0 5px;
 
     &>div {
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 15px;
-      ;
+      margin-left: 5px;
+      font-size: 14px;
+
+      color: #065BF5;
     }
   }
 }
