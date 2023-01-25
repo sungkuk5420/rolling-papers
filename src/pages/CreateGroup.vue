@@ -15,8 +15,8 @@
             <div class="row-div create1__sub-title">
               김성국의 퇴사 등 한번에 알 수 있도록 설정해주세요.
             </div>
-            <div class="row-div group-name-wrapper"><q-input class="group-name-input" :rules="[val => val.length <= 20]"
-                outlined v-model="groupName" placeholder="20글자 내로 입력해주세요.">
+            <div class="row-div group-name-wrapper"><q-input ref="groupName" class="group-name-input"
+                :rules="[val => val.length <= 20]" outlined v-model="groupName" placeholder="20글자 내로 입력해주세요.">
                 <span class="input-length">{{ groupName.toString().length }}/20</span>
               </q-input>
             </div>
@@ -225,6 +225,7 @@ export default {
   },
   mounted () {
     // this.showLoading();
+    this.$refs.groupName.focus()
   },
   methods: {
     createStep2 () {
