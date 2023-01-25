@@ -15,7 +15,7 @@
           作りましょう。
         </div>
         <div class="content__sub">
-          友達、異性、同僚に匿名で伝えたい率直な意見
+          友達、同僚、気になる人に匿名で伝えられる率直な想い
         </div>
       </div>
       <div class="button-list">
@@ -130,6 +130,7 @@ export default {
     font-weight: 700;
     font-size: 14px;
     color: white;
+    cursor: pointer;
   }
 
   .bottom-layer {
