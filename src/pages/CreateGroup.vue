@@ -153,7 +153,6 @@ export default {
         }
       ).then(result => {
         console.log(result)
-        debugger
       })
     },
     googleLogin () {

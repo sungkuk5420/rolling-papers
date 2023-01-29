@@ -26,7 +26,6 @@ export default {
         if (isGoogleLogin) {
           loginType = "google"
         }
-        debugger
         thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
           email: user.email,
           uid: user.uid,
