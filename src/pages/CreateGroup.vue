@@ -53,10 +53,9 @@
                 v-for="(item, index) in themeGroupList" :key="index">
                 <img :src="getImgUrl(item.img)" alt="" srcset="">
               </div>
-              <q-btn style="background:#06C755; color:white; width:100%;" class="login-guide-layer__login-button"
+              <q-btn style="background:#000; color:white; width:100%;" class="login-guide-layer__login-button"
                 @click="lineLogin">
-                <img src=" ~assets/line-icon.png" :slot="icon" alt="" srcset="">
-                <span :slot="label">라인으로 시작하기</span>
+                <span :slot="label">애플로 시작하기</span>
               </q-btn>
 
               <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
@@ -67,17 +66,20 @@
               <q-btn style="background:white; color:#999999; border:1px solid #d2d2d2; width:100%;"
                 class="login-guide-layer__login-button" label="이메일로 시작하기" @click="$router.push('/login')" />
             </van-action-sheet>
-            <!-- <van-action-sheet :round="false" v-model="loginGuideLayer" class="login-guide-layer">
-              <div class="login-guide-layer__title">롤링페이퍼를 만드려면</div>
-              <div class="login-guide-layer__title">로그인이 필요해</div>
-              <div class="login-guide-layer__image" v-for="(item, index) in themeGroupList" :key="index">
-                <img :src="getImgUrl(item.img)" alt="" srcset="" v-show="selectTheme == index + 1">
+            <van-action-sheet :round="false" v-model="createLayer" class="login-guide-layer">
+              <div class="login-guide-layer__title">{{ groupName }}</div>
+              <div class="login-guide-layer__title">롤링 페이퍼를 시작해보자!</div>
+              <div class="login-guide-layer__image" v-show="selectTheme == index + 1"
+                v-for="(item, index) in themeGroupList" :key="index">
+                <img :src="getImgUrl(item.img)" alt="" srcset="">
               </div>
               <div class="login-guide-layer__buttons">
-                <q-btn style="background:#F5F5F5; color:#999999;" class="login-guide-layer__cancel" label="취소" />
-                <q-btn style="background:#FAE54D;" class="login-guide-layer__confirm" label="만들기" />
+                <q-btn style="background:#F5F5F5; color:#999999;" class="login-guide-layer__cancel" label="취소"
+                  @click="createLayer = false" />
+                <q-btn style="background:#FAE54D;" class="login-guide-layer__confirm" label="만들기"
+                  @click="createGroupConfirm" />
               </div>
-            </van-action-sheet> -->
+            </van-action-sheet>
           </q-carousel-slide>
         </q-carousel>
       </div>
@@ -101,8 +103,11 @@ export default {
     return {
       slide: "create1",
       groupName: "",
+      groupUid: "",
+      groupCode: "",
       selectTheme: 0,
       loginGuideLayer: false,
+      createLayer: false,
       actions: [
         { name: '생성하기' },
         { name: '참여하기' },
@@ -197,33 +202,34 @@ export default {
         this.errorMessage("테마를 선택해주세요.")
         return false;
       }
-      let groupUid = "";
-      let groupCode = "";
-      const db = getDatabase();
       await this.createGroupUid().then(result => {
-        groupUid = result
+        this.groupUid = result
       });
       await this.createGroupCode().then(result => {
-        groupCode = result
+        this.groupCode = result
       });
       if (this.uid) {
-        set(ref(db, 'groups/' + groupUid), {
-          groupName: this.groupName,
-          code: groupCode,
-          createUserUid: this.uid,
-          createUserEmail: this.email,
-        });
-        set(ref(db, 'groupCodes/' + groupCode), {
-          groupUid: groupUid,
-        });
-        this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
+        this.createLayer = true
       } else {
-        localStorage.setItem("groupUid", groupUid)
+        localStorage.setItem("groupUid", this.groupUid)
         localStorage.setItem("groupName", this.groupName)
-        localStorage.setItem("groupCode", groupCode)
+        localStorage.setItem("groupCode", this.groupCode)
         this.loginGuideLayer = true;
         // this.$router.push("/login")
       }
+    },
+    createGroupConfirm () {
+      const db = getDatabase();
+      set(ref(db, 'groups/' + this.groupUid), {
+        groupName: this.groupName,
+        code: this.groupCode,
+        createUserUid: this.uid,
+        createUserEmail: this.email,
+      });
+      set(ref(db, 'groupCodes/' + this.groupCode), {
+        groupUid: this.groupUid,
+      });
+      this.$router.push(`/group-info?groupUid=${this.groupUid}&groupCode=${this.groupCode}`)
     },
     checkGroupCodeIsUnique ({ groupCode }) {
       return new Promise((resolve, reject) => {
@@ -567,6 +573,22 @@ export default {
 
           .q-btn__wrapper:before {
             box-shadow: none !important;
+          }
+        }
+
+        &__buttons {
+          display: flex;
+          width: 100%;
+          gap: 10px;
+          padding-bottom: 20px;
+
+          .q-btn {
+            width: 50%;
+            display: flex;
+
+            .q-btn__wrapper:before {
+              box-shadow: none;
+            }
           }
         }
       }
