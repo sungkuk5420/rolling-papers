@@ -32,23 +32,52 @@
               어울리는 테마를 선택해주세요
             </div>
             <div class="theme-list">
-              <div class="theme" v-for="(item, index) in themeGroupList" :key="index" :class="`theme-${index}`">
-                <div class="theme__gorup-name">
-                  {{ item.groupName }}
-                </div>
-                <div class="theme__x-scroll">
-                  <div class="theme__wrapper" v-for="(currentTheme, index2) in item.themeList" :key="index2">
-                    <!-- <img src="" alt="" srcset=""> -->
-                    <div class="theme__image"></div>
-                    <div class="theme__title">{{ currentTheme.title }}{{ index2+ 1 }}</div>
-                    <div class="theme__description">{{ currentTheme.description }}{{ index2+ 1 }}</div>
+              <div class="theme" :class="selectTheme == index + 1 ? 'is-active' : ''"
+                v-for="(item, index) in themeGroupList" :key="index" @click="() => { selectThemeFunc(index) }">
+                <div class="theme__wrapper">
+                  <!-- <img src="" alt="" srcset=""> -->
+                  <div class="theme__title">{{ item.name }}</div>
+                  <div class="theme__image">
+                    <img :src="getImgUrl(item.img)" alt="" srcset="">
                   </div>
                 </div>
               </div>
             </div>
-            <div class="add-group" @click="createGroup">
+            <div class="add-group" @click="createGroup" :disabled="selectTheme == 0">
               作成完了
             </div>
+            <van-action-sheet :round="false" v-model="loginGuideLayer" class="login-guide-layer">
+              <div class="login-guide-layer__title">롤링페이퍼를 만드려면</div>
+              <div class="login-guide-layer__title">로그인이 필요해</div>
+              <div class="login-guide-layer__image" v-show="selectTheme == index + 1"
+                v-for="(item, index) in themeGroupList" :key="index">
+                <img :src="getImgUrl(item.img)" alt="" srcset="">
+              </div>
+              <q-btn style="background:#06C755; color:white; width:100%;" class="login-guide-layer__login-button"
+                @click="lineLogin">
+                <img src=" ~assets/line-icon.png" :slot="icon" alt="" srcset="">
+                <span :slot="label">라인으로 시작하기</span>
+              </q-btn>
+
+              <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
+                @click="googleLogin">
+                <img src="~assets/google-icon.png" :slot="icon" alt="" srcset="">
+                <span :slot="label">구글로 시작하기</span>
+              </q-btn>
+              <q-btn style="background:white; color:#999999; border:1px solid #d2d2d2; width:100%;"
+                class="login-guide-layer__login-button" label="이메일로 시작하기" @click="$router.push('/login')" />
+            </van-action-sheet>
+            <!-- <van-action-sheet :round="false" v-model="loginGuideLayer" class="login-guide-layer">
+              <div class="login-guide-layer__title">롤링페이퍼를 만드려면</div>
+              <div class="login-guide-layer__title">로그인이 필요해</div>
+              <div class="login-guide-layer__image" v-for="(item, index) in themeGroupList" :key="index">
+                <img :src="getImgUrl(item.img)" alt="" srcset="" v-show="selectTheme == index + 1">
+              </div>
+              <div class="login-guide-layer__buttons">
+                <q-btn style="background:#F5F5F5; color:#999999;" class="login-guide-layer__cancel" label="취소" />
+                <q-btn style="background:#FAE54D;" class="login-guide-layer__confirm" label="만들기" />
+              </div>
+            </van-action-sheet> -->
           </q-carousel-slide>
         </q-carousel>
       </div>
@@ -63,159 +92,40 @@ import UtilMethodMixin from "../UtilMethodMixin";
 import { T } from "../store/module-example/types"
 import { uid } from 'quasar'
 import { getDatabase, ref, set, child, get } from "firebase/database";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   data () {
     return {
       slide: "create1",
       groupName: "",
+      selectTheme: 0,
+      loginGuideLayer: false,
+      actions: [
+        { name: '생성하기' },
+        { name: '참여하기' },
+      ],
       themeGroupList: [
         {
-          groupName: '퇴사했어요',
-          themeList: [
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-          ]
+          name: "이직 성공 축하!",
+          img: "theme-1.png"
         },
         {
-          groupName: '퇴사했어요',
-          themeList: [
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-          ]
+          name: "고마워요",
+          img: "theme-2.png"
         },
         {
-          groupName: '퇴사했어요',
-          themeList: [
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-          ]
+          name: "힘내요",
+          img: "theme-3.png"
         },
         {
-          groupName: '퇴사했어요',
-          themeList: [
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-          ]
+          name: "축하해요",
+          img: "theme-4.png"
         },
-        {
-          groupName: '퇴사했어요',
-          themeList: [
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-            {
-              title: '타이틀',
-              description: '디스크립션',
-            },
-          ]
-        },
-      ]
+      ],
+
     };
   },
   watch: {
@@ -228,6 +138,54 @@ export default {
     this.$refs.groupName.focus()
   },
   methods: {
+    lineLogin () {
+      let client_id = 1657857854
+      let redirect_uri = "http://localhost:8080/#/create-group"
+      const state = uid().slice(0, 8);
+      const scope = "profile";
+      fetch(`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}
+      &redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        }
+      ).then(result => {
+        console.log(result)
+        debugger
+      })
+    },
+    googleLogin () {
+      const auth = getAuth();
+      auth.languageCode = 'ja'
+
+      const provider = new GoogleAuthProvider();
+      console.log(provider)
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          // ...
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    },
+    selectThemeFunc (index) {
+      this.selectTheme = index + 1;
+    },
     createStep2 () {
       if (!this.groupName) {
         this.errorMessage('그룹이름을 입력하세요.')
@@ -236,6 +194,10 @@ export default {
       this.slide = 'create2'
     },
     async createGroup () {
+      if (this.selectTheme == 0) {
+        this.errorMessage("테마를 선택해주세요.")
+        return false;
+      }
       let groupUid = "";
       let groupCode = "";
       const db = getDatabase();
@@ -260,7 +222,8 @@ export default {
         localStorage.setItem("groupUid", groupUid)
         localStorage.setItem("groupName", this.groupName)
         localStorage.setItem("groupCode", groupCode)
-        this.$router.push("/login")
+        this.loginGuideLayer = true;
+        // this.$router.push("/login")
       }
     },
     checkGroupCodeIsUnique ({ groupCode }) {
@@ -467,38 +430,50 @@ export default {
 
       .theme-list {
         display: flex;
-        flex-wrap: nowrap;
-        flex-direction: column;
+        flex-wrap: wrap;
         width: 100%;
-        height: 100%;
-        flex: 1;
         margin-bottom: 20px;
         overflow-y: auto;
+        padding: 10px;
+        gap: 20px;
+        overflow: visible;
 
         .theme {
           display: flex;
           justify-content: center;
-          align-items: flex-start;
-          flex-direction: column;
+          align-items: center;
           border-radius: 18px;
-          width: 100%;
+          flex: 1;
+          width: calc(50% - 10px);
           flex: none;
           cursor: pointer;
+          position: relative;
+          padding: 18px 12px;
+          box-sizing: border-box;
 
-          .theme__wrapper {
-            display: flex;
-            flex-direction: column;
-
-            margin-right: 8px;
+          &:hover,
+          &.is-active {
+            transform: scale(1.05);
           }
 
+          &.is-active {
+            border: 2px solid #000;
+          }
 
+          &:nth-child(1) {
+            background: #FAE54D;
+          }
 
-          &__x-scroll {
-            overflow-x: auto;
-            display: flex;
-            width: 100%;
+          &:nth-child(2) {
+            background: #4B69FE;
+          }
 
+          &:nth-child(3) {
+            background: #FF7D5A;
+          }
+
+          &:nth-child(4) {
+            background: #6532E9;
           }
 
           &__gorup-name {
@@ -508,14 +483,29 @@ export default {
             color: #666666;
           }
 
-          &__wrapper {}
+          &__wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 50%;
+            height: 100%;
+          }
 
           &__image {
-            background: #ddd;
-            width: 233px;
-            height: 134px;
-            border-radius: 12px;
-            margin-top: 8px;
+            flex: 1;
+            height: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            margin-right: 10px;
+
+            img {
+              -webkit-user-drag: none;
+              -khtml-user-drag: none;
+              -moz-user-drag: none;
+              -o-user-drag: none;
+              user-drag: none;
+            }
           }
 
           &__title {
@@ -547,6 +537,39 @@ export default {
 
         background: #FAE54D;
         border-radius: 8px;
+      }
+
+      .login-guide-layer {
+        &>* {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        &__title {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 32px;
+        }
+
+        &__image {
+          margin: 20px 0;
+        }
+
+        &__login-button {
+          border-radius: 8px;
+          height: 44px;
+          margin-bottom: 12px;
+
+          img {
+            margin-right: 8px;
+          }
+
+          .q-btn__wrapper:before {
+            box-shadow: none !important;
+          }
+        }
       }
     }
   }

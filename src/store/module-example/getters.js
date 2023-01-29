@@ -8,4 +8,7 @@ export const getters = {
     getUid (state) {
         return state.uid;
     },
+    getLoginType (state) {
+        return state.loginType;
+    },
 };

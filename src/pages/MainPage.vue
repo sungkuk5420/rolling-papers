@@ -26,8 +26,9 @@
           参加する
         </div>
         <div class="login-join-buttons">
-          <span>すでに会員であれば</span>
+          <span v-show="!uid">すでに会員であれば</span>
           <div @click="$router.push('/login')" v-show="!uid">ログイン</div>
+          <div @click="logout" v-show="uid">로그아웃</div>
           <!-- 
           <div @click="logout" v-show="uid">로그아웃</div>
           <div @click="$router.push('/join')" v-show="!uid">회원가입</div> -->

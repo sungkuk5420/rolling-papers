@@ -21,9 +21,16 @@ export default {
         const uid = user.uid;
 
         console.log(`uid is ${uid}`)
+        const isGoogleLogin = (user?.providerData[0]?.providerId === "google.com") ? true : false
+        let loginType = "email"
+        if (isGoogleLogin) {
+          loginType = "google"
+        }
+        debugger
         thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
           email: user.email,
           uid: user.uid,
+          loginType
         })
         const db = getDatabase();
         const groupUid = localStorage.getItem("groupUid")
@@ -66,12 +73,16 @@ export default {
 
 <style lang="scss">
 .share-action-sheet,
+.login-guide-layer,
 .van-number-keyboard {
   width: 100%;
   max-width: 390px;
   left: 0;
   right: 0;
   margin: auto;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 12px 18px;
 }
 
 html {

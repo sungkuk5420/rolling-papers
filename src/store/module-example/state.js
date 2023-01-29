@@ -3,5 +3,6 @@ export default function () {
     email: "",
     nickname: "",
     uid: "",
+    loginType: "",
   };
 }

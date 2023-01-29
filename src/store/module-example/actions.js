@@ -26,9 +26,9 @@ export const actions = {
     console.log(data);
     commit(T.ACTION, data);
   },
-  [T.SET_LOGIN_USER_INFO] ({ commit }, { email = "", nickname = "", uid = "" }) {
+  [T.SET_LOGIN_USER_INFO] ({ commit }, { email = "", nickname = "", uid = "", loginType = "" }) {
     console.log(`store action [T.SET_LOGIN_USER_INFO] email, nickname uid`);
     console.log(email, nickname, uid);
-    commit(T.SET_LOGIN_USER_INFO, { email, nickname, uid });
+    commit(T.SET_LOGIN_USER_INFO, { email, nickname, uid, loginType });
   },
 };
