@@ -1,37 +1,106 @@
 <template>
-  <q-page class="flex flex-center join-group-page">
+  <q-page class="flex flex-center join-group-page" :class="groupName ? 'loading' : ''">
     <div class="container">
-      <div class="header q-mb-md">
-        <div class="header__left">
-          <q-icon name="menu" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
-        </div>
-        <div class="header__center">
-        </div>
-        <div class="header__right">
-        </div>
-      </div>
       <div class="group-info">
-        <div class="group-info__image">
-          <img src="~assets/image-1.png" style="width:103px;height:103px" />
+        <div class="group-info__title" v-show="groupName">
+          {{ groupName }}
         </div>
-        <div class="group-info__group-name">
-          {{ groupName?(groupName== 'code-error') ? '초대 코드를 확인해 주세요.' : groupName: '초대 코드를 입력해 주세요.'
-          }}
-          <div class="flex justify-center q-mt-md" v-show="groupName && groupName != 'code-error'">
-            <q-btn outline color="primary" label="입장하기" @click="joinGroup"></q-btn>
-          </div>
+        <div class="group-info__title" v-show="groupName">
+          롤링페이퍼로 들어가고 있어.
+        </div>
+        <div class="group-info__sub-title" v-show="groupName" style="color:#333333; margin-top:12px;">
+          조금만 기다려줘~~
+        </div>
+        <div class="gage-wrapper" v-if="groupName">
+          <span class="gage1"></span>
+          <span class="gage2"></span>
+        </div>
+        <div v-show="groupName" class="image-wrapper">
+          <img src="~assets/theme-1.png" alt="" srcset="">
+        </div>
+
+        <div class="group-info__title" v-show="!groupName">
+          롤링페이퍼 작성하기 위해
+        </div>
+        <div class="group-info__title" v-show="!groupName">
+          인증코드를 입력해주세요.
+        </div>
+        <div class="group-info__sub-title" v-show="!groupName">
+          인증코드를 모르신다면 담당자에게 물어보세요.
         </div>
       </div>
-      <div class="label">
-        초대 코드
+      <div class="code-group" v-show="!groupName">
+        <svg :class="groupCode[0] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
+            fill="#F5F5F5" />
+          <path
+            d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
+            fill="#E6E6E6" />
+        </svg>
+        <svg :class="groupCode[1] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
+            fill="#F5F5F5" />
+          <path
+            d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
+            fill="#E6E6E6" />
+        </svg>
+        <svg :class="groupCode[2] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
+            fill="#F5F5F5" />
+          <path
+            d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
+            fill="#E6E6E6" />
+        </svg>
+        <svg :class="groupCode[3] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
+            fill="#F5F5F5" />
+          <path
+            d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
+            fill="#E6E6E6" />
+        </svg>
       </div>
-      <div class="code-group">
-        <q-input readonly outlined :value="groupCode[0]" />
-        <q-input readonly outlined :value="groupCode[1]" />
-        <q-input readonly outlined :value="groupCode[2]" />
-        <q-input readonly outlined :value="groupCode[3]" />
+      <div class="key-pad" v-show="!groupName">
+        <div class="key-pad__number number-1" @click="() => { clickKeyPad('1') }"><img src="~assets/1.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-2" @click="() => { clickKeyPad('2') }"><img src="~assets/2.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-3" @click="() => { clickKeyPad('3') }"><img src="~assets/3.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-4" @click="() => { clickKeyPad('4') }"><img src="~assets/4.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-5" @click="() => { clickKeyPad('5') }"><img src="~assets/5.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-6" @click="() => { clickKeyPad('6') }"><img src="~assets/6.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-7" @click="() => { clickKeyPad('7') }"><img src="~assets/7.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-8" @click="() => { clickKeyPad('8') }"><img src="~assets/8.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-9" @click="() => { clickKeyPad('9') }"><img src="~assets/9.png" alt=""
+            srcset="">
+        </div>
+        <div class="key-pad__number number-block"></div>
+        <div class="key-pad__number number-0" @click="() => { clickKeyPad('0') }"><img src="~assets/0.png" alt=""
+            srcset=""></div>
+        <div class="key-pad__number number-back" @click="() => { clickKeyPad('back') }"><img src="~assets/back.png"
+            alt="" srcset=""></div>
       </div>
-      <van-number-keyboard v-model="groupCode" :show="show" :maxlength="4" />
     </div>
 
   </q-page>
@@ -41,6 +110,7 @@
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { getDatabase, ref, set, child, get } from "firebase/database";
+import { Notify } from 'vant';
 export default {
   mixins: [ComputedMixin, UtilMethodMixin],
   mounted () {
@@ -49,10 +119,6 @@ export default {
   data () {
     return {
       show: true,
-      code1: '',
-      code2: '',
-      code3: '',
-      code4: '',
       groupCode: '',
       groupName: '',
       groupUid: '',
@@ -76,12 +142,13 @@ export default {
     }
   },
   watch: {
+    groupName (value) {
+      setTimeout(() => {
+        this.$router.push(`/group-info?groupUid=${this.groupUid}&groupCode=${this.groupCode}`)
+      }, 2100);
+    },
     groupCode (value) {
       console.log(value);
-      this.code1 = value[0]
-      this.code2 = value[1]
-      this.code3 = value[2]
-      this.code4 = value[3]
       if (value.toString().length == 4) {
         const dbRef = ref(getDatabase());
         get(child(dbRef, `groupCodes/${value}`)).then((snapshot) => {
@@ -102,7 +169,14 @@ export default {
             });
 
           } else {
-            this.groupName = "code-error"
+            // this.groupName = "code-error"
+            Notify(
+              {
+                message: '인증코드를 확인하신 후 다시 입력해주세요.',
+                color: '#fff',
+                background: '#EF5350',
+              }
+            );
             // console.log("그룹코드가 없습니다!")
           }
         }).catch((error) => {
@@ -114,6 +188,17 @@ export default {
     }
   },
   methods: {
+    clickKeyPad (number) {
+      if (number == 'back') {
+        this.groupCode = this.groupCode.toString().slice(0, this.groupCode.toString().length - 1)
+        return false;
+      }
+
+      if (this.groupCode.toString().length == 4) {
+        return false
+      }
+      this.groupCode = this.groupCode.toString() + number
+    },
     joinGroup () {
       this.$router.push(`/group-info?groupUid=${this.groupUid}&groupCode=${this.groupCode}`)
     }
@@ -123,45 +208,18 @@ export default {
 
 <style lang="scss">
 .join-group-page {
+  &.loading {
+    background: #FAE54D;
+  }
+
   .container {
     width: 100%;
     height: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex: none;
-    padding-bottom: 237px;
-  }
-
-  .header {
-    padding: 0 0 20px 0;
+    padding: 30px 20px;
     display: flex;
     justify-content: space-between;
-
-    &__left {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    &__center {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .group-name {
-        margin-left: 5px;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    }
-
-    &__right {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    flex-direction: column;
+    flex: none;
   }
 
   .group-info {
@@ -170,24 +228,78 @@ export default {
     flex-direction: column;
     width: 100%;
     height: 100%;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
 
-    &__image {
-      justify-content: center;
+    &__title {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32px;
     }
 
-    &__group-name {
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 15px;
+    &__sub-title {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      margin-top: 12px;
+      color: #666666;
     }
   }
 
-  .label {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
+  .gage-wrapper {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .gage1 {
+    position: absolute;
+    width: 100%;
+    height: 13px;
+    background: #b6c5d5;
+  }
+
+  .gage2 {
+    position: absolute;
+    width: 100%;
+    height: 13px;
+    background: #EF5350;
+    animation: widthFull 2s ease-in-out;
+  }
+
+  @-webkit-keyframes widthFull {
+    from {
+      width: 0px;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes widthFull {
+    from {
+      width: 0px;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  .image-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+
+    img {
+      width: 100%;
+      max-width: 160px;
+      height: auto;
+    }
   }
 
   .code-group {
@@ -208,5 +320,69 @@ export default {
       font-weight: bold;
     }
   }
+
+  .code-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    height: 80px;
+
+    .group-code {
+
+      &.is-active {
+        path {
+          fill: #FAE54D;
+
+        }
+      }
+    }
+  }
+
+  .key-pad {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 274px;
+
+    &__number {
+      display: flex;
+      flex: 1;
+      min-width: 33.3%;
+      width: 100%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+      }
+
+      &:active {
+        background: #f0f0f0;
+        cursor: pointer;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.number-block {
+        cursor: default;
+
+        &:active {
+          background: white;
+        }
+      }
+
+
+
+    }
+  }
+
 }
 </style>
