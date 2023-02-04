@@ -1,12 +1,17 @@
 # Quasar App (quasar-boilerplate)
 
 A Quasar Framework app
-https://v1.quasar.dev/
 
 
 node js 12.13.0
 
 nvm use 12.13.0
+
+##ui framework 
+```
+https://v1.quasar.dev/
+https://youzan.github.io/vant/v2/#/en-US/
+```
 
 window node version manage
 ## instal quasar cli 
