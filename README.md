@@ -3,6 +3,12 @@
 A Quasar Framework app
 https://v1.quasar.dev/
 
+
+node js 12.13.0
+
+nvm use 12.13.0
+
+window node version manage
 ## instal quasar cli 
 ```
 npm install -g @quasar/cli
