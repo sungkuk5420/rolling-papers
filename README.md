@@ -7,7 +7,7 @@ node js 12.13.0
 
 nvm use 12.13.0
 
-##ui framework 
+## ui framework 
 ```
 https://v1.quasar.dev/
 https://youzan.github.io/vant/v2/#/en-US/
