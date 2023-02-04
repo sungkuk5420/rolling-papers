@@ -1,6 +1,8 @@
 # Quasar App (quasar-boilerplate)
 
 A Quasar Framework app
+https://v1.quasar.dev/
+
 ## instal quasar cli 
 ```
 npm install -g @quasar/cli
