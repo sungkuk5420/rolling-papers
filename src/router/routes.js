@@ -8,6 +8,13 @@ const routes = [
     ]
   },
   {
+    path: '/line-login',
+    component: () => import('layouts/PlainLayout.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/LineLogin.vue') }
+    ]
+  },
+  {
     path: '/create-group',
     component: () => import('layouts/PlainLayout.vue'),
     children: [
