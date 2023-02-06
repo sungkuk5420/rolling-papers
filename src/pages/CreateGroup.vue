@@ -57,6 +57,13 @@
                 @click="lineLogin">
                 <span :slot="label">애플로 시작하기</span>
               </q-btn>
+              <!-- <q-btn style="background:#06C755; color:white; width:100%;" class="login-guide-layer__login-button"
+                @click="lineLogin">
+                <span :slot="label">라인으로 시작하기</span>
+              </q-btn> -->
+              <a
+                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf">LINEでログイン</a>
+              <!-- href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">LINEでログイン</a> -->
 
               <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
                 @click="googleLogin">
@@ -143,23 +150,6 @@ export default {
     this.$refs.groupName.focus()
   },
   methods: {
-    lineLogin () {
-      let client_id = 1657857854
-      let redirect_uri = "http://localhost:8080/#/create-group"
-      const state = uid().slice(0, 8);
-      const scope = "profile";
-      fetch(`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}
-      &redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json'
-          }
-        }
-      ).then(result => {
-        console.log(result)
-      })
-    },
     googleLogin () {
       const auth = getAuth();
       auth.languageCode = 'ja'
