@@ -602,6 +602,25 @@ export default {
     }
 
   }
+}
 
+@media screen and (max-width: 375px) {
+  .create-group-page  {
+    .q-carousel {
+      .create2 {
+        .theme-list {
+          flex-direction: column;
+
+          .theme {
+            width: 100%;
+
+            .theme__wrapper {
+              flex-direction: row;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
