@@ -29,7 +29,7 @@ export default {
         let customToken = data.customToken
         console.log(customToken)
         if (!customToken) {
-          thisObj.$route.go(-1);
+          thisObj.$router.go(-1);
         }
         const auth = getAuth();
         signInWithCustomToken(auth, customToken)
