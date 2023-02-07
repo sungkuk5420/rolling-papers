@@ -1,6 +1,5 @@
 <template>
   <q-page class="flex flex-center group-info-page">
-
     <div class="container">
       <div class="header q-mb-md">
         <div class="header__left">
@@ -18,7 +17,13 @@
         입장 코드 {{ groupCode }}
       </div>
       <div class="row-div q-mt-xl empty" v-show="messages.length == 0">
-        글 없음
+        <div class="empty-wrapper flex flex-center column-div">
+          <img class="empty-image" :src="getImgUrl('theme-1.png')" alt="cat"/>
+          <p class="empty-notice">
+            아직 롤링페이퍼를 쓴 사람이 없어~ <br />
+            너가 제일 먼저 작성해봐
+          </p>
+        </div>
       </div>
       <div class="row-div q-mt-md message-wapper">
         <div class="message-list">
@@ -36,8 +41,18 @@
           </div>
         </div>
       </div>
-      <div class="add-group" @click="writeMessage">
-        롤링페이퍼 작성
+      <div class="wrap-add-group flex">
+        <button
+          class="on-share-button"
+        >
+          공유하기
+        </button>
+        <button
+          class="on-write-button"
+          @click="writeMessage"
+        >
+          롤링페이퍼 작성
+        </button>
       </div>
       <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
         <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
@@ -201,6 +216,22 @@ export default {
     justify-content: center;
     align-items: center;
     flex: 1;
+
+    .empty-wrapper {
+      gap: 20px;
+
+      .empty-image {
+        width: 145px;
+        height: 181px;
+        object-fit: contain;
+      }
+
+      .empty-notice {
+        color: #999;
+        text-align: center;
+        font-size: 16px;
+      }
+    }
   }
 
   .message-wapper {
@@ -239,6 +270,29 @@ export default {
     bottom: 20px;
     right: 20px;
     font-size: 12px;
+  }
+
+  .wrap-add-group {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    > button {
+      flex: 1;
+      height: 44px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .on-share-button {
+      background-color: #f5f5f5;
+    }
+
+    .on-write-button {
+      background-color: #fae54d;
+    }
   }
 
   .first-font {

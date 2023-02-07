@@ -1,6 +1,5 @@
 <template>
   <q-page class="flex flex-center create-group-page">
-
     <div class="group-name">
       <div class="container">
         <q-carousel v-model="slide" transition-prev="slide-right" transition-next="slide-left" animated
