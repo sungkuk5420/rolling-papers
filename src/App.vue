@@ -22,9 +22,13 @@ export default {
 
         console.log(`uid is ${uid}`)
         const isGoogleLogin = (user?.providerData[0]?.providerId === "google.com") ? true : false
+        const isLineLogin = (!user.providerData[0] && providerId === "firebase") ? true : false
         let loginType = "email"
         if (isGoogleLogin) {
           loginType = "google"
+        }
+        if (isLineLogin) {
+          loginType = "line"
         }
         thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
           email: user.email,

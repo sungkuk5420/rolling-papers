@@ -8,8 +8,10 @@ import { getAuth, signInWithCustomToken } from "firebase/auth";
 
 import { uid } from 'quasar'
 
+import ComputedMixin from "../ComputedMixin";
 export default {
   name: "line login",
+  mixins: [ComputedMixin],
   beforeMount () {
     let code = this.$route.query.code
     const requestOptions = {
@@ -18,11 +20,17 @@ export default {
     };
     // let url = "http://localhost:4000/"
     let url = "https://rolling-paper-line-login.herokuapp.com/"
+    console.log(this.$store.getters.getUid)
     this.$q.loading.show();
+    const thisObj = this;
     fetch(url + 'auth?code=' + code, requestOptions)
       .then(response => response.json())
       .then(data => {
         let customToken = data.customToken
+        console.log(customToken)
+        if (!customToken) {
+          thisObj.push("/")
+        }
         const auth = getAuth();
         signInWithCustomToken(auth, customToken)
           .then((userCredential) => {
