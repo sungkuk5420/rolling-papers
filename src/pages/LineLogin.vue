@@ -7,9 +7,13 @@
 </template>
 
 <script>
+import { getAuth, signInWithCustomToken } from "firebase/auth";
+
+import { uid } from 'quasar'
+
 export default {
-  name: "Error404",
-  mounted () {
+  name: "line login",
+  beforeMount () {
     let code = this.$route.query.code
     const requestOptions = {
       method: 'GET',
@@ -20,8 +24,26 @@ export default {
     fetch(url + 'auth?code=' + code, requestOptions)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        let customToken = data.customToken
+        const auth = getAuth();
+        signInWithCustomToken(auth, customToken)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user)
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+            // ...
+          });
       });
+
+
+
+
 
   }
 };

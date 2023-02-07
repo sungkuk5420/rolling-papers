@@ -57,13 +57,12 @@
                 @click="lineLogin">
                 <span :slot="label">애플로 시작하기</span>
               </q-btn>
-              <!-- <q-btn style="background:#06C755; color:white; width:100%;" class="login-guide-layer__login-button"
-                @click="lineLogin">
-                <span :slot="label">라인으로 시작하기</span>
-              </q-btn> -->
-              <a
-                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf">LINEでログイン</a>
-              <!-- href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">LINEでログイン</a> -->
+              <a class="login-guide-layer__login-button line"
+                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf">
+                <img src="~assets/line-icon.png" :slot="icon" alt="" srcset="">라인으로
+                시작하기</a>
+              <!-- <a
+                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">LINEでログイン</a> -->
 
               <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
                 @click="googleLogin">
@@ -563,6 +562,19 @@ export default {
 
           .q-btn__wrapper:before {
             box-shadow: none !important;
+          }
+
+          &.line {
+            background: rgb(6, 199, 85);
+            color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+              opacity: 0.8
+            }
           }
         }
 
