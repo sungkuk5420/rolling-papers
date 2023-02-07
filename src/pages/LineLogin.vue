@@ -1,8 +1,5 @@
 <template>
   <div class="text-center q-pa-md flex flex-center">
-    <div>
-      <div>line login</div>
-    </div>
   </div>
 </template>
 
@@ -21,6 +18,7 @@ export default {
     };
     // let url = "http://localhost:4000/"
     let url = "https://rolling-paper-line-login.herokuapp.com/"
+    this.$q.loading.show();
     fetch(url + 'auth?code=' + code, requestOptions)
       .then(response => response.json())
       .then(data => {
