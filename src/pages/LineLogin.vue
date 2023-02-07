@@ -28,6 +28,7 @@ export default {
           .then((userCredential) => {
             const user = userCredential.user;
             console.log(user)
+            this.$q.loading.hide();
             // ...
           })
           .catch((error) => {
