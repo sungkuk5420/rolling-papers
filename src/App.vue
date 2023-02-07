@@ -21,20 +21,22 @@ export default {
         const uid = user.uid;
 
         console.log(`uid is ${uid}`)
-        const isGoogleLogin = (user?.providerData[0]?.providerId === "google.com") ? true : false
-        const isLineLogin = (!user.providerData[0] && user.providerId === "firebase") ? true : false
-        let loginType = "email"
-        if (isGoogleLogin) {
-          loginType = "google"
+        if (!this.uid) {
+          const isGoogleLogin = (user?.providerData[0]?.providerId === "google.com") ? true : false
+          const isLineLogin = (!user.providerData[0] && user.providerId === "firebase") ? true : false
+          let loginType = "email"
+          if (isGoogleLogin) {
+            loginType = "google"
+          }
+          if (isLineLogin) {
+            loginType = "line"
+          }
+          thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+            email: user.email,
+            uid: user.uid,
+            loginType
+          })
         }
-        if (isLineLogin) {
-          loginType = "line"
-        }
-        thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
-          email: user.email,
-          uid: user.uid,
-          loginType
-        })
         const db = getDatabase();
         const groupUid = localStorage.getItem("groupUid")
         const groupName = localStorage.getItem("groupName")
@@ -59,6 +61,11 @@ export default {
             });
           }, 0);
           this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
+        }
+
+        if (this.$route.path == "/line-login") {
+          this.$q.loading.hide();
+          this.$router.push(`/`)
         }
       } else {
         thisObj.$q.notify({

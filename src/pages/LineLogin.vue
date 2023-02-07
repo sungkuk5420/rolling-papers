@@ -12,7 +12,7 @@ import ComputedMixin from "../ComputedMixin";
 export default {
   name: "line login",
   mixins: [ComputedMixin],
-  beforeMount () {
+  mounted () {
     let code = this.$route.query.code
     const requestOptions = {
       method: 'GET',
@@ -20,17 +20,17 @@ export default {
     };
     // let url = "http://localhost:4000/"
     let url = "https://rolling-paper-line-login.herokuapp.com/"
-    console.log(this.$store.getters.getUid)
+    const loginUid = this.$store.getters.getUid
+    if (loginUid) {
+      thisObj.$router.push("/");
+      return false;
+    }
     this.$q.loading.show();
     const thisObj = this;
     fetch(url + 'auth?code=' + code, requestOptions)
       .then(response => response.json())
       .then(data => {
         let customToken = data.customToken
-        console.log(customToken)
-        if (!customToken) {
-          thisObj.$router.go(-1);
-        }
         const auth = getAuth();
         signInWithCustomToken(auth, customToken)
           .then((userCredential) => {

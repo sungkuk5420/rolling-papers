@@ -61,8 +61,9 @@
                 href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf">
                 <img src="~assets/line-icon.png" :slot="icon" alt="" srcset="">라인으로
                 시작하기</a>
-              <!-- <a
-                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">LINEでログイン</a> -->
+              <!-- <a class="login-guide-layer__login-button line"
+                href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">
+                <img src="~assets/line-icon.png" :slot="icon" alt="" srcset="">로컬 라인</a> -->
 
               <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
                 @click="googleLogin">
