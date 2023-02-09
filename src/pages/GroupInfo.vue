@@ -13,10 +13,7 @@
           <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;" @click="shareMobile"></q-icon>
         </div>
       </div>
-      <div class="row-div code">
-        입장 코드 {{ groupCode }}
-      </div>
-      <div class="row-div q-mt-xl empty" v-show="messages.length == 0">
+      <div class="row-div q-mt-xl empty" v-if="messages.length == 0">
         <div class="empty-wrapper flex flex-center column-div">
           <img class="empty-image" :src="getImgUrl('theme-1.png')" alt="cat"/>
           <p class="empty-notice">
@@ -256,13 +253,30 @@ export default {
   }
 
   .message-post {
-    background: #ddd;
     width: calc(50% - 5px);
     height: calc(50% - 30px);
     max-height: 200px;
-    ;
     padding: 20px;
     position: relative;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff;
+
+    &:nth-child(4n-3) {
+      background-color: #4b69fe;
+    }
+
+    &:nth-child(4n-2) {
+      background-color: #FF7D5A;
+    }
+
+    &:nth-child(4n-1) {
+      background-color: #6532E9;
+    }
+
+    &:nth-child(4n) {
+      background-color: #32e978;
+    }
   }
 
   .message-writer {
