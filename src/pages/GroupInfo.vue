@@ -24,7 +24,12 @@
       </div>
       <div class="row-div q-mt-md message-wapper">
         <div class="message-list">
-          <div v-for="(item, index) in messages" :key="index" class="message-post">
+          <div
+            v-for="(item, index) in messages"
+            :key="index"
+            class="message-post"
+            @click="goDetail(item)"
+          >
             <div :class="`${item.fontStyle}`" v-show="uid ? uid == item.createUserUid : !item.toggle"
               v-html="item.message.replaceAll('\n', '<br>')">
             </div>
@@ -33,24 +38,12 @@
               <div>당사자만 볼 수 있어</div>
             </div>
             <div class="message-writer">
-              {{ (uid ? uid !== item.createUserUid : item.toggle) ? "익명" : item.writerNickName }}
+              from {{ (uid ? uid !== item.createUserUid : item.toggle) ? "익명" : item.writerNickName }}
             </div>
           </div>
         </div>
       </div>
-      <div class="wrap-add-group flex">
-        <button
-          class="on-share-button"
-        >
-          공유하기
-        </button>
-        <button
-          class="on-write-button"
-          @click="writeMessage"
-        >
-          롤링페이퍼 작성
-        </button>
-      </div>
+      <BottomButtons />
       <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
         <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
         <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
@@ -63,76 +56,95 @@
 <script>
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
+
 import { T } from "../store/module-example/types"
 import { getDatabase, ref, set, child, get } from "firebase/database";
+import BottomButtons from "src/components/BottomButtons.vue";
 export default {
-  mixins: [ComputedMixin, UtilMethodMixin],
-  data () {
-    return {
-      groupUid: "",
-      groupName: "",
-      groupCode: "",
-      messages: [],
-      bottomLayer: false,
-      actions: [
-        { name: '생성하기' },
-        { name: '참여하기' },
-      ],
-    };
-  },
-  mounted () {
-    // this.showLoading();
-    const groupCode = this.$route.query["groupCode"];
-    const groupUid = this.$route.query["groupUid"];
-    if (!groupCode) {
-      this.$router.push(`/join-group?groupUid=${groupUid}`)
-      return false;
-    }
-    this.getGroupInfo();
-  },
-  methods: {
-    async shareMobile () {
-      const _this = this;
-      let url = location.href;
-      const shareData = {
-        title: "Share",
-        url,
-      };
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        _this.shareModalVisiable = false;
-        await navigator.share(shareData);
-      } else {
-        _this.shareModalVisiable = true;
-      }
+    components: { BottomButtons },
+    mixins: [ComputedMixin, UtilMethodMixin],
+    data() {
+        return {
+            groupUid: "",
+            groupName: "",
+            groupCode: "",
+            messages: [],
+            bottomLayer: false,
+            actions: [
+                { name: "생성하기" },
+                { name: "참여하기" },
+            ],
+        };
     },
-    onSelectBottomLayer (value) {
-      console.log(value.name)
-      if (value.name == "생성하기") {
-        this.$router.push("/create-group")
-      }
-    },
-    getGroupInfo () {
-      this.groupUid = this.$route.query["groupUid"];
-      const dbRef = ref(getDatabase());
-      get(child(dbRef, `groups/${this.groupUid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          const data = snapshot.val();
-          this.groupName = data.groupName
-          this.groupCode = data.code
-          this.messages = data.messages ? data.messages : []
-          // console.log("그룹코드가 존재합니다")
-        } else {
-          // console.log("그룹코드가 없습니다!")
+    mounted() {
+        // this.showLoading();
+        const groupCode = this.$route.query["groupCode"];
+        const groupUid = this.$route.query["groupUid"];
+        if (!groupCode) {
+            this.$router.push(`/join-group?groupUid=${groupUid}`);
+            return false;
         }
-      }).catch((error) => {
-        console.error(error);
-      });
+        this.getGroupInfo();
     },
-    writeMessage () {
-      this.$router.push(`/write-message?groupUid=${this.groupUid}`)
-    }
-  }
+    methods: {
+        async shareMobile() {
+            const _this = this;
+            let url = location.href;
+            const shareData = {
+                title: "Share",
+                url,
+            };
+            if (navigator.canShare && navigator.canShare(shareData)) {
+                _this.shareModalVisiable = false;
+                await navigator.share(shareData);
+            }
+            else {
+                _this.shareModalVisiable = true;
+            }
+        },
+        onSelectBottomLayer(value) {
+            console.log(value.name);
+            if (value.name == "생성하기") {
+                this.$router.push("/create-group");
+            }
+        },
+        getGroupInfo() {
+            this.groupUid = this.$route.query["groupUid"];
+            const dbRef = ref(getDatabase());
+            get(child(dbRef, `groups/${this.groupUid}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val());
+                    const data = snapshot.val();
+                    this.groupName = data.groupName;
+                    this.groupCode = data.code;
+                    this.messages = data.messages ? data.messages : [];
+                    // console.log("그룹코드가 존재합니다")
+                }
+                else {
+                    // console.log("그룹코드가 없습니다!")
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        },
+        writeMessage() {
+            this.$router.push(`/write-message?groupUid=${this.groupUid}`);
+        },
+        goDetail(message) {
+            const groupUid = this.$route.query.groupUid;
+            const groupCode = this.$route.query.groupCode;
+            this.$router.push({
+                name: "detailPage",
+                query: {
+                    groupUid,
+                    groupCode,
+                },
+                params: {
+                    message,
+                }
+            });
+        }
+    },
 };
 </script>
 
@@ -284,6 +296,7 @@ export default {
     bottom: 20px;
     right: 20px;
     font-size: 12px;
+    font-weight: 400;
   }
 
   .wrap-add-group {
