@@ -127,9 +127,6 @@ export default {
                 console.error(error);
             });
         },
-        writeMessage() {
-            this.$router.push(`/write-message?groupUid=${this.groupUid}`);
-        },
         goDetail(message) {
             const groupUid = this.$route.query.groupUid;
             const groupCode = this.$route.query.groupCode;
