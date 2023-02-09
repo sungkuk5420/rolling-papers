@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <BottomButtons />
+      <BottomButtons :groupUid="groupUid" />
       <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
         <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
         <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
