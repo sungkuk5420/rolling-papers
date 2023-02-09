@@ -1,37 +1,47 @@
 <template>
-  <q-page class="flex flex-center join-group-page" :class="groupName ? 'loading' : ''">
+  <q-page class="flex flex-center join-group-page" :class="joinFlag ? 'loading' : ''">
+    <div class="header">
+      <div class="header__left" @click="$router.go(-1)">
+        <img src="~assets/back.png" alt="" srcset="">
+      </div>
+      <div class="header__center">입장코드 입력</div>
+      <div class="header__right"></div>
+    </div>
     <div class="container">
       <div class="group-info">
-        <div class="group-info__title" v-show="groupName">
+        <div class="group-info__title" v-show="joinFlag">
           {{ groupName }}
         </div>
-        <div class="group-info__title" v-show="groupName">
+        <div class="group-info__title" v-show="joinFlag">
           롤링페이퍼로 들어가고 있어.
         </div>
-        <div class="group-info__sub-title" v-show="groupName" style="color:#333333; margin-top:12px;">
+        <div class="group-info__sub-title" v-show="joinFlag" style="color:#333333; margin-top:12px;">
           조금만 기다려줘~~
         </div>
-        <div class="gage-wrapper" v-if="groupName">
+        <div class="gage-wrapper" v-if="joinFlag">
           <span class="gage1"></span>
           <span class="gage2"></span>
         </div>
-        <div v-show="groupName" class="image-wrapper">
+        <div v-show="joinFlag" class="image-wrapper">
           <img src="~assets/theme-1.png" alt="" srcset="">
         </div>
 
         <div class="group-info__title" v-show="!groupName">
-          롤링페이퍼 작성하기 위해
+          어떤 롤링페이퍼에 접속할거야?
         </div>
-        <div class="group-info__title" v-show="!groupName">
-          인증코드를 입력해주세요.
+        <div class="group-info__title" v-show="groupName && !joinFlag">
+          {{ groupName }}
         </div>
-        <div class="group-info__sub-title" v-show="!groupName">
-          인증코드를 모르신다면 담당자에게 물어보세요.
+        <div class="group-info__title" v-show="groupName && !joinFlag">
+          롤링페이퍼의 입장코드를 입력해줘.
+        </div>
+        <div class="group-info__sub-title" v-show="!joinFlag">
+          인증코드를 모르면 담당자에게 물어봐
         </div>
       </div>
-      <div class="code-group" v-show="!groupName">
-        <svg :class="groupCode[0] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="code-group" v-show="!joinFlag">
+        <svg :class="groupCode && groupCode.length >= 1 && groupCode[0] ? 'group-code is-active' : 'group-code'"
+          width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
             fill="#F5F5F5" />
@@ -39,8 +49,8 @@
             d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
             fill="#E6E6E6" />
         </svg>
-        <svg :class="groupCode[1] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg :class="groupCode && groupCode.length >= 2 && groupCode[1] ? 'group-code is-active' : 'group-code'"
+          width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
             fill="#F5F5F5" />
@@ -48,8 +58,8 @@
             d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
             fill="#E6E6E6" />
         </svg>
-        <svg :class="groupCode[2] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg :class="groupCode && groupCode.length >= 3 && groupCode[2] ? 'group-code is-active' : 'group-code'"
+          width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
             fill="#F5F5F5" />
@@ -57,8 +67,8 @@
             d="M9.06 18.04C14.2892 18.04 18.58 13.7953 18.58 8.52H16.58C16.58 12.6847 13.1908 16.04 9.06 16.04V18.04ZM18.58 8.52C18.58 3.28771 14.2923 -1 9.06 -1V0.999998C13.1877 0.999998 16.58 4.39228 16.58 8.52H18.58ZM9.06 -1C3.83385 -1 -0.46 3.2016 -0.46 8.52H1.54C1.54 4.3184 4.92615 0.999998 9.06 0.999998V-1ZM-0.46 8.52C-0.46 13.8384 3.83385 18.04 9.06 18.04V16.04C4.92615 16.04 1.54 12.7216 1.54 8.52H-0.46Z"
             fill="#E6E6E6" />
         </svg>
-        <svg :class="groupCode[3] ? 'group-code is-active' : 'group-code'" width="18" height="18" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg :class="groupCode && groupCode.length >= 4 && groupCode[3] ? 'group-code is-active' : 'group-code'"
+          width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M9.06 17.04C13.74 17.04 17.58 13.24 17.58 8.52C17.58 3.84 13.74 -1.90735e-06 9.06 -1.90735e-06C4.38 -1.90735e-06 0.54 3.76 0.54 8.52C0.54 13.28 4.38 17.04 9.06 17.04Z"
             fill="#F5F5F5" />
@@ -67,7 +77,7 @@
             fill="#E6E6E6" />
         </svg>
       </div>
-      <div class="key-pad" v-show="!groupName">
+      <div class="key-pad" v-show="!joinFlag">
         <div class="key-pad__number number-1" @click="() => { clickKeyPad('1') }"><img src="~assets/1.png" alt=""
             srcset="">
         </div>
@@ -122,9 +132,10 @@ export default {
       groupCode: '',
       groupName: '',
       groupUid: '',
+      joinFlag: false,
     };
   },
-  mounted () {
+  beforeMount () {
     this.groupUid = this.$route.query["groupUid"];
     if (this.groupUid) {
       const dbRef = ref(getDatabase());
@@ -142,14 +153,14 @@ export default {
     }
   },
   watch: {
-    groupName (value) {
+    joinFlag (value) {
       setTimeout(() => {
         this.$router.push(`/group-info?groupUid=${this.groupUid}&groupCode=${this.groupCode}`)
       }, 2100);
     },
     groupCode (value) {
       console.log(value);
-      if (value.toString().length == 4) {
+      if (value?.toString().length == 4) {
         const dbRef = ref(getDatabase());
         get(child(dbRef, `groupCodes/${value}`)).then((snapshot) => {
           if (snapshot.exists()) {
@@ -163,6 +174,8 @@ export default {
                 console.log(snapshot.val());
                 const data = snapshot.val();
                 this.groupName = data.groupName
+                this.groupCode = value
+                this.joinFlag = true
               }
             }).catch((error) => {
               console.error(error);
@@ -212,15 +225,53 @@ export default {
     background: #FAE54D;
   }
 
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 57px;
+    width: 100%;
+
+    &__left {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      :hover {
+        transform: scale(1.2);
+      }
+
+      img {
+        padding: 20.5px;
+        width: 57px;
+        height: 57px;
+
+      }
+    }
+
+    &__center {
+      font-weight: Bold;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    &__right {
+      width: 57px;
+      height: 57px;
+    }
+  }
+
   .container {
     width: 100%;
-    height: 100%;
-    padding: 30px 20px;
+    height: calc(100% - 57px);
+    padding: 24px 20px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     flex: none;
   }
+
 
   .group-info {
     display: flex;
@@ -233,7 +284,7 @@ export default {
 
     &__title {
       font-weight: 700;
-      font-size: 24px;
+      font-size: 23px;
       line-height: 32px;
     }
 
