@@ -52,22 +52,21 @@
                 v-for="(item, index) in themeGroupList" :key="index">
                 <img :src="getImgUrl(item.img)" alt="" srcset="">
               </div>
-              <q-btn style="background:#000; color:white; width:100%;" class="login-guide-layer__login-button"
-                @click="lineLogin">
-                <span :slot="label">애플로 시작하기</span>
+              <q-btn style="background:#000; color:white; width:100%;" class="login-guide-layer__login-button">
+                <span>애플로 시작하기</span>
               </q-btn>
               <a class="login-guide-layer__login-button line"
                 href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf">
-                <img src="~assets/line-icon.png" :slot="icon" alt="" srcset="">라인으로
+                <img src="~assets/line-icon.png" alt="" srcset="">라인으로
                 시작하기</a>
               <!-- <a class="login-guide-layer__login-button line"
                 href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">
-                <img src="~assets/line-icon.png" :slot="icon" alt="" srcset="">로컬 라인</a> -->
+                <img src="~assets/line-icon.png"  alt="" srcset="">로컬 라인</a> -->
 
               <q-btn style="background:#F5F5F5;color:#666666;width:100%;" class="login-guide-layer__login-button google"
                 @click="googleLogin">
-                <img src="~assets/google-icon.png" :slot="icon" alt="" srcset="">
-                <span :slot="label">구글로 시작하기</span>
+                <img src="~assets/google-icon.png" alt="" srcset="">
+                <span>구글로 시작하기</span>
               </q-btn>
               <q-btn style="background:white; color:#999999; border:1px solid #d2d2d2; width:100%;"
                 class="login-guide-layer__login-button" label="이메일로 시작하기" @click="$router.push('/login')" />
@@ -95,6 +94,8 @@
 </template>
 
 <script>
+
+
 import ComputedMixin from "../ComputedMixin";
 import UtilMethodMixin from "../UtilMethodMixin";
 import { T } from "../store/module-example/types"

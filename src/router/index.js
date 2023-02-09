@@ -2,11 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
-import Vant from 'vant';
 import 'vant/lib/index.css';
 import '@vant/touch-emulator';
+import { ActionSheet } from 'vant';
 
-Vue.use(Vant);
+Vue.use(ActionSheet);
 Vue.use(VueRouter)
 /*
  * If not building with SSR mode, you can
