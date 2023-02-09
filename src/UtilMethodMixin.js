@@ -1,16 +1,16 @@
 import { mapGetters } from "vuex";
 let UtilMethodMixin = {
     methods: {
-        getImgUrl (pic) {
+        getImgUrl(pic) {
             return require("assets/" + pic);
         },
-        showLoading () {
+        showLoading() {
             this.$q.loading.show();
         },
-        hideLoading () {
+        hideLoading() {
             this.$q.loading.hide();
         },
-        successMessage (message) {
+        successMessage(message) {
             this.$q.notify({
                 position: "top",
                 timeout: 500,
@@ -18,7 +18,7 @@ let UtilMethodMixin = {
                 icon: "announcement"
             });
         },
-        errorMessage (message) {
+        errorMessage(message) {
             this.$q.notify({
                 position: "top",
                 timeout: 500,
