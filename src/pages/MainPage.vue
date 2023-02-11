@@ -1,18 +1,7 @@
 <template>
     <q-page class="flex flex-center main-page">
         <div class="container">
-            <div class="header">
-                <div class="header__left" @click="$router.go(-1)">
-                    <img src="~assets/back.png" alt srcset />
-                </div>
-                <div class="header__center">입장코드 입력</div>
-                <div class="header__right"></div>
-            </div>
-            <div class="title-row">
-                <div class="main-image">
-                    <img src="~assets/main-image.svg" alt srcset />
-                </div>
-            </div>
+            <div class="main-image"></div>
             <div class="content">
                 <div class="content__main">ローリングペーパーを</div>
                 <div class="content__main">作りましょう。</div>
@@ -83,7 +72,6 @@ export default {
 <style lang="scss">
 .main-page {
     display: flex;
-    flex-direction: column;
     flex: 1;
     height: 100%;
     align-items: flex-start;
@@ -96,17 +84,13 @@ export default {
         display: flex;
         flex-direction: column;
     }
-
-    .title-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .main-image {
-            top: 0;
-            position: relative;
-            height: 100%;
-        }
+    .main-image {
+        top: 0;
+        position: relative;
+        background-image: url('../assets/main-image.svg');
+        height: 100%;
+        background-size: cover;
+        background-position: center top;
     }
 
     .button-list {
