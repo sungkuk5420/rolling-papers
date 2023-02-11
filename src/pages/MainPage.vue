@@ -1,19 +1,21 @@
 <template>
     <q-page class="flex flex-center main-page">
-
         <div class="container">
+            <div class="header">
+                <div class="header__left" @click="$router.go(-1)">
+                    <img src="~assets/back.png" alt srcset />
+                </div>
+                <div class="header__center">입장코드 입력</div>
+                <div class="header__right"></div>
+            </div>
             <div class="title-row">
                 <div class="main-image">
-                    <img src="~assets/main-image.svg" alt="" srcset="">
+                    <img src="~assets/main-image.svg" alt srcset />
                 </div>
             </div>
             <div class="content">
-                <div class="content__main">
-                    ローリングペーパーを
-                </div>
-                <div class="content__main">
-                    作りましょう。
-                </div>
+                <div class="content__main">ローリングペーパーを</div>
+                <div class="content__main">作りましょう。</div>
                 <div class="content__sub">
                     友達、同僚、気になる人に匿名で伝えられる率直な想い
                 </div>
@@ -27,11 +29,13 @@
                 </div>
                 <div class="login-join-buttons">
                     <span v-show="!uid">すでに会員であれば</span>
-                    <div @click="$router.push('/login')" v-show="!uid">ログイン</div>
+                    <div @click="$router.push('/login')" v-show="!uid">
+                        ログイン
+                    </div>
                     <div @click="logout" v-show="uid">로그아웃</div>
                     <!-- 
           <div @click="logout" v-show="uid">로그아웃</div>
-          <div @click="$router.push('/join')" v-show="!uid">회원가입</div> -->
+          <div @click="$router.push('/join')" v-show="!uid">회원가입</div>-->
                 </div>
             </div>
         </div>
@@ -39,39 +43,40 @@
 </template>
 
 <script>
-import ComputedMixin from "../ComputedMixin";
-import UtilMethodMixin from "../UtilMethodMixin";
-import { T } from "../store/module-example/types";
-import { getAuth, signOut } from "firebase/auth";
+import ComputedMixin from '../ComputedMixin';
+import UtilMethodMixin from '../UtilMethodMixin';
+import { T } from '../store/module-example/types';
+import { getAuth, signOut } from 'firebase/auth';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
     data() {
         return {
-            localNickname: "",
+            localNickname: '',
         };
     },
     mounted() {
         // this.showLoading();
     },
     methods: {
-
         saveNickName() {
             this.$store.dispatch(T.SET_LOGIN_USER_INFO, {
-                nickname: this.localNickname
-            })
+                nickname: this.localNickname,
+            });
         },
         createGroup() {
-            this.$router.push("/create-group")
+            this.$router.push('/create-group');
         },
         logout() {
             const auth = getAuth();
-            signOut(auth).then(() => {
-                // Sign-out successful.
-            }).catch((error) => {
-                // An error happened.
-            });
-        }
-    }
+            signOut(auth)
+                .then(() => {
+                    // Sign-out successful.
+                })
+                .catch((error) => {
+                    // An error happened.
+                });
+        },
+    },
 };
 </script>
 
@@ -97,7 +102,6 @@ export default {
         justify-content: center;
         align-items: center;
 
-
         .main-image {
             top: 0;
             position: relative;
@@ -115,12 +119,11 @@ export default {
     .add-group {
         width: 100%;
         height: 44px;
-        background: #FAE54D;
+        background: #fae54d;
         border-radius: 8px;
         color: #000000;
         font-weight: 700;
         font-size: 14px;
-
     }
 
     .join-group {
@@ -144,7 +147,6 @@ export default {
         &__button {
             height: 50%;
 
-
             &:first-child {
                 margin-bottom: 10px;
             }
@@ -164,7 +166,6 @@ export default {
 
         &__sub {
             margin-top: 12px;
-            ;
             line-height: 20px;
         }
     }
@@ -176,11 +177,11 @@ export default {
 
         padding: 12px 5px 0 5px;
 
-        &>div {
+        & > div {
             margin-left: 5px;
             font-size: 14px;
 
-            color: #065BF5;
+            color: #065bf5;
         }
     }
 }
