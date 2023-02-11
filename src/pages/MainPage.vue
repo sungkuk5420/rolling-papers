@@ -18,7 +18,7 @@
                 </div>
                 <div class="login-join-buttons">
                     <span v-show="!uid">すでに会員であれば</span>
-                    <div @click="$router.push('/login')" v-show="!uid">
+                    <div @click="loginGuideLayer = true" v-show="!uid">
                         ログイン
                     </div>
                     <div @click="logout" v-show="uid">로그아웃</div>
@@ -28,6 +28,12 @@
                 </div>
             </div>
         </div>
+        <LoginActionSheet
+            :selectTheme="selectTheme"
+            :themeGroupList="themeGroupList"
+            :loginGuideLayer="loginGuideLayer"
+            :changeLoginGuideLayer="changeLoginGuideLayer"
+        ></LoginActionSheet>
     </q-page>
 </template>
 
@@ -36,17 +42,44 @@ import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
 import { T } from '../store/module-example/types';
 import { getAuth, signOut } from 'firebase/auth';
+import LoginActionSheet from '../components/LoginActionSheet.vue';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
+    components: {
+        LoginActionSheet,
+    },
     data() {
         return {
             localNickname: '',
+            loginGuideLayer: false,
+            selectTheme: 1,
+            themeGroupList: [
+                {
+                    name: '이직 성공 축하!',
+                    img: 'theme-1.png',
+                },
+                {
+                    name: '고마워요',
+                    img: 'theme-2.png',
+                },
+                {
+                    name: '힘내요',
+                    img: 'theme-3.png',
+                },
+                {
+                    name: '축하해요',
+                    img: 'theme-4.png',
+                },
+            ],
         };
     },
     mounted() {
         // this.showLoading();
     },
     methods: {
+        changeLoginGuideLayer(value) {
+            this.loginGuideLayer = value;
+        },
         saveNickName() {
             this.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                 nickname: this.localNickname,
