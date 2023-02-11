@@ -30,10 +30,7 @@
                     header
                     class="left-drawer__sub-title"
                     v-show="!uid"
-                    @click="
-                        leftDrawer = false;
-                        loginGuideLayer = true;
-                    "
+                    @click="login"
                 >
                     로그인
                 </q-item-label>
@@ -64,7 +61,6 @@
                 :selectTheme="selectTheme"
                 :themeGroupList="themeGroupList"
                 :loginGuideLayer="loginGuideLayer"
-                :changeLoginGuideLayer="changeLoginGuideLayer"
             ></LoginActionSheet>
             <router-view />
         </q-page-container>
@@ -77,6 +73,7 @@ import MainHeader from 'src/components/MainHeader.vue';
 import ComputedMixin from '../ComputedMixin';
 import { getAuth, signOut } from 'firebase/auth';
 import LoginActionSheet from '../components/LoginActionSheet.vue';
+import { T } from '../store/module-example/types';
 export default {
     mixins: [ComputedMixin],
     name: 'MainLayout',
@@ -114,8 +111,9 @@ export default {
         console.log(this.uid);
     },
     methods: {
-        changeLoginGuideLayer(value) {
-            this.loginGuideLayer = value;
+        login() {
+            this.leftDrawer = false;
+            this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, true);
         },
         leftDrawerOpen() {
             console.log();

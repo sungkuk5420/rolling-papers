@@ -16,6 +16,8 @@ export default {
             console.log('change!');
             if (user) {
                 console.log('login완료!');
+                this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, false);
+
                 console.log(user);
                 const uid = user.uid;
 
@@ -80,6 +82,7 @@ export default {
                     message: '로그아웃',
                     icon: 'announcement',
                 });
+
                 thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                     nickname: null,
                     email: null,

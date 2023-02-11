@@ -15,5 +15,9 @@ export const mutations = {
 		if (loginType || loginType === null) {
 			state.loginType = loginType;
 		}
+	},
+	[T.SET_LOGIN_GUIDE_LAYER](state, data) {
+		console.log("mutation SET_LOGIN_GUIDE_LAYER", data)
+		state.loginGuideLayer = data;
 	}
 };

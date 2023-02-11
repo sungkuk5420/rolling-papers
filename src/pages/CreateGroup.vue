@@ -86,8 +86,6 @@
                         <LoginActionSheet
                             :selectTheme="selectTheme"
                             :themeGroupList="themeGroupList"
-                            :loginGuideLayer="loginGuideLayer"
-                            :changeLoginGuideLayer="changeLoginGuideLayer"
                             :isCreateGroup="true"
                         ></LoginActionSheet>
                         <van-action-sheet
@@ -156,7 +154,6 @@ export default {
             createLayer: false,
             actions: [{ name: '생성하기' }, { name: '참여하기' }],
 
-            loginGuideLayer: false,
             themeGroupList: [
                 {
                     name: '이직 성공 축하!',
@@ -214,13 +211,9 @@ export default {
                 localStorage.setItem('groupUid', this.groupUid);
                 localStorage.setItem('groupName', this.groupName);
                 localStorage.setItem('groupCode', this.groupCode);
-                this.loginGuideLayer = true;
-                debugger;
+                this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, true);
                 // this.$router.push("/login")
             }
-        },
-        changeLoginGuideLayer(value) {
-            this.loginGuideLayer = value;
         },
         createGroupConfirm() {
             const db = getDatabase();

@@ -4,5 +4,6 @@ export default function () {
         nickname: "",
         uid: "",
         loginType: "",
+        loginGuideLayer: false,
     };
 }

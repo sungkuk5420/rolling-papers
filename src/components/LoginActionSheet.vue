@@ -1,7 +1,7 @@
 <template>
     <van-action-sheet
         :round="false"
-        v-model="localLoginGuideLayer"
+        v-model="loginGuideLayer"
         class="login-guide-layer"
     >
         <div class="login-guide-layer__title" v-show="isCreateGroup">
@@ -63,27 +63,22 @@
 <script>
 import UtilMethodMixin from '../UtilMethodMixin';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { T } from '../store/module-example/types';
 export default {
     name: 'LoginActionSheet',
-    props: [
-        'selectTheme',
-        'themeGroupList',
-        'loginGuideLayer',
-        'changeLoginGuideLayer',
-        'isCreateGroup',
-    ],
+    props: ['selectTheme', 'themeGroupList', 'isCreateGroup'],
     mixins: [UtilMethodMixin],
     data() {
-        return {
-            localLoginGuideLayer: false,
-        };
+        return {};
     },
-    watch: {
-        loginGuideLayer(value) {
-            this.localLoginGuideLayer = value;
-        },
-        localLoginGuideLayer(value) {
-            this.changeLoginGuideLayer(value);
+    computed: {
+        loginGuideLayer: {
+            get() {
+                return this.$store.getters.getLoginGuideLayer;
+            },
+            set(value) {
+                return this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, value);
+            },
         },
     },
     methods: {

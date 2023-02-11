@@ -18,10 +18,7 @@
                 </div>
                 <div class="login-join-buttons">
                     <span v-show="!uid">すでに会員であれば</span>
-                    <div @click="loginGuideLayer = true" v-show="!uid">
-                        ログイン
-                    </div>
-                    <div @click="logout" v-show="uid">로그아웃</div>
+                    <div @click="login" v-show="!uid">ログイン</div>
                     <!-- 
           <div @click="logout" v-show="uid">로그아웃</div>
           <div @click="$router.push('/join')" v-show="!uid">회원가입</div>-->
@@ -31,8 +28,6 @@
         <LoginActionSheet
             :selectTheme="selectTheme"
             :themeGroupList="themeGroupList"
-            :loginGuideLayer="loginGuideLayer"
-            :changeLoginGuideLayer="changeLoginGuideLayer"
         ></LoginActionSheet>
     </q-page>
 </template>
@@ -51,7 +46,6 @@ export default {
     data() {
         return {
             localNickname: '',
-            loginGuideLayer: false,
             selectTheme: 1,
             themeGroupList: [
                 {
@@ -77,8 +71,8 @@ export default {
         // this.showLoading();
     },
     methods: {
-        changeLoginGuideLayer(value) {
-            this.loginGuideLayer = value;
+        login() {
+            this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, true);
         },
         saveNickName() {
             this.$store.dispatch(T.SET_LOGIN_USER_INFO, {

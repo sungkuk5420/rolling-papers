@@ -31,4 +31,9 @@ export const actions = {
         console.log(email, nickname, uid);
         commit(T.SET_LOGIN_USER_INFO, { email, nickname, uid, loginType });
     },
+    [T.SET_LOGIN_GUIDE_LAYER]({ commit }, data) {
+        console.log(`store SET_LOGIN_GUIDE_LAYER [T.SET_LOGIN_GUIDE_LAYER] data`);
+        console.log(data);
+        commit(T.SET_LOGIN_GUIDE_LAYER, data);
+    },
 };
