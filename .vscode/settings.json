@@ -67,5 +67,9 @@
   "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
   "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
   "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
-  "editor.defaultFormatter": "octref.vetur",
+  "[vue]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "octref.vetur",
+  },
+  
 }
