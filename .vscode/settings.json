@@ -67,11 +67,5 @@
   "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
   "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
   "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
-  "vetur.format.defaultFormatter.html": "prettyhtml",
-  "vetur.format.defaultFormatter.js": "prettier-eslint",
-  "[vue]": {
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": false
-  },
+  "editor.defaultFormatter": "octref.vetur",
 }
