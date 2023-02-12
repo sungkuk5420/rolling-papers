@@ -44,8 +44,14 @@
                 <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
             </van-action-sheet>
         </div>
-
-    </q-page>
+      </div>
+      <BottomButtons :groupUid="groupUid" />
+      <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
+        <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
+        <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
+      </van-action-sheet>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -121,9 +127,6 @@ export default {
             }).catch((error) => {
                 console.error(error);
             });
-        },
-        writeMessage() {
-            this.$router.push(`/write-message?groupUid=${this.groupUid}`);
         },
         goDetail(message) {
             const groupUid = this.$route.query.groupUid;
