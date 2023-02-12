@@ -121,6 +121,10 @@ html {
     bottom: 0;
 }
 
+body {
+    align-items: flex-end;
+    display: flex;
+}
 html,
 body,
 #q-app,
@@ -130,9 +134,9 @@ body,
     max-width: 390px;
     height: 100%;
     max-height: 844px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
     left: 0 !important;
     top: inherit !important;
     right: 0 !important;
