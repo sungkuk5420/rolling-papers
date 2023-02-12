@@ -135,12 +135,14 @@ export default {
             if (!value) {
                 return false;
             }
-            $('#qrcode canvas').remove();
-            $('#qrcode').qrcode({
-                width: 150,
-                height: 150,
-                text: this.link,
-            });
+            setTimeout(() => {
+                $('#qrcode canvas').remove();
+                $('#qrcode').qrcode({
+                    width: 150,
+                    height: 150,
+                    text: this.link,
+                });
+            }, 100);
         },
     },
     methods: {
@@ -173,7 +175,7 @@ export default {
                         this.groupName = data.groupName;
                         this.groupCode = data.code;
                         this.link =
-                            location.origin +
+                            'https://rolling-papers.netlify.app' +
                             '/join-group?' +
                             `groupUid=${this.groupUid}`;
                     }
