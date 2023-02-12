@@ -29,6 +29,7 @@
                 </div>
                 <div class="login-join-buttons">
                     <span v-show="!uid">すでに会員であれば</span>
+                    <div @click="shareMobile">공유</div>
                     <div @click="$router.push('/login')" v-show="!uid">
                         ログイン
                     </div>
@@ -58,6 +59,21 @@ export default {
         // this.showLoading();
     },
     methods: {
+        async shareMobile() {
+            let url = this.link;
+            // let url = location.href;
+            if (!url) {
+                return false;
+            }
+            const shareData = {
+                title: `롤링페이퍼를 작성해줘! `,
+                text: `[입장코드] 1234 <br> \n https://rolling-papers.netlify.app/join-group?groupUid=0d4be956&`,
+            };
+            if (navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+            } else {
+            }
+        },
         saveNickName() {
             this.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                 nickname: this.localNickname,
