@@ -61,7 +61,7 @@ export default {
     methods: {
         async shareMobile() {
             const shareData = {
-                text: `롤링페이퍼를 작성해줘! \n [입장코드] 1234 \n https://rolling-papers.netlify.app/join-group?groupUid=0d4be956&`,
+                text: `롤링페이퍼를 작성해줘! \n\n [입장코드] 1234 \n\n https://rolling-papers.netlify.app/join-group?groupUid=0d4be956&`,
             };
             if (navigator.canShare && navigator.canShare(shareData)) {
                 await navigator.share(shareData);
