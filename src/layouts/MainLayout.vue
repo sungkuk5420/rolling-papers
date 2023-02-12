@@ -1,9 +1,6 @@
 <template>
     <q-layout view="lHh Lpr lFf">
-        <MainHeader
-            :leftDrawerOpen="leftDrawerOpen"
-            :centerText="'롤링 페이퍼'"
-        ></MainHeader>
+        <MainHeader :leftDrawerOpen="leftDrawerOpen"></MainHeader>
 
         <q-drawer
             v-model="leftDrawer"

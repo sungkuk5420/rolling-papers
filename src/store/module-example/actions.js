@@ -36,4 +36,9 @@ export const actions = {
         console.log(data);
         commit(T.SET_LOGIN_GUIDE_LAYER, data);
     },
+    [T.CHANGE_HEADER_TITLE]({ commit }, data) {
+        console.log(`store CHANGE_HEADER_TITLE [T.CHANGE_HEADER_TITLE] data`);
+        console.log(data);
+        commit(T.CHANGE_HEADER_TITLE, data);
+    },
 };

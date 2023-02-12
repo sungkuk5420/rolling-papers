@@ -69,6 +69,8 @@ export default {
     },
     mounted() {
         // this.showLoading();
+
+        return this.$store.dispatch(T.CHANGE_HEADER_TITLE, '롤링 페이퍼');
     },
     methods: {
         login() {

@@ -19,5 +19,9 @@ export const mutations = {
 	[T.SET_LOGIN_GUIDE_LAYER](state, data) {
 		console.log("mutation SET_LOGIN_GUIDE_LAYER", data)
 		state.loginGuideLayer = data;
+	},
+	[T.CHANGE_HEADER_TITLE](state, data) {
+		console.log("mutation CHANGE_HEADER_TITLE", data)
+		state.headerTitle = data;
 	}
 };

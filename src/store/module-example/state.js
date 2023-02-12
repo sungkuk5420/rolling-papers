@@ -5,5 +5,6 @@ export default function () {
         uid: "",
         loginType: "",
         loginGuideLayer: false,
+        headerTitle: "",
     };
 }

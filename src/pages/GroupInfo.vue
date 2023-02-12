@@ -1,29 +1,6 @@
 <template>
     <q-page class="flex flex-center group-info-page">
         <div class="container">
-            <div class="header q-mb-md">
-                <div class="header__left">
-                    <q-icon
-                        name="menu"
-                        style="font-size: 24px; cursor: pointer"
-                        @click="$router.go(-1)"
-                    ></q-icon>
-                </div>
-                <div class="header__center">
-                    <q-icon
-                        name="celebration"
-                        style="font-size: 24px; cursor: pointer"
-                    ></q-icon>
-                    <div class="group-name">{{ groupName }}</div>
-                </div>
-                <div class="header__right">
-                    <q-icon
-                        name="ios_share"
-                        style="font-size: 24px; cursor: pointer"
-                        @click="shareMobile"
-                    ></q-icon>
-                </div>
-            </div>
             <div class="row-div q-mt-xl empty" v-if="messages.length == 0">
                 <div class="empty-wrapper flex flex-center column-div">
                     <img
@@ -155,6 +132,10 @@ export default {
                         console.log(snapshot.val());
                         const data = snapshot.val();
                         this.groupName = data.groupName;
+                        this.$store.dispatch(
+                            T.CHANGE_HEADER_TITLE,
+                            this.groupName
+                        );
                         this.groupCode = data.code;
                         this.messages = data.messages ? data.messages : [];
                         // console.log("그룹코드가 존재합니다")

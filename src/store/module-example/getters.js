@@ -14,4 +14,7 @@ export const getters = {
     getLoginGuideLayer(state) {
         return state.loginGuideLayer;
     },
+    getHeaderTitle(state) {
+        return state.headerTitle;
+    },
 };
