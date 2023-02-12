@@ -1,8 +1,8 @@
 export default function () {
-  return {
-    email: "",
-    nickname: "",
-    uid: "",
-    loginType: "",
-  };
+    return {
+        email: "",
+        nickname: "",
+        uid: "",
+        loginType: "",
+    };
 }
