@@ -1,16 +1,15 @@
 <template>
     <q-page class="flex flex-center share-group">
-        <div class="container">
-            <div class="header">
-                <div class="header__left"></div>
-                <div class="header__center">
-                    <div class="group-name">롤링페이퍼 공유하기</div>
-                </div>
-                <div class="header__right" @click="$router.go(-1)">
-                    <img src="~assets/close.png" alt srcset />
-                </div>
+        <div class="header">
+            <div class="header__left"></div>
+            <div class="header__center">
+                <div class="group-name">롤링페이퍼 공유하기</div>
             </div>
-
+            <div class="header__right" @click="$router.go(-1)">
+                <img src="~assets/close.png" alt srcset />
+            </div>
+        </div>
+        <div class="container">
             <div class="share-group__title">자 이제 롤링페이퍼를</div>
             <div class="share-group__title">작성해줄 사람들을 초대해보자!</div>
             <div class="share-group__sub-title">
@@ -25,10 +24,9 @@
 
             <div class="share-group__buttons">
                 <q-btn
-                    style="background: #fae54d; color: #000; width: 100%;height 44px;
-                    font-weight: bold;"
+                    style="background: #fae54d; color: #000; width: 100%;height 44px; font-weight: bold;"
                     class="share-group__button-left"
-                    @click="shareLayer = false"
+                    @click="shareByQrcode = true"
                 >
                     <img
                         src="~assets/qrcode.png"
@@ -54,8 +52,53 @@
                 <q-btn
                     class="share-button link"
                     label="링크로 공유하기"
+                    @click="clickShareMobile"
                 ></q-btn>
             </div>
+
+            <van-action-sheet
+                :round="false"
+                v-model="shareByQrcode"
+                class="share-by-qrcode-layer"
+            >
+                <div class="share-by-qrcode-layer__title">
+                    옆에 있는 사람에게 공유하자!
+                </div>
+                <div class="share-by-qrcode-layer__sub-title">
+                    카메라를 켜서 QR코드를 통해 접속해.
+                </div>
+                <div class="share-by-qrcode-layer__sub-title-2">입장 코드</div>
+                <div class="share-by-qrcode-layer__codes">
+                    <div class="share-by-qrcode-layer__number">
+                        {{ groupCode.toString()[0] }}
+                    </div>
+                    <div class="share-by-qrcode-layer__number">
+                        {{ groupCode.toString()[1] }}
+                    </div>
+                    <div class="share-by-qrcode-layer__number">
+                        {{ groupCode.toString()[2] }}
+                    </div>
+                    <div class="share-by-qrcode-layer__number">
+                        {{ groupCode.toString()[3] }}
+                    </div>
+                </div>
+                <div class="qrcode-wrapper">
+                    <div id="qrcode"></div>
+                </div>
+                <div class="share-by-qrcode-layer__buttons">
+                    <q-btn
+                        style="background: #f5f5f5; color: #999999"
+                        class="login-guide-layer__cancel"
+                        label="닫기"
+                        @click="shareByQrcode = false"
+                    />
+                    <q-btn
+                        style="background: #fae54d"
+                        class="login-guide-layer__confirm"
+                        label="이미지 저장하기"
+                    />
+                </div>
+            </van-action-sheet>
         </div>
     </q-page>
 </template>
@@ -73,6 +116,9 @@ export default {
         return {
             groupUid: '',
             groupName: '',
+            groupCode: '',
+            shareByQrcode: false,
+            link: '',
         };
     },
     mounted() {
@@ -84,7 +130,38 @@ export default {
         }
         this.getGroupInfo();
     },
+    watch: {
+        shareByQrcode(value) {
+            if (!value) {
+                return false;
+            }
+            $('#qrcode canvas').remove();
+            $('#qrcode').qrcode({
+                width: 150,
+                height: 150,
+                text: this.link,
+            });
+        },
+    },
     methods: {
+        clickShareMobile() {
+            this.shareMobile();
+        },
+        async shareMobile() {
+            let url = this.link;
+            // let url = location.href;
+            if (!url) {
+                return false;
+            }
+            const shareData = {
+                title: 'Share',
+                url,
+            };
+            if (navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+            } else {
+            }
+        },
         getGroupInfo() {
             this.groupUid = this.$route.query['groupUid'];
             const dbRef = ref(getDatabase());
@@ -95,6 +172,10 @@ export default {
                         const data = snapshot.val();
                         this.groupName = data.groupName;
                         this.groupCode = data.code;
+                        this.link =
+                            location.origin +
+                            '/join-group?' +
+                            `groupUid=${this.groupUid}`;
                     }
                 })
                 .catch((error) => {
@@ -108,7 +189,6 @@ export default {
 <style lang="scss">
 .share-group {
     display: flex;
-    flex-direction: column;
     flex: 1;
     height: 100%;
 
@@ -117,10 +197,10 @@ export default {
         font-weight: 700;
         line-height: 32px;
         color: #333;
-        &:nth-child(2) {
-            margin-top: 30px;
+        &:nth-child(1) {
+            margin-top: 10px;
         }
-        &:nth-child(3) {
+        &:nth-child(2) {
             margin-bottom: 32px;
         }
     }
@@ -140,6 +220,9 @@ export default {
     }
 
     .share-button {
+        .q-btn__wrapper {
+            padding: 4px 4px;
+        }
         &.line {
             background: #06c755;
             color: white;
@@ -149,7 +232,6 @@ export default {
             align-items: center;
             height: 44px;
             border-radius: 8px;
-            font-size: 13px;
             font-weight: bold;
             img {
                 margin-right: 4px;
@@ -160,7 +242,6 @@ export default {
             background: #f5f5f5;
             height: 44px;
             border-radius: 8px;
-            font-size: 13px;
             font-weight: 700;
             line-height: 20px;
         }
@@ -175,7 +256,7 @@ export default {
 
     .container {
         width: 100%;
-        height: 100%;
+        height: calc(100% - 56px);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -183,10 +264,11 @@ export default {
     }
 
     .header {
-        padding: 0 0 20px 0;
+        width: 100%;
         display: flex;
-        height: 56px;
         justify-content: space-between;
+        align-items: center;
+        height: 56px;
         border-bottom: 1px solid #e0e0e0;
 
         &__left {
@@ -215,6 +297,69 @@ export default {
             justify-content: center;
             align-items: center;
             cursor: pointer;
+        }
+    }
+
+    .share-by-qrcode-layer {
+        padding: 24px;
+        &__title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            color: #333333;
+            margin-bottom: 12px;
+        }
+        &__sub-title {
+            line-height: 20px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        &__sub-title-2 {
+            font-weight: 700;
+            line-height: 20px;
+            color: #666;
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        &__codes {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        &__number {
+            width: 63px;
+            height: 63px;
+            border: 1px solid #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        .qrcode-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        &__buttons {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+
+            .q-btn {
+                width: 50%;
+                height: 44px;
+                border-radius: 8px;
+                display: flex;
+                font-weight: 700;
+
+                .q-btn__wrapper:before {
+                    box-shadow: none;
+                }
+            }
         }
     }
 }

@@ -111,6 +111,7 @@ export default {
     position: absolute !important;
 }
 
+.share-by-qrcode-layer,
 .share-layer-on-my-papers,
 .share-action-sheet,
 .login-guide-layer,
