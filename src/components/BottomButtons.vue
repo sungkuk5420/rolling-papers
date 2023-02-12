@@ -26,6 +26,10 @@
 <script>
 export default {
   props: {
+    groupUid: {
+      type: String,
+      default: ""
+    },
     isDetailPage: {
       type: Boolean,
       default: false,
@@ -40,6 +44,7 @@ export default {
     },
     onCreate() {
       console.log('나중에 추가할 기능');
+      this.$router.push(`/write-message?groupUid=${this.groupUid}`);
     }
   }
 }
