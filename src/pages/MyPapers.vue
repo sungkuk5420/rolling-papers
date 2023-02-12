@@ -40,15 +40,88 @@
             </div>
             <div class="group-card__buttons">
                 <q-btn
+                    v-show="currentGroup.status == 'done'"
+                    class="group-card__button-left"
+                    disabled
+                    label="공유완료"
+                ></q-btn>
+                <q-btn
+                    v-show="currentGroup.status == 'created'"
                     class="group-card__button-left"
                     label="작성자에게 공유"
                 ></q-btn>
                 <q-btn
                     class="group-card__button-right"
-                    label="공유 완료"
+                    label="주인공에게 공유"
+                    @click="
+                        () => {
+                            shareMainPerson(currentGroup);
+                        }
+                    "
                 ></q-btn>
             </div>
         </div>
+        <van-action-sheet
+            :round="false"
+            v-model="shareLayer"
+            class="share-layer-on-my-papers"
+        >
+            <div class="share-layer-on-my-papers__title">롤링페이퍼를</div>
+            <div class="share-layer-on-my-papers__title">
+                주인공에게 공유할거야?
+            </div>
+            <div class="share-layer-on-my-papers__sub-title">
+                공유하면 롤링페이퍼는 이제 못 쓰게 될거야.
+            </div>
+            <div class="group-card" v-if="selectGroup">
+                <div class="group-card__image-content">
+                    <div
+                        class="group-card__image"
+                        :style="`background:${
+                            themeGroupList[selectGroup.selectTheme - 1]
+                                .background
+                        };`"
+                    >
+                        <img
+                            :src="
+                                getImgUrl(
+                                    themeGroupList[selectGroup.selectTheme - 1]
+                                        .img
+                                )
+                            "
+                            alt=""
+                            srcset=""
+                        />
+                    </div>
+                    <div class="group-card__content">
+                        <div class="group-card__content__group-name">
+                            {{ selectGroup.groupName }}
+                        </div>
+                        <div class="group-card__content__count">
+                            {{
+                                (selectGroup.message &&
+                                    selectGroup.message.length) ||
+                                0
+                            }}명 참여중
+                        </div>
+                        <div class="group-card__content__created-at">
+                            {{ convertedDateFormat(selectGroup.createdAt) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="group-card__buttons">
+                    <q-btn
+                        class="group-card__button-left"
+                        @click="shareLayer = false"
+                        label="취소"
+                    ></q-btn>
+                    <q-btn
+                        class="group-card__button-right"
+                        label="주인공에게 공유"
+                    ></q-btn>
+                </div>
+            </div>
+        </van-action-sheet>
     </q-page>
 </template>
 
@@ -61,7 +134,9 @@ export default {
     mixins: [ComputedMixin, UtilMethodMixin],
     data() {
         return {
+            selectGroup: null,
             myGroups: [],
+            shareLayer: false,
         };
     },
     mounted() {
@@ -90,6 +165,13 @@ export default {
                 console.error(error);
             });
     },
+    methods: {
+        shareMainPerson(currentGroup) {
+            console.log(currentGroup);
+            this.selectGroup = currentGroup;
+            this.shareLayer = true;
+        },
+    },
 };
 </script>
 
@@ -106,6 +188,13 @@ export default {
         justify-content: flex-start;
         flex-direction: column;
         margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 12px;
+        &:hover,
+        &:active {
+            cursor: pointer;
+            background: #ddd;
+        }
 
         &__image-content {
             display: flex;
@@ -189,6 +278,30 @@ export default {
                 text-align: left;
                 color: #999999;
             }
+        }
+    }
+
+    .share-layer-on-my-papers {
+        padding: 30px 24px;
+        padding-bottom: 0;
+        .group-card {
+            &:hover,
+            &:active {
+                cursor: default;
+                background: #fff;
+            }
+        }
+        &__title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        &__sub-title {
+            line-height: 20px;
+            color: #666666;
+            margin-bottom: 19px;
         }
     }
 }
