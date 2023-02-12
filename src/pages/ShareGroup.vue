@@ -154,7 +154,7 @@ export default {
                 return false;
             }
             const shareData = {
-                title: 'Share',
+                title: `롤링페이퍼를 작성해줘! ${this.groupName} [입장코드] ${this.groupCode}`,
                 url,
             };
             if (navigator.canShare && navigator.canShare(shareData)) {
