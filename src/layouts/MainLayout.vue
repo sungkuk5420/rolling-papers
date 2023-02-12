@@ -17,10 +17,19 @@
                 >
                     롤링페이퍼
                 </q-item-label>
-                <q-item-label header class="left-drawer__sub-title">
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/create-group')"
+                >
                     롤링페이퍼 만들기
                 </q-item-label>
-                <q-item-label header class="left-drawer__sub-title">
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    v-show="uid"
+                    @click="$router.push('/my-papers')"
+                >
                     내 롤링페이퍼
                 </q-item-label>
                 <q-item-label
@@ -83,25 +92,6 @@ export default {
             leftDrawer: false,
             loginGuideLayer: false,
             selectTheme: 1,
-            themeGroupList: [
-                {
-                    name: '이직 성공 축하!',
-                    img: 'theme-1.png',
-                },
-                {
-                    name: '고마워요',
-                    img: 'theme-2.png',
-                },
-                {
-                    name: '힘내요',
-                    img: 'theme-3.png',
-                },
-                {
-                    name: '축하해요',
-                    img: 'theme-4.png',
-                },
-            ],
-            // essentialLinks: linksData,
         };
     },
     mounted() {

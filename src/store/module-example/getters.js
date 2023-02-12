@@ -17,4 +17,7 @@ export const getters = {
     getHeaderTitle(state) {
         return state.headerTitle;
     },
+    getThemeGroupList(state) {
+        return state.themeGroupList;
+    },
 };
