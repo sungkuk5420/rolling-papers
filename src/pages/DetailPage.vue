@@ -1,15 +1,25 @@
 <template>
     <div class="detail-page-container">
-        <div class="header q-mb-md">
+        <div class="header">
             <div class="header__left">
-                <q-icon name="menu" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
+                <q-icon
+                    name="menu"
+                    style="font-size: 24px; cursor: pointer"
+                    @click="$router.go(-1)"
+                ></q-icon>
             </div>
             <div class="header__center">
-                <q-icon name="celebration" style="font-size: 24px;cursor: pointer;"></q-icon>
+                <q-icon
+                    name="celebration"
+                    style="font-size: 24px; cursor: pointer"
+                ></q-icon>
                 <div class="group-name">롤링페이퍼 상세</div>
             </div>
             <div class="header__right">
-                <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;"></q-icon>
+                <q-icon
+                    name="ios_share"
+                    style="font-size: 24px; cursor: pointer"
+                ></q-icon>
             </div>
         </div>
         <div class="wrap-contents">
@@ -17,9 +27,7 @@
                 <p class="content" :class="`${getMessage.fontStyle}`">
                     {{ getMessage.message }}
                 </p>
-                <p class="writer">
-                    from {{ getMessage.writerNickName }}
-                </p>
+                <p class="writer">from {{ getMessage.writerNickName }}</p>
             </div>
         </div>
         <BottomButtons :isDetailPage="true" />
@@ -41,7 +49,7 @@ export default {
         const groupUid = this.$route.query.groupUid;
         // 둘 다 없으면 create-group으로 간다.
         if (!groupCode && !groupUid) {
-            this.$router.push("/create-group");
+            this.$router.push('/create-group');
             return;
         }
         // groupCode 없으면 join-group으로 간다
@@ -50,11 +58,12 @@ export default {
             return;
         }
         if (!this.$route.params.message) {
-            this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`);
+            this.$router.push(
+                `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
+            );
         }
     },
-}
-
+};
 </script>
 <style scoped lang="scss">
 .detail-page-container {
@@ -104,7 +113,7 @@ export default {
         .contents {
             width: 100%;
             height: 328px;
-            background-color: #FF7D5A;
+            background-color: #ff7d5a;
             padding: 14px;
             display: flex;
             flex-direction: column;

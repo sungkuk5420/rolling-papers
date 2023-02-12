@@ -32,6 +32,11 @@ const routes = [
     children: [{ path: "", component: () => import("src/pages/GroupInfo.vue") }]
   },
   {
+    path: "/share-group",
+    component: () => import("layouts/PlainLayout.vue"),
+    children: [{ path: "", component: () => import("src/pages/ShareGroup.vue") }]
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/MainPage.vue") }]

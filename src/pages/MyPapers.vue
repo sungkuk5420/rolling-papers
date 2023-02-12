@@ -49,6 +49,11 @@
                     v-show="currentGroup.status == 'created'"
                     class="group-card__button-left"
                     label="작성자에게 공유"
+                    @click="
+                        () => {
+                            shareOtherPeople(currentGroup);
+                        }
+                    "
                 ></q-btn>
                 <q-btn
                     class="group-card__button-right"
@@ -149,7 +154,10 @@ export default {
                     let allGroups = [];
                     snapshot.forEach((questionSnapshot) => {
                         let data = questionSnapshot.val();
-                        allGroups.push(data);
+                        allGroups.push({
+                            groupUid: questionSnapshot.key,
+                            ...data,
+                        });
                     });
                     this.myGroups = allGroups
                         .filter((i) => i.createUserUid == this.uid)
@@ -166,6 +174,11 @@ export default {
             });
     },
     methods: {
+        shareOtherPeople(currentGroup) {
+            console.log(currentGroup);
+            let groupUid = currentGroup.groupUid;
+            this.$router.push(`/share-group?groupUid=${groupUid}`);
+        },
         shareMainPerson(currentGroup) {
             console.log(currentGroup);
             this.selectGroup = currentGroup;
