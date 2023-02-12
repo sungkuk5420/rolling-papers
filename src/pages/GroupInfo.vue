@@ -3,19 +3,34 @@
         <div class="container">
             <div class="header q-mb-md">
                 <div class="header__left">
-                    <q-icon name="menu" style="font-size: 24px;cursor: pointer;" @click="$router.go(-1)"></q-icon>
+                    <q-icon
+                        name="menu"
+                        style="font-size: 24px; cursor: pointer"
+                        @click="$router.go(-1)"
+                    ></q-icon>
                 </div>
                 <div class="header__center">
-                    <q-icon name="celebration" style="font-size: 24px;cursor: pointer;"></q-icon>
+                    <q-icon
+                        name="celebration"
+                        style="font-size: 24px; cursor: pointer"
+                    ></q-icon>
                     <div class="group-name">{{ groupName }}</div>
                 </div>
                 <div class="header__right">
-                    <q-icon name="ios_share" style="font-size: 24px;cursor: pointer;" @click="shareMobile"></q-icon>
+                    <q-icon
+                        name="ios_share"
+                        style="font-size: 24px; cursor: pointer"
+                        @click="shareMobile"
+                    ></q-icon>
                 </div>
             </div>
             <div class="row-div q-mt-xl empty" v-if="messages.length == 0">
                 <div class="empty-wrapper flex flex-center column-div">
-                    <img class="empty-image" :src="getImgUrl('theme-1.png')" alt="cat" />
+                    <img
+                        class="empty-image"
+                        :src="getImgUrl('theme-1.png')"
+                        alt="cat"
+                    />
                     <p class="empty-notice">
                         아직 롤링페이퍼를 쓴 사람이 없어~ <br />
                         너가 제일 먼저 작성해봐
@@ -24,63 +39,86 @@
             </div>
             <div class="row-div q-mt-md message-wapper">
                 <div class="message-list">
-                    <div v-for="(item, index) in messages" :key="index" class="message-post" @click="goDetail(item)">
-                        <div :class="`${item.fontStyle}`" v-show="uid ? uid == item.createUserUid : !item.toggle"
-                            v-html="item.message.replaceAll('\n', '<br>')">
-                        </div>
-                        <div v-show="uid ? uid !== item.createUserUid : item.toggle" class="flex justify-center">
-                            <div style="font-size: 40px;">🤫</div>
+                    <div
+                        v-for="(item, index) in messages"
+                        :key="index"
+                        class="message-post"
+                        @click="goDetail(item)"
+                    >
+                        <div
+                            :class="`${item.fontStyle}`"
+                            v-show="
+                                uid ? uid == item.createUserUid : !item.toggle
+                            "
+                            v-html="item.message.replaceAll('\n', '<br>')"
+                        ></div>
+                        <div
+                            v-show="
+                                uid ? uid !== item.createUserUid : item.toggle
+                            "
+                            class="flex justify-center"
+                        >
+                            <div style="font-size: 40px">🤫</div>
                             <div>당사자만 볼 수 있어</div>
                         </div>
                         <div class="message-writer">
-                            from {{ (uid ? uid !== item.createUserUid : item.toggle) ? "익명" : item.writerNickName }}
+                            from
+                            {{
+                                (uid ? uid !== item.createUserUid : item.toggle)
+                                    ? '익명'
+                                    : item.writerNickName
+                            }}
                         </div>
                     </div>
                 </div>
             </div>
             <BottomButtons />
-            <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
-                <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
-                <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
+            <van-action-sheet
+                :round="false"
+                v-model="bottomLayer"
+                class="share-action-sheet"
+            >
+                <q-btn
+                    outline
+                    color="primary"
+                    class="q-mb-md footer-button"
+                    label="SNS"
+                />
+                <q-btn
+                    outline
+                    color="black"
+                    class="q-mb-md footer-button"
+                    label="URL LINK"
+                />
             </van-action-sheet>
         </div>
-      </div>
-      <BottomButtons :groupUid="groupUid" />
-      <van-action-sheet :round="false" v-model="bottomLayer" class="share-action-sheet">
-        <q-btn outline color="primary" class="q-mb-md footer-button" label="SNS" />
-        <q-btn outline color="black" class="q-mb-md footer-button" label="URL LINK" />
-      </van-action-sheet>
-    </div>
-  </q-page>
+    </q-page>
 </template>
 
 <script>
-import ComputedMixin from "../ComputedMixin";
-import UtilMethodMixin from "../UtilMethodMixin";
+import ComputedMixin from '../ComputedMixin';
+import UtilMethodMixin from '../UtilMethodMixin';
 
-import { T } from "../store/module-example/types"
-import { getDatabase, ref, set, child, get } from "firebase/database";
-import BottomButtons from "src/components/BottomButtons.vue";
+import { T } from '../store/module-example/types';
+import { getDatabase, ref, set, child, get } from 'firebase/database';
+import BottomButtons from 'src/components/BottomButtons.vue';
 export default {
     components: { BottomButtons },
     mixins: [ComputedMixin, UtilMethodMixin],
     data() {
         return {
-            groupUid: "",
-            groupName: "",
-            groupCode: "",
+            groupUid: '',
+            groupName: '',
+            groupCode: '',
             messages: [],
             bottomLayer: false,
-            actions: [
-                { name: "생성하기" },
-                { name: "참여하기" },
-            ],
+            actions: [{ name: '생성하기' }, { name: '참여하기' }],
         };
     },
     mounted() {
         // this.showLoading();
-        const groupCode = this.$route.query["groupCode"];
-        const groupUid = this.$route.query["groupUid"];
+        const groupCode = this.$route.query['groupCode'];
+        const groupUid = this.$route.query['groupUid'];
         if (!groupCode) {
             this.$router.push(`/join-group?groupUid=${groupUid}`);
             return false;
@@ -92,56 +130,56 @@ export default {
             const _this = this;
             let url = location.href;
             const shareData = {
-                title: "Share",
+                title: 'Share',
                 url,
             };
             if (navigator.canShare && navigator.canShare(shareData)) {
                 _this.shareModalVisiable = false;
                 await navigator.share(shareData);
-            }
-            else {
+            } else {
                 _this.shareModalVisiable = true;
             }
         },
         onSelectBottomLayer(value) {
             console.log(value.name);
-            if (value.name == "생성하기") {
-                this.$router.push("/create-group");
+            if (value.name == '생성하기') {
+                this.$router.push('/create-group');
             }
         },
         getGroupInfo() {
-            this.groupUid = this.$route.query["groupUid"];
+            this.groupUid = this.$route.query['groupUid'];
             const dbRef = ref(getDatabase());
-            get(child(dbRef, `groups/${this.groupUid}`)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    console.log(snapshot.val());
-                    const data = snapshot.val();
-                    this.groupName = data.groupName;
-                    this.groupCode = data.code;
-                    this.messages = data.messages ? data.messages : [];
-                    // console.log("그룹코드가 존재합니다")
-                }
-                else {
-                    // console.log("그룹코드가 없습니다!")
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+            get(child(dbRef, `groups/${this.groupUid}`))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        console.log(snapshot.val());
+                        const data = snapshot.val();
+                        this.groupName = data.groupName;
+                        this.groupCode = data.code;
+                        this.messages = data.messages ? data.messages : [];
+                        // console.log("그룹코드가 존재합니다")
+                    } else {
+                        // console.log("그룹코드가 없습니다!")
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
         goDetail(message) {
             const groupUid = this.$route.query.groupUid;
             const groupCode = this.$route.query.groupCode;
             this.$router.push({
-                name: "detailPage",
+                name: 'detailPage',
                 query: {
                     groupUid,
                     groupCode,
                 },
                 params: {
                     message,
-                }
+                },
             });
-        }
+        },
     },
 };
 </script>
@@ -167,7 +205,6 @@ export default {
         }
     }
 
-
     .container {
         width: 100%;
         height: 100%;
@@ -176,7 +213,6 @@ export default {
         flex-direction: column;
         flex: none;
     }
-
 
     .header {
         padding: 0 0 20px 0;
@@ -277,11 +313,11 @@ export default {
         }
 
         &:nth-child(4n-2) {
-            background-color: #FF7D5A;
+            background-color: #ff7d5a;
         }
 
         &:nth-child(4n-1) {
-            background-color: #6532E9;
+            background-color: #6532e9;
         }
 
         &:nth-child(4n) {
@@ -302,7 +338,7 @@ export default {
         align-items: center;
         gap: 17px;
 
-        >button {
+        > button {
             flex: 1;
             height: 44px;
             border-radius: 8px;
@@ -338,9 +374,6 @@ export default {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 9px;
-
     }
-
-
 }
 </style>
