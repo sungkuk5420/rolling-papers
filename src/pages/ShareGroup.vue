@@ -10,8 +10,19 @@
             </div>
         </div>
         <div class="container">
-            <div class="share-group__title">자 이제 롤링페이퍼를</div>
-            <div class="share-group__title">작성해줄 사람들을 초대해보자!</div>
+            <!-- {{ groupStatus }} -->
+            <div class="share-group__title" v-if="groupStatus != 'done'">
+                자 이제 롤링페이퍼를
+            </div>
+            <div class="share-group__title" v-if="groupStatus != 'done'">
+                작성해줄 사람들을 초대해보자!
+            </div>
+            <div class="share-group__title" v-if="groupStatus == 'done'">
+                자 이제 롤링페이퍼를
+            </div>
+            <div class="share-group__title" v-if="groupStatus == 'done'">
+                주인공에게 전달해보자!
+            </div>
             <div class="share-group__sub-title">
                 지금 옆에 있는 사람에게 공유
             </div>
@@ -24,7 +35,6 @@
 
             <div class="share-group__buttons">
                 <q-btn
-                    style="background: #fae54d; color: #000; width: 100%;height 44px; font-weight: bold;"
                     class="share-group__button-left"
                     @click="shareByQrcode = true"
                 >
@@ -129,6 +139,7 @@ export default {
             groupUid: '',
             groupName: '',
             groupCode: '',
+            groupStatus: '',
             shareByQrcode: false,
             link: '',
         };
@@ -191,6 +202,7 @@ export default {
                         const data = snapshot.val();
                         this.groupName = data.groupName;
                         this.groupCode = data.code;
+                        this.groupStatus = data.status;
                         this.link =
                             'https://rolling-papers.netlify.app' +
                             '/join-group?' +
@@ -236,6 +248,13 @@ export default {
         font-weight: 700;
         line-height: 18px;
         color: #999;
+    }
+    &__button-left {
+        background: #fae54d;
+        color: #000;
+        width: 100%;
+        height: 44px;
+        font-weight: bold;
     }
 
     .share-button {

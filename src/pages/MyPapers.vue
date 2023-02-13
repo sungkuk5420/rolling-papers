@@ -60,7 +60,7 @@
                     label="주인공에게 공유"
                     @click="
                         () => {
-                            shareMainPerson(currentGroup);
+                            openShareMainPersonModal(currentGroup);
                         }
                     "
                 ></q-btn>
@@ -123,6 +123,7 @@
                     <q-btn
                         class="group-card__button-right"
                         label="주인공에게 공유"
+                        @click="shareToMainPerson"
                     ></q-btn>
                 </div>
             </div>
@@ -134,7 +135,7 @@
 import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
 import { T } from '../store/module-example/types';
-import { getDatabase, ref, set, child, get } from 'firebase/database';
+import { getDatabase, ref, set, child, get, update } from 'firebase/database';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
     data() {
@@ -179,10 +180,28 @@ export default {
             let groupUid = currentGroup.groupUid;
             this.$router.push(`/share-group?groupUid=${groupUid}`);
         },
-        shareMainPerson(currentGroup) {
+        openShareMainPersonModal(currentGroup) {
             console.log(currentGroup);
             this.selectGroup = currentGroup;
             this.shareLayer = true;
+        },
+
+        shareToMainPerson() {
+            const data = { ...this.selectGroup };
+            let groupUid = this.selectGroup.groupUid;
+            if (data.status == 'created') {
+                delete data.groupUid;
+                const updates = {};
+                const db = getDatabase();
+
+                const dbRef = ref(db);
+                updates['/groups/' + groupUid] = {
+                    ...data,
+                    status: 'done',
+                };
+                update(dbRef, updates);
+            }
+            this.$router.push(`/share-group?groupUid=${groupUid}`);
         },
     },
 };
