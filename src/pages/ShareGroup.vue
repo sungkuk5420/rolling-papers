@@ -45,7 +45,19 @@
                 롤링페이러 링크를 보내 작성할 수 있게 하자.
             </div>
             <div class="share-group__buttons">
-                <q-btn class="share-button line">
+                <div
+                    class="line-it-button"
+                    data-lang="ja"
+                    data-type="share-a"
+                    data-env="REAL"
+                    data-url="https://rolling-papers.netlify.app/join-group?groupUid=f4f522d8"
+                    data-color="default"
+                    data-size="large"
+                    data-count="true"
+                    data-ver="3"
+                    style="display: none"
+                ></div>
+                <q-btn class="share-button line" @click="shareLine">
                     <img src="~assets/line-icon.png" alt="" srcset="" />라인으로
                     공유하기</q-btn
                 >
@@ -146,6 +158,11 @@ export default {
         },
     },
     methods: {
+        shareLine() {
+            var link =
+                'https://social-plugins.line.me/lineit/share?url=' + this.link;
+            window.open(link, 'LINE');
+        },
         clickShareMobile() {
             this.shareMobile();
         },
