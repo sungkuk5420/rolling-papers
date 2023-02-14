@@ -55,7 +55,7 @@ export default {
         // this.$i18n.locale = '';
         // this.showLoading();
 
-        this.$store.dispatch(T.CHANGE_HEADER_TITLE, '롤링 페이퍼');
+        this.$store.dispatch(T.CHANGE_HEADER_TITLE, this.$t('롤링 페이퍼'));
     },
     methods: {
         login() {
