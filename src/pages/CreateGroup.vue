@@ -106,7 +106,7 @@
                                 {{ groupName }}
                             </div>
                             <div class="login-guide-layer__title">
-                                롤링 페이퍼를 시작해보자!
+                                {{ $t('롤링 페이퍼를 시작해보자!') }}
                             </div>
                             <div
                                 class="login-guide-layer__image"
@@ -124,13 +124,13 @@
                                 <q-btn
                                     style="background: #f5f5f5; color: #999999"
                                     class="login-guide-layer__cancel"
-                                    label="취소"
+                                    :label="$t('취소')"
                                     @click="createLayer = false"
                                 />
                                 <q-btn
                                     style="background: #fae54d"
                                     class="login-guide-layer__confirm"
-                                    label="만들기"
+                                    :label="$t('만들기')"
                                     @click="createGroupConfirm"
                                 />
                             </div>
