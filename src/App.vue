@@ -4,47 +4,54 @@
     </div>
 </template>
 <script>
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { T } from "./store/module-example/types"
-import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { T } from './store/module-example/types';
+import { getDatabase, ref, set, get, child } from 'firebase/database';
 export default {
-    name: "App",
+    name: 'App',
     mounted() {
-
         const thisObj = this;
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
-            console.log("change!")
+            console.log('change!');
             if (user) {
-                console.log("login완료!")
-                console.log(user)
+                console.log('login완료!');
+                this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, false);
+
+                console.log(user);
                 const uid = user.uid;
 
-                console.log(`uid is ${uid}`)
+                console.log(`uid is ${uid}`);
                 if (!this.uid) {
-                    const isGoogleLogin = (user?.providerData[0]?.providerId === "google.com") ? true : false
-                    const isLineLogin = (!user.providerData[0] && user.providerId === "firebase") ? true : false
-                    let loginType = "email"
+                    const isGoogleLogin =
+                        user?.providerData[0]?.providerId === 'google.com'
+                            ? true
+                            : false;
+                    const isLineLogin =
+                        !user.providerData[0] && user.providerId === 'firebase'
+                            ? true
+                            : false;
+                    let loginType = 'email';
                     if (isGoogleLogin) {
-                        loginType = "google"
+                        loginType = 'google';
                     }
                     if (isLineLogin) {
-                        loginType = "line"
+                        loginType = 'line';
                     }
                     thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                         email: user.email,
                         uid: user.uid,
-                        loginType
-                    })
+                        loginType,
+                    });
                 }
                 const db = getDatabase();
-                const groupUid = localStorage.getItem("groupUid")
-                const groupName = localStorage.getItem("groupName")
-                const groupCode = localStorage.getItem("groupCode")
+                const groupUid = localStorage.getItem('groupUid');
+                const groupName = localStorage.getItem('groupName');
+                const groupCode = localStorage.getItem('groupCode');
                 if (groupUid) {
-                    localStorage.removeItem("groupUid")
-                    localStorage.removeItem("groupName")
-                    localStorage.removeItem("groupCode")
+                    localStorage.removeItem('groupUid');
+                    localStorage.removeItem('groupName');
+                    localStorage.removeItem('groupCode');
                     set(ref(db, 'groups/' + groupUid), {
                         groupName: groupName,
                         code: groupCode,
@@ -52,29 +59,35 @@ export default {
                         createUserEmail: user.email,
                     });
                     setTimeout(() => {
-
                         thisObj.$q.notify({
-                            position: "top",
+                            position: 'top',
                             timeout: 500,
-                            message: "그룹생성완료",
-                            icon: "announcement"
+                            message: '그룹생성완료',
+                            icon: 'announcement',
                         });
                     }, 0);
-                    this.$router.push(`/group-info?groupUid=${groupUid}&groupCode=${groupCode}`)
+                    this.$router.push(
+                        `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
+                    );
                 }
 
-                if (this.$route.path == "/line-login") {
+                if (this.$route.path == '/line-login') {
                     this.$q.loading.hide();
-                    this.$router.push(`/`)
+                    this.$router.push(`/`);
                 }
             } else {
                 thisObj.$q.notify({
-                    position: "top",
+                    position: 'top',
                     timeout: 500,
-                    message: "로그아웃",
-                    icon: "announcement"
+                    message: '로그아웃',
+                    icon: 'announcement',
                 });
-                thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, { nickname: null, email: null, uid: null })
+
+                thisObj.$store.dispatch(T.SET_LOGIN_USER_INFO, {
+                    nickname: null,
+                    email: null,
+                    uid: null,
+                });
             }
         });
     },
@@ -82,6 +95,10 @@ export default {
 </script>
 
 <style lang="scss">
+.q-drawer.fixed {
+    position: absolute !important;
+}
+
 .share-action-sheet,
 .login-guide-layer,
 .van-number-keyboard {
@@ -102,14 +119,36 @@ html {
     right: 0;
     top: auto;
     bottom: 0;
-
 }
 
+body {
+    align-items: flex-end;
+    display: flex;
+}
 html,
 body,
 #q-app,
 .q-layout,
-.q-footer,
+.q-footer {
+    width: 100%;
+    max-width: 390px;
+    height: 100%;
+    max-height: 844px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    left: 0 !important;
+    top: inherit !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+#q-app {
+    border: 1px solid #ddd;
+}
+
 .q-header {
     width: 100%;
     max-width: 390px;
@@ -118,6 +157,9 @@ body,
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
+    left: 0 !important;
+    top: inherit !important;
+    right: 0 !important;
     align-items: flex-end;
     justify-content: flex-start;
     border: 1px solid #ddd;
@@ -157,8 +199,68 @@ body,
     font-weight: bold;
     font-size: 20px;
 
-
-
     cursor: pointer;
+}
+
+.login-guide-layer {
+    & > * {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    &__image {
+        margin: 20px 0;
+    }
+
+    &__login-button {
+        border-radius: 8px;
+        height: 44px;
+        margin-bottom: 12px;
+
+        img {
+            margin-right: 8px;
+        }
+
+        .q-btn__wrapper:before {
+            box-shadow: none !important;
+        }
+
+        &.line {
+            background: rgb(6, 199, 85);
+            color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        padding-bottom: 20px;
+
+        .q-btn {
+            width: 50%;
+            display: flex;
+
+            .q-btn__wrapper:before {
+                box-shadow: none;
+            }
+        }
+    }
 }
 </style>

@@ -1,18 +1,7 @@
 <template>
     <q-page class="flex flex-center main-page">
         <div class="container">
-            <div class="header">
-                <div class="header__left" @click="$router.go(-1)">
-                    <img src="~assets/back.png" alt srcset />
-                </div>
-                <div class="header__center">입장코드 입력</div>
-                <div class="header__right"></div>
-            </div>
-            <div class="title-row">
-                <div class="main-image">
-                    <img src="~assets/main-image.svg" alt srcset />
-                </div>
-            </div>
+            <div class="main-image"></div>
             <div class="content">
                 <div class="content__main">ローリングペーパーを</div>
                 <div class="content__main">作りましょう。</div>
@@ -29,16 +18,17 @@
                 </div>
                 <div class="login-join-buttons">
                     <span v-show="!uid">すでに会員であれば</span>
-                    <div @click="$router.push('/login')" v-show="!uid">
-                        ログイン
-                    </div>
-                    <div @click="logout" v-show="uid">로그아웃</div>
+                    <div @click="login" v-show="!uid">ログイン</div>
                     <!-- 
           <div @click="logout" v-show="uid">로그아웃</div>
           <div @click="$router.push('/join')" v-show="!uid">회원가입</div>-->
                 </div>
             </div>
         </div>
+        <LoginActionSheet
+            :selectTheme="selectTheme"
+            :themeGroupList="themeGroupList"
+        ></LoginActionSheet>
     </q-page>
 </template>
 
@@ -47,17 +37,43 @@ import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
 import { T } from '../store/module-example/types';
 import { getAuth, signOut } from 'firebase/auth';
+import LoginActionSheet from '../components/LoginActionSheet.vue';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
+    components: {
+        LoginActionSheet,
+    },
     data() {
         return {
             localNickname: '',
+            selectTheme: 1,
+            themeGroupList: [
+                {
+                    name: '이직 성공 축하!',
+                    img: 'theme-1.png',
+                },
+                {
+                    name: '고마워요',
+                    img: 'theme-2.png',
+                },
+                {
+                    name: '힘내요',
+                    img: 'theme-3.png',
+                },
+                {
+                    name: '축하해요',
+                    img: 'theme-4.png',
+                },
+            ],
         };
     },
     mounted() {
         // this.showLoading();
     },
     methods: {
+        login() {
+            this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, true);
+        },
         saveNickName() {
             this.$store.dispatch(T.SET_LOGIN_USER_INFO, {
                 nickname: this.localNickname,
@@ -83,7 +99,6 @@ export default {
 <style lang="scss">
 .main-page {
     display: flex;
-    flex-direction: column;
     flex: 1;
     height: 100%;
     align-items: flex-start;
@@ -96,17 +111,13 @@ export default {
         display: flex;
         flex-direction: column;
     }
-
-    .title-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .main-image {
-            top: 0;
-            position: relative;
-            height: 100%;
-        }
+    .main-image {
+        top: 0;
+        position: relative;
+        background-image: url('../assets/main-image.svg');
+        height: 100%;
+        background-size: cover;
+        background-position: center top;
     }
 
     .button-list {
