@@ -1,5 +1,6 @@
 <template>
     <q-page class="flex flex-center my-papers-page">
+        <div v-show="loadingStatus == 'empty'">내 롤링페이퍼가 없습니다.</div>
         <div
             class="group-card"
             v-for="(currentGroup, index) in myGroups"
@@ -136,6 +137,7 @@ import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
 import { T } from '../store/module-example/types';
 import { getDatabase, ref, set, child, get, update } from 'firebase/database';
+import { Toast } from 'vant';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
     data() {
@@ -143,10 +145,17 @@ export default {
             selectGroup: null,
             myGroups: [],
             shareLayer: false,
+            loadingStatus: 'loading',
         };
     },
     mounted() {
         this.$store.dispatch(T.CHANGE_HEADER_TITLE, '내 롤링 페이퍼');
+        Toast.loading({
+            message: 'Loading...',
+            forbidClick: true,
+            loadingType: 'spinner',
+            duration: 10000,
+        });
         const dbRef = ref(getDatabase());
         get(child(dbRef, `groups/`))
             .then((snapshot) => {
@@ -165,6 +174,10 @@ export default {
                         .sort((a, b) => {
                             return b.createdAt - a.createdAt;
                         });
+                    Toast.clear();
+                    if (this.myGroups.length == 0) {
+                        this.loadingStatus = 'empty';
+                    }
                     // console.log("그룹코드가 존재합니다")
                 } else {
                     // console.log("그룹코드가 없습니다!")
