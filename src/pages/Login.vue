@@ -1,7 +1,7 @@
 <template>
     <q-page class="flex flex-center login-page">
         <div class="container">
-            <div class="header q-mb-md">
+            <div class="header">
                 <q-icon
                     name="arrow_back_ios"
                     style="font-size: 24px; cursor: pointer"

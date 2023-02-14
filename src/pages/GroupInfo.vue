@@ -195,37 +195,6 @@ export default {
         flex: none;
     }
 
-    .header {
-        padding: 0 0 20px 0;
-        display: flex;
-        justify-content: space-between;
-
-        &__left {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        &__center {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .group-name {
-                margin-left: 5px;
-                font-size: 20px;
-                font-weight: bold;
-            }
-        }
-
-        &__right {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-
     .code {
         font-size: 22px;
         opacity: 0.3;
