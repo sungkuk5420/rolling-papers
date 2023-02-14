@@ -47,28 +47,12 @@ export default {
         return {
             localNickname: '',
             selectTheme: 1,
-            themeGroupList: [
-                {
-                    name: '이직 성공 축하!',
-                    img: 'theme-1.png',
-                },
-                {
-                    name: '고마워요',
-                    img: 'theme-2.png',
-                },
-                {
-                    name: '힘내요',
-                    img: 'theme-3.png',
-                },
-                {
-                    name: '축하해요',
-                    img: 'theme-4.png',
-                },
-            ],
         };
     },
     mounted() {
         // this.showLoading();
+
+        this.$store.dispatch(T.CHANGE_HEADER_TITLE, '롤링 페이퍼');
     },
     methods: {
         login() {
@@ -138,7 +122,7 @@ export default {
     }
 
     .join-group {
-        width: 335px;
+        width: 100%;
         height: 44px;
         background: #000000;
         border-radius: 8px;

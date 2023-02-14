@@ -5,6 +5,7 @@ let ComputedMixin = {
             email: "getEmail",
             nickname: "getNickname",
             uid: "getUid",
+            themeGroupList: "getThemeGroupList",
         }),
     },
     watch: {

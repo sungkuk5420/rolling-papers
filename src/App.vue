@@ -48,15 +48,20 @@ export default {
                 const groupUid = localStorage.getItem('groupUid');
                 const groupName = localStorage.getItem('groupName');
                 const groupCode = localStorage.getItem('groupCode');
+                const selectTheme = localStorage.getItem('selectTheme');
                 if (groupUid) {
                     localStorage.removeItem('groupUid');
                     localStorage.removeItem('groupName');
                     localStorage.removeItem('groupCode');
+                    localStorage.removeItem('selectTheme');
                     set(ref(db, 'groups/' + groupUid), {
                         groupName: groupName,
+                        selectTheme: selectTheme,
                         code: groupCode,
                         createUserUid: user.uid,
                         createUserEmail: user.email,
+                        createdAt: this.createNowTime(),
+                        status: 'created',
                     });
                     setTimeout(() => {
                         thisObj.$q.notify({
@@ -90,6 +95,13 @@ export default {
                 });
             }
         });
+    },
+    methods: {
+        createNowTime() {
+            var today = new Date();
+            today.setHours(today.getHours() + 9);
+            return today.toISOString().replace('T', ' ').substring(0, 19);
+        },
     },
 };
 </script>

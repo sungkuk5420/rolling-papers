@@ -53,6 +53,7 @@
                                 :class="
                                     selectTheme == index + 1 ? 'is-active' : ''
                                 "
+                                :style="`background:${themeGroupList[index].background};`"
                                 v-for="(item, index) in themeGroupList"
                                 :key="index"
                                 @click="
@@ -153,25 +154,6 @@ export default {
             selectTheme: 0,
             createLayer: false,
             actions: [{ name: '생성하기' }, { name: '참여하기' }],
-
-            themeGroupList: [
-                {
-                    name: '이직 성공 축하!',
-                    img: 'theme-1.png',
-                },
-                {
-                    name: '고마워요',
-                    img: 'theme-2.png',
-                },
-                {
-                    name: '힘내요',
-                    img: 'theme-3.png',
-                },
-                {
-                    name: '축하해요',
-                    img: 'theme-4.png',
-                },
-            ],
         };
     },
     watch: {
@@ -211,6 +193,7 @@ export default {
                 localStorage.setItem('groupUid', this.groupUid);
                 localStorage.setItem('groupName', this.groupName);
                 localStorage.setItem('groupCode', this.groupCode);
+                localStorage.setItem('selectTheme', this.selectTheme);
                 this.$store.dispatch(T.SET_LOGIN_GUIDE_LAYER, true);
                 // this.$router.push("/login")
             }
@@ -218,10 +201,13 @@ export default {
         createGroupConfirm() {
             const db = getDatabase();
             set(ref(db, 'groups/' + this.groupUid), {
+                selectTheme: this.selectTheme,
                 groupName: this.groupName,
                 code: this.groupCode,
                 createUserUid: this.uid,
                 createUserEmail: this.email,
+                createdAt: this.createNowTime(),
+                status: 'created',
             });
             set(ref(db, 'groupCodes/' + this.groupCode), {
                 groupUid: this.groupUid,
@@ -470,21 +456,21 @@ export default {
                         border: 2px solid #000;
                     }
 
-                    &:nth-child(1) {
-                        background: #fae54d;
-                    }
+                    // &:nth-child(1) {
+                    //     background: #fae54d;
+                    // }
 
-                    &:nth-child(2) {
-                        background: #4b69fe;
-                    }
+                    // &:nth-child(2) {
+                    //     background: #4b69fe;
+                    // }
 
-                    &:nth-child(3) {
-                        background: #ff7d5a;
-                    }
+                    // &:nth-child(3) {
+                    //     background: #ff7d5a;
+                    // }
 
-                    &:nth-child(4) {
-                        background: #6532e9;
-                    }
+                    // &:nth-child(4) {
+                    //     background: #6532e9;
+                    // }
 
                     &__gorup-name {
                         font-weight: 700;

@@ -3,7 +3,7 @@
         <div class="header__left" @click="leftDrawerOpen">
             <img src="~assets/menu.png" alt srcset />
         </div>
-        <div class="header__center">{{ centerText }}</div>
+        <div class="header__center">{{ headerTitle }}</div>
         <div class="header__right">
             <img src="~assets/gift.png" alt srcset />
         </div>
@@ -14,6 +14,17 @@
 export default {
     props: ['centerText', 'leftDrawerOpen'],
     methods: {},
+
+    computed: {
+        headerTitle: {
+            get() {
+                return this.$store.getters.getHeaderTitle;
+            },
+            set(value) {
+                return this.$store.dispatch(T.CHANGE_HEADER_TITLE, value);
+            },
+        },
+    },
 };
 </script>
 

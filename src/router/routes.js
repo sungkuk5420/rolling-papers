@@ -28,13 +28,18 @@ const routes = [
   },
   {
     path: "/group-info",
-    component: () => import("layouts/PlainLayout.vue"),
+    component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/GroupInfo.vue") }]
   },
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/MainPage.vue") }]
+  },
+  {
+    path: "/my-papers",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("src/pages/MyPapers.vue") }]
   },
   {
     path: "/login",
