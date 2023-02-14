@@ -12,6 +12,7 @@
         </div>
         <div class="container">
             <div class="group-info">
+                {{ groupName }}
                 <div class="group-info__title" v-show="joinFlag">
                     {{ groupName }}
                 </div>
@@ -46,7 +47,10 @@
                     인증코드를 모르면 담당자에게 물어봐
                 </div>
             </div>
-            <div class="code-group" v-show="!joinFlag">
+            <div
+                v-show="!joinFlag"
+                :class="timer ? 'code-group timer-on' : 'code-group'"
+            >
                 <svg
                     :class="
                         groupCode && groupCode.length >= 1 && groupCode[0]
@@ -266,6 +270,8 @@ export default {
             groupName: '',
             groupUid: '',
             joinFlag: false,
+            timer: 0,
+            failCount: 0,
         };
     },
     beforeMount() {
@@ -321,26 +327,42 @@ export default {
                                 });
                         } else {
                             // this.groupName = "code-error"
-                            Notify({
-                                message:
-                                    '인증코드를 확인하신 후 다시 입력해주세요.',
-                                color: '#fff',
-                                background: '#EF5350',
-                            });
+                            if (this.failCount < 4) {
+                                Notify({
+                                    message:
+                                        '인증코드를 확인하신 후 다시 입력해주세요.',
+                                    color: '#fff',
+                                    background: '#EF5350',
+                                });
+                                this.failCount = this.failCount + 1;
+                                this.groupCode = '';
+                            } else {
+                                this.timer = 30000;
+                                Notify({
+                                    message:
+                                        '입장 코드를 다시 확인해주세요.(30초 후 입력 가능)',
+                                    color: '#fff',
+                                    background: '#EF5350',
+                                    duration: 30000,
+                                });
+                                setTimeout(() => {
+                                    this.timer = 0;
+                                    this.groupCode = '';
+                                    this.failCount = 0;
+                                }, this.timer);
+                            }
                             // console.log("그룹코드가 없습니다!")
                         }
                     })
                     .catch((error) => {
                         console.error(error);
                     });
-            } else {
-                this.groupName = '';
             }
         },
     },
     methods: {
         clickKeyPad(number) {
-            if (number == 'back') {
+            if (number == 'back' && this.timer == 0) {
                 this.groupCode = this.groupCode
                     .toString()
                     .slice(0, this.groupCode.toString().length - 1);
@@ -523,6 +545,15 @@ export default {
             &.is-active {
                 path {
                     fill: #fae54d;
+                }
+            }
+        }
+        &.timer-on {
+            .group-code {
+                &.is-active {
+                    path {
+                        fill: #ef5350;
+                    }
                 }
             }
         }
