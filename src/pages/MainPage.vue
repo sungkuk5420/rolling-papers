@@ -51,8 +51,6 @@ export default {
         };
     },
     mounted() {
-        this.$i18n.locale = 'ja';
-        // this.$i18n.locale = '';
         // this.showLoading();
 
         this.$store.dispatch(T.CHANGE_HEADER_TITLE, this.$t('롤링 페이퍼'));

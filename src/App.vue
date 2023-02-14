@@ -10,6 +10,31 @@ import { getDatabase, ref, set, get, child } from 'firebase/database';
 export default {
     name: 'App',
     mounted() {
+        this.$i18n.locale = 'ja';
+        // this.$i18n.locale = '';
+
+        this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
+            {
+                name: this.$t('이직 성공 축하!'),
+                img: 'theme-1.png',
+                background: '#fae54d',
+            },
+            {
+                name: this.$t('고마워요'),
+                img: 'theme-2.png',
+                background: '#4b69fe',
+            },
+            {
+                name: this.$t('힘내요'),
+                img: 'theme-3.png',
+                background: '#ff7d5a',
+            },
+            {
+                name: this.$t('축하해요'),
+                img: 'theme-4.png',
+                background: '#6532e9',
+            },
+        ]);
         const thisObj = this;
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
