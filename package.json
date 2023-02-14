@@ -20,7 +20,7 @@
 		"firebase": "^9.15.0",
 		"quasar": "^1.0.0",
 		"vant": "^2.12.53",
-		"vue-i18n": "^8.0.0",
+		"vue-i18n": "^8.28.2",
 		"vuexfire": "^3.2.5"
 	},
 	"devDependencies": {
