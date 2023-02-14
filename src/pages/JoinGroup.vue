@@ -12,7 +12,6 @@
         </div>
         <div class="container">
             <div class="group-info">
-                {{ groupName }}
                 <div class="group-info__title" v-show="joinFlag">
                     {{ groupName }}
                 </div>
