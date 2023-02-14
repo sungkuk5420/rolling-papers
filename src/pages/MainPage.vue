@@ -3,25 +3,26 @@
         <div class="container">
             <div class="main-image"></div>
             <div class="content">
-                <div class="content__main">ローリングペーパーを</div>
-                <div class="content__main">作りましょう。</div>
+                <div class="content__main">
+                    {{ $t('롤링페이퍼를') }}
+                </div>
+                <div class="content__main">{{ $t('작성해보자!') }}</div>
                 <div class="content__sub">
-                    友達、同僚、気になる人に匿名で伝えられる率直な想い
+                    {{ $t('친구,이성,동료가 생각하는 익명의 솔직한 이야기') }}
                 </div>
             </div>
             <div class="button-list">
                 <div class="add-group" @click="createGroup">
-                    ローリングペーパー作成
+                    {{ $t('롤링페이퍼 만들기') }}
                 </div>
                 <div class="join-group" @click="$router.push('join-group')">
-                    参加する
+                    {{ $t('참여하기') }}
                 </div>
                 <div class="login-join-buttons">
-                    <span v-show="!uid">すでに会員であれば</span>
-                    <div @click="login" v-show="!uid">ログイン</div>
-                    <!-- 
-          <div @click="logout" v-show="uid">로그아웃</div>
-          <div @click="$router.push('/join')" v-show="!uid">회원가입</div>-->
+                    <span v-show="!uid">{{
+                        $t('이미 계정이 있으신가요?')
+                    }}</span>
+                    <div @click="login" v-show="!uid">{{ $t('로그인') }}</div>
                 </div>
             </div>
         </div>
@@ -50,6 +51,8 @@ export default {
         };
     },
     mounted() {
+        this.$i18n.locale = 'ja';
+        // this.$i18n.locale = '';
         // this.showLoading();
 
         this.$store.dispatch(T.CHANGE_HEADER_TITLE, '롤링 페이퍼');
@@ -162,6 +165,7 @@ export default {
         &__sub {
             margin-top: 12px;
             line-height: 20px;
+            margin-bottom: 30px;
         }
     }
 
