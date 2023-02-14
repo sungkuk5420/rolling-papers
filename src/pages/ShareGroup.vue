@@ -180,7 +180,9 @@ export default {
                 return false;
             }
             const shareData = {
-                title: `롤링페이퍼를 작성해줘! ${this.groupName} [입장코드] ${this.groupCode}`,
+                title: `${this.$t('롤링페이퍼를 작성해줘!')} ${
+                    this.groupName
+                } ${this.$t('[입장코드]')} ${this.groupCode}`,
                 url,
             };
             if (navigator.canShare && navigator.canShare(shareData)) {
