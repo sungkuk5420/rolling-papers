@@ -31,7 +31,8 @@
                             (currentGroup.message &&
                                 currentGroup.message.length) ||
                             0
-                        }}명 참여중
+                        }}
+                        {{ $t('명 참여중') }}
                     </div>
                     <div class="group-card__content__created-at">
                         {{ convertedDateFormat(currentGroup.createdAt) }}
@@ -43,12 +44,12 @@
                     v-show="currentGroup.status == 'done'"
                     class="group-card__button-left"
                     disabled
-                    label="공유완료"
+                    :label="$t('공유완료')"
                 ></q-btn>
                 <q-btn
                     v-show="currentGroup.status == 'created'"
                     class="group-card__button-left"
-                    label="작성자에게 공유"
+                    :label="$t('작성자에게 공유')"
                     @click="
                         () => {
                             shareOtherPeople(currentGroup);
@@ -57,7 +58,7 @@
                 ></q-btn>
                 <q-btn
                     class="group-card__button-right"
-                    label="주인공에게 공유"
+                    :label="$t('주인공에게 공유')"
                     @click="
                         () => {
                             openShareMainPersonModal(currentGroup);
@@ -71,12 +72,14 @@
             v-model="shareLayer"
             class="share-layer-on-my-papers"
         >
-            <div class="share-layer-on-my-papers__title">롤링페이퍼를</div>
             <div class="share-layer-on-my-papers__title">
-                주인공에게 공유할거야?
+                {{ $t('롤링페이퍼를') }}
+            </div>
+            <div class="share-layer-on-my-papers__title">
+                {{ $t('주인공에게 공유할거야?') }}
             </div>
             <div class="share-layer-on-my-papers__sub-title">
-                공유하면 롤링페이퍼는 이제 못 쓰게 될거야.
+                {{ $t('공유하면 롤링페이퍼는 이제 못 쓰게 될거야.') }}
             </div>
             <div class="group-card" v-if="selectGroup">
                 <div class="group-card__image-content">
@@ -107,7 +110,7 @@
                                 (selectGroup.message &&
                                     selectGroup.message.length) ||
                                 0
-                            }}명 참여중
+                            }}{{ $t('명 참여중') }}
                         </div>
                         <div class="group-card__content__created-at">
                             {{ convertedDateFormat(selectGroup.createdAt) }}
@@ -118,11 +121,11 @@
                     <q-btn
                         class="group-card__button-left"
                         @click="shareLayer = false"
-                        label="취소"
+                        :label="$t('취소')"
                     ></q-btn>
                     <q-btn
                         class="group-card__button-right"
-                        label="주인공에게 공유"
+                        :label="$t('주인공에게 공유')"
                         @click="shareToMainPerson"
                     ></q-btn>
                 </div>
@@ -146,7 +149,7 @@ export default {
         };
     },
     mounted() {
-        this.$store.dispatch(T.CHANGE_HEADER_TITLE, '내 롤링 페이퍼');
+        this.$store.dispatch(T.CHANGE_HEADER_TITLE, this.$t('내 롤링 페이퍼'));
         const dbRef = ref(getDatabase());
         get(child(dbRef, `groups/`))
             .then((snapshot) => {
