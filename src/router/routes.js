@@ -37,6 +37,11 @@ const routes = [
     children: [{ path: "", component: () => import("src/pages/ShareGroup.vue") }]
   },
   {
+    path: "/buy-me-a-coffee",
+    component: () => import("layouts/PlainLayout.vue"),
+    children: [{ path: "", component: () => import("src/pages/BuyMeACoffee.vue") }]
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/MainPage.vue") }]
