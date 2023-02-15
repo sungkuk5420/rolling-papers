@@ -53,7 +53,11 @@
                 <q-item-label header class="left-drawer__sub-title">
                     🙋🏻‍♀️ {{ $t('만든 사람들') }}
                 </q-item-label>
-                <q-item-label header class="left-drawer__sub-title">
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/buy-me-a-coffee')"
+                >
                     💛 {{ $t('후원하기') }}
                 </q-item-label>
                 <q-item-label header class="left-drawer__sub-title">
