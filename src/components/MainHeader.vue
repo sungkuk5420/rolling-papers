@@ -37,24 +37,40 @@ export default {
 
             this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
                 {
-                    name: this.$t('이직 성공 축하!'),
+                    name: this.$t('축하해요'),
+                    content: this.$t('축하의 메세지를 전해보세요'),
                     img: 'theme-1.png',
-                    background: '#fae54d',
+                    background: '#F3F3F3',
                 },
                 {
                     name: this.$t('고마워요'),
+                    content: this.$t('감사의 메세지를 전해보세요'),
                     img: 'theme-2.png',
-                    background: '#4b69fe',
+                    background: '#F3F3F3',
                 },
                 {
                     name: this.$t('힘내요'),
+                    content: this.$t('응원의 메세지를 전해보세요'),
                     img: 'theme-3.png',
-                    background: '#ff7d5a',
+                    background: '#F3F3F3',
                 },
                 {
-                    name: this.$t('축하해요'),
+                    name: this.$t('기뻐요'),
+                    content: this.$t('기쁨의 메세지를 전해보세요'),
                     img: 'theme-4.png',
-                    background: '#6532e9',
+                    background: '#F3F3F3',
+                },
+                {
+                    name: this.$t('슬퍼요'),
+                    content: this.$t('슬픔의 메세지를 전해보세요'),
+                    img: 'theme-1.png',
+                    background: '#F3F3F3',
+                },
+                {
+                    name: this.$t('아쉬워요'),
+                    content: this.$t('아쉬움의 메세지를 전해보세요'),
+                    img: 'theme-2.png',
+                    background: '#F3F3F3',
                 },
             ]);
         },

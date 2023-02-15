@@ -2,6 +2,15 @@
     <q-page class="flex flex-center create-group-page">
         <div class="group-name">
             <div class="container">
+                <div class="header">
+                    <div class="header__left" @click="backPage">
+                        <img src="~assets/back.png" alt="" srcset="" />
+                    </div>
+                    <div class="header__center">
+                        {{ $t('롤링페이퍼 만들기') }}
+                    </div>
+                    <div class="header__right"></div>
+                </div>
                 <q-carousel
                     v-model="slide"
                     transition-prev="slide-right"
@@ -14,46 +23,19 @@
                         name="create1"
                         class="column no-wrap create1"
                     >
-                        <div class="row-div create1__title">
-                            {{ $t('롤링페이퍼를') }}
-                        </div>
-                        <div class="row-div create1__title">
-                            {{ $t('어떻게 불러드리면 될까요?') }}
-                        </div>
-                        <div class="row-div create1__sub-title">
+                        <div class="row-div create2__title">
                             {{
                                 $t(
-                                    '김성국의 퇴사 등 한번에 알 수 있도록 설정해주세요.'
+                                    '만들려는 롤링페이퍼에 어울리는 테마를 선택해주세요'
                                 )
                             }}
                         </div>
-                        <div class="row-div group-name-wrapper">
-                            <q-input
-                                ref="groupName"
-                                class="group-name-input"
-                                :rules="[(val) => val.length <= 20]"
-                                outlined
-                                v-model="groupName"
-                                :placeholder="$t('20글자 내로 입력해주세요.')"
-                            >
-                                <span class="input-length"
-                                    >{{ groupName.toString().length }}/20</span
-                                >
-                            </q-input>
-                        </div>
-                        <div class="add-group" @click="createStep2">
-                            {{ $t('다음으로') }}
-                        </div>
-                    </q-carousel-slide>
-                    <q-carousel-slide
-                        name="create2"
-                        class="column no-wrap create2"
-                    >
-                        <div class="row-div create1__title">
-                            {{ groupName }}{{ $t('와') }}
-                        </div>
-                        <div class="row-div create1__title">
-                            {{ $t('어울리는 테마를 선택해주세요') }}
+                        <div class="row-div create2__sub-title">
+                            {{
+                                $t(
+                                    '롤링페이퍼와 가장 잘 어울리는 감정을 선택하면 좋아요!'
+                                )
+                            }}
                         </div>
                         <div class="theme-list">
                             <div
@@ -72,8 +54,14 @@
                             >
                                 <div class="theme__wrapper">
                                     <!-- <img src="" alt="" srcset=""> -->
-                                    <div class="theme__title">
-                                        {{ item.name }}
+
+                                    <div class="theme__title-wrapper">
+                                        <div class="theme__title">
+                                            {{ item.name }}
+                                        </div>
+                                        <div class="theme__content">
+                                            {{ item.content }}
+                                        </div>
                                     </div>
                                     <div class="theme__image">
                                         <img
@@ -85,6 +73,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="add-group" @click="createStep2">
+                            {{ $t('다음으로') }}
+                        </div>
+                    </q-carousel-slide>
+                    <q-carousel-slide
+                        name="create2"
+                        class="column no-wrap create2"
+                    >
+                        <div class="row-div create2__title">
+                            {{
+                                selectTheme != 0
+                                    ? $t(themeGroupList[selectTheme - 1].name)
+                                    : ''
+                            }}{{ $t('의') }}
+                            {{ $t('롤링페이퍼를 어떻게 불러드리면 될까요?') }}
+                        </div>
+                        <div class="row-div create2__sub-title">
+                            {{
+                                $t(
+                                    '제목으로 롤링페이퍼의 주인공과 목적을 알려주세요'
+                                )
+                            }}
+                        </div>
+                        <div class="row-div group-name-wrapper">
+                            <q-input
+                                ref="groupName"
+                                class="group-name-input"
+                                :rules="[(val) => val.length <= 20]"
+                                outlined
+                                v-model="groupName"
+                                :placeholder="$t('20글자 내로 입력해주세요.')"
+                            >
+                                <span class="input-length"
+                                    >{{ groupName.toString().length }}/20</span
+                                >
+                            </q-input>
+                        </div>
                         <div
                             class="add-group"
                             @click="createGroup"
@@ -92,52 +117,65 @@
                         >
                             {{ $t('생성하기') }}
                         </div>
-                        <LoginActionSheet
-                            :selectTheme="selectTheme"
-                            :themeGroupList="themeGroupList"
-                            :isCreateGroup="true"
-                        ></LoginActionSheet>
-                        <van-action-sheet
-                            :round="false"
-                            v-model="createLayer"
-                            class="login-guide-layer"
-                        >
-                            <div class="login-guide-layer__title">
-                                {{ groupName }}
-                            </div>
-                            <div class="login-guide-layer__title">
-                                {{ $t('롤링 페이퍼를 시작해보자!') }}
-                            </div>
-                            <div
-                                class="login-guide-layer__image"
-                                v-show="selectTheme == index + 1"
-                                v-for="(item, index) in themeGroupList"
-                                :key="index"
-                            >
-                                <img
-                                    :src="getImgUrl(item.img)"
-                                    alt=""
-                                    srcset=""
-                                />
-                            </div>
-                            <div class="login-guide-layer__buttons">
-                                <q-btn
-                                    style="background: #f5f5f5; color: #999999"
-                                    class="login-guide-layer__cancel"
-                                    :label="$t('취소')"
-                                    @click="createLayer = false"
-                                />
-                                <q-btn
-                                    style="background: #fae54d"
-                                    class="login-guide-layer__confirm"
-                                    :label="$t('만들기')"
-                                    @click="createGroupConfirm"
-                                />
-                            </div>
-                        </van-action-sheet>
                     </q-carousel-slide>
                 </q-carousel>
             </div>
+
+            <LoginActionSheet
+                :selectTheme="selectTheme"
+                :themeGroupList="themeGroupList"
+                :isCreateGroup="true"
+            ></LoginActionSheet>
+            <van-action-sheet
+                :round="false"
+                v-model="createLayer"
+                class="login-guide-layer create-group"
+            >
+                <!-- <div class="login-guide-layer__title">
+                    {{ groupName }}
+                </div> -->
+                <div class="login-guide-layer__title">
+                    {{ $t('이제 롤링페이퍼 룸을 만들어볼까요?') }}
+                </div>
+                <div class="group-card">
+                    <div class="group-card__left">
+                        <div class="group-card__left__title">
+                            {{
+                                selectTheme != 0
+                                    ? $t(themeGroupList[selectTheme - 1].name)
+                                    : ''
+                            }}
+                        </div>
+                        <div class="group-card__left__sub-title">
+                            {{ groupName }}
+                        </div>
+                    </div>
+                    <div class="group-card__right">
+                        <div
+                            class="login-guide-layer__image"
+                            v-show="selectTheme == index + 1"
+                            v-for="(item, index) in themeGroupList"
+                            :key="index"
+                        >
+                            <img :src="getImgUrl(item.img)" alt="" srcset="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="login-guide-layer__buttons">
+                    <q-btn
+                        style="background: #f5f5f5; color: #999999"
+                        class="login-guide-layer__cancel"
+                        :label="$t('취소')"
+                        @click="createLayer = false"
+                    />
+                    <q-btn
+                        style="background: #fae54d"
+                        class="login-guide-layer__confirm"
+                        :label="$t('만들기')"
+                        @click="createGroupConfirm"
+                    />
+                </div>
+            </van-action-sheet>
         </div>
     </q-page>
 </template>
@@ -171,22 +209,31 @@ export default {
     },
     mounted() {
         // this.showLoading();
-        this.$refs.groupName.focus();
     },
     methods: {
+        backPage() {
+            if (this.slide == 'create2') {
+                this.slide = 'create1';
+            } else {
+                this.$router.go(-1);
+            }
+        },
         selectThemeFunc(index) {
             this.selectTheme = index + 1;
         },
         createStep2() {
-            if (!this.groupName) {
-                this.errorMessage('그룹이름을 입력하세요.');
+            if (this.selectTheme == 0) {
+                this.errorMessage('테마를 선택해주세요.');
                 return false;
             }
             this.slide = 'create2';
+            setTimeout(() => {
+                this.$refs.groupName.focus();
+            }, 100);
         },
         async createGroup() {
-            if (this.selectTheme == 0) {
-                this.errorMessage('테마를 선택해주세요.');
+            if (!this.groupName) {
+                this.errorMessage('그룹이름을 입력하세요.');
                 return false;
             }
             await this.createGroupUid().then((result) => {
@@ -344,16 +391,11 @@ export default {
     flex-direction: column;
     flex: 1;
     height: 100%;
-
-    .header {
-        padding: 0 0 20px 0;
-    }
-
     .q-carousel {
         height: 100%;
     }
 
-    .create1 {
+    .create2 {
         padding: 0;
 
         &__title {
@@ -429,7 +471,7 @@ export default {
             width: 100%;
         }
 
-        .create2 {
+        .create1 {
             padding: 0;
 
             .theme-list {
@@ -441,6 +483,7 @@ export default {
                 padding: 10px;
                 gap: 20px;
                 overflow: visible;
+                flex-direction: column;
 
                 .theme {
                     display: flex;
@@ -448,7 +491,8 @@ export default {
                     align-items: center;
                     border-radius: 18px;
                     flex: 1;
-                    width: calc(50% - 10px);
+                    width: 100%;
+
                     flex: none;
                     cursor: pointer;
                     position: relative;
@@ -493,6 +537,7 @@ export default {
                         flex: 1;
                         width: 50%;
                         height: 100%;
+                        flex-direction: row;
                     }
 
                     &__image {
@@ -502,6 +547,9 @@ export default {
                         justify-content: flex-end;
                         align-items: flex-end;
                         margin-right: 10px;
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
 
                         img {
                             -webkit-user-drag: none;
@@ -512,12 +560,24 @@ export default {
                         }
                     }
 
+                    &__title-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 26px 20px;
+                        width: 75%;
+                    }
+
                     &__title {
                         font-weight: 700;
-                        font-size: 14px;
+                        font-size: 18px;
                         line-height: 20px;
                         color: #000000;
                         margin-top: 8px;
+                        margin-bottom: 5px;
+                    }
+                    &__content {
+                        font-size: 12px;
+                        color: #000000;
                     }
 
                     &__description {
@@ -542,7 +602,9 @@ export default {
             }
         }
     }
-
+    .q-carousel {
+        padding: 20px;
+    }
     .group-name {
         height: 100%;
         width: 100%;
@@ -550,10 +612,46 @@ export default {
         .container {
             width: 100%;
             height: 100%;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             flex: none;
+        }
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 57px;
+        width: 100%;
+
+        &__left {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            :hover {
+                transform: scale(1.2);
+            }
+
+            img {
+                padding: 20.5px;
+                width: 57px;
+                height: 57px;
+            }
+        }
+
+        &__center {
+            font-weight: Bold;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        &__right {
+            width: 57px;
+            height: 57px;
         }
     }
 }
