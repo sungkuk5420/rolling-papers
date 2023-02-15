@@ -5,13 +5,13 @@
         class="login-guide-layer"
     >
         <div class="login-guide-layer__title" v-show="isCreateGroup">
-            롤링페이퍼를 만드려면
+            {{ $t('롤링페이퍼를 만드려면') }}
         </div>
         <div class="login-guide-layer__title" v-show="isCreateGroup">
-            로그인이 필요해
+            {{ $t('로그인이 필요해') }}
         </div>
         <div class="login-guide-layer__title" v-show="!isCreateGroup">
-            로그인
+            {{ $t('로그인') }}
         </div>
         <div
             class="login-guide-layer__image"
@@ -31,9 +31,9 @@
             class="login-guide-layer__login-button line"
             href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=https://rolling-papers.netlify.app/line-login&state=asmdkf"
         >
-            <img src="~assets/line-icon.png" alt="" srcset="" />라인으로
-            시작하기</a
-        >
+            <img src="~assets/line-icon.png" alt="" srcset="" />
+            {{ $t('라인으로 시작하기') }}
+        </a>
         <!-- <a class="login-guide-layer__login-button line"
                 href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">
                 <img src="~assets/line-icon.png"  alt="" srcset="">로컬 라인</a> -->
@@ -44,7 +44,9 @@
             @click="googleLogin"
         >
             <img src="~assets/google-icon.png" alt="" srcset="" />
-            <span>구글로 시작하기</span>
+            <span>
+                {{ $t('구글로 시작하기') }}
+            </span>
         </q-btn>
         <q-btn
             style="
@@ -54,7 +56,7 @@
                 width: 100%;
             "
             class="login-guide-layer__login-button"
-            label="이메일로 시작하기"
+            :label="$t('이메일로 시작하기')"
             @click="$router.push('/login')"
         />
     </van-action-sheet>

@@ -4,13 +4,14 @@
             <img src="~assets/menu.png" alt srcset />
         </div>
         <div class="header__center">{{ headerTitle }}</div>
-        <div class="header__right">
+        <div class="header__right" @click="changeLangage">
             <img src="~assets/gift.png" alt srcset />
         </div>
     </q-header>
 </template>
 
 <script>
+import { T } from '../store/module-example/types';
 export default {
     props: ['centerText', 'leftDrawerOpen'],
     methods: {},
@@ -23,6 +24,39 @@ export default {
             set(value) {
                 return this.$store.dispatch(T.CHANGE_HEADER_TITLE, value);
             },
+        },
+    },
+    methods: {
+        changeLangage() {
+            if (this.$i18n.locale == 'ja') {
+                this.$i18n.locale = '';
+            } else {
+                this.$i18n.locale = 'ja';
+            }
+            this.$store.dispatch(T.CHANGE_HEADER_TITLE, this.$t('롤링 페이퍼'));
+
+            this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
+                {
+                    name: this.$t('이직 성공 축하!'),
+                    img: 'theme-1.png',
+                    background: '#fae54d',
+                },
+                {
+                    name: this.$t('고마워요'),
+                    img: 'theme-2.png',
+                    background: '#4b69fe',
+                },
+                {
+                    name: this.$t('힘내요'),
+                    img: 'theme-3.png',
+                    background: '#ff7d5a',
+                },
+                {
+                    name: this.$t('축하해요'),
+                    img: 'theme-4.png',
+                    background: '#6532e9',
+                },
+            ]);
         },
     },
 };

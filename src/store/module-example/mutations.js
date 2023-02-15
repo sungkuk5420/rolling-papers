@@ -23,5 +23,9 @@ export const mutations = {
 	[T.CHANGE_HEADER_TITLE](state, data) {
 		console.log("mutation CHANGE_HEADER_TITLE", data)
 		state.headerTitle = data;
+	},
+	[T.SET_THEME_GROUP_LIST](state, data) {
+		console.log("mutation SET_THEME_GROUP_LIST", data)
+		state.themeGroupList = data;
 	}
 };

@@ -14,12 +14,18 @@
                         name="create1"
                         class="column no-wrap create1"
                     >
-                        <div class="row-div create1__title">롤링페이퍼를</div>
                         <div class="row-div create1__title">
-                            어떻게 불러드리면 될까요?
+                            {{ $t('롤링페이퍼를') }}
+                        </div>
+                        <div class="row-div create1__title">
+                            {{ $t('어떻게 불러드리면 될까요?') }}
                         </div>
                         <div class="row-div create1__sub-title">
-                            김성국의 퇴사 등 한번에 알 수 있도록 설정해주세요.
+                            {{
+                                $t(
+                                    '김성국의 퇴사 등 한번에 알 수 있도록 설정해주세요.'
+                                )
+                            }}
                         </div>
                         <div class="row-div group-name-wrapper">
                             <q-input
@@ -28,24 +34,26 @@
                                 :rules="[(val) => val.length <= 20]"
                                 outlined
                                 v-model="groupName"
-                                placeholder="20글자 내로 입력해주세요."
+                                :placeholder="$t('20글자 내로 입력해주세요.')"
                             >
                                 <span class="input-length"
                                     >{{ groupName.toString().length }}/20</span
                                 >
                             </q-input>
                         </div>
-                        <div class="add-group" @click="createStep2">次へ</div>
+                        <div class="add-group" @click="createStep2">
+                            {{ $t('다음으로') }}
+                        </div>
                     </q-carousel-slide>
                     <q-carousel-slide
                         name="create2"
                         class="column no-wrap create2"
                     >
                         <div class="row-div create1__title">
-                            {{ groupName }}와
+                            {{ groupName }}{{ $t('와') }}
                         </div>
                         <div class="row-div create1__title">
-                            어울리는 테마를 선택해주세요
+                            {{ $t('어울리는 테마를 선택해주세요') }}
                         </div>
                         <div class="theme-list">
                             <div
@@ -82,7 +90,7 @@
                             @click="createGroup"
                             :disabled="selectTheme == 0"
                         >
-                            作成完了
+                            {{ $t('생성하기') }}
                         </div>
                         <LoginActionSheet
                             :selectTheme="selectTheme"
@@ -98,7 +106,7 @@
                                 {{ groupName }}
                             </div>
                             <div class="login-guide-layer__title">
-                                롤링 페이퍼를 시작해보자!
+                                {{ $t('롤링 페이퍼를 시작해보자!') }}
                             </div>
                             <div
                                 class="login-guide-layer__image"
@@ -116,13 +124,13 @@
                                 <q-btn
                                     style="background: #f5f5f5; color: #999999"
                                     class="login-guide-layer__cancel"
-                                    label="취소"
+                                    :label="$t('취소')"
                                     @click="createLayer = false"
                                 />
                                 <q-btn
                                     style="background: #fae54d"
                                     class="login-guide-layer__confirm"
-                                    label="만들기"
+                                    :label="$t('만들기')"
                                     @click="createGroupConfirm"
                                 />
                             </div>
