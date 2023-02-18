@@ -72,6 +72,11 @@ const routes = [
     name: "detailPage",
     component: () => import("pages/DetailPage.vue")
   },
+  {
+    path: "/creators",
+    component: () => import("layouts/PlainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/Creators.vue") }]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
