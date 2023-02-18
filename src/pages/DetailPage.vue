@@ -30,7 +30,10 @@
                 <p class="writer">from {{ getMessage.writerNickName }}</p>
             </div>
         </div>
-        <BottomButtons :isDetailPage="true" />
+        <BottomButtons
+            :isDetailPage="true"
+            :groupUid="groupUid"
+        />
     </div>
 </template>
 
@@ -39,6 +42,11 @@ import BottomButtons from 'src/components/BottomButtons.vue';
 
 export default {
     components: { BottomButtons },
+    data() {
+        return {
+            groupUid: '',
+        }
+    },
     computed: {
         getMessage() {
             return this.$route.params.message;
@@ -62,6 +70,8 @@ export default {
                 `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
             );
         }
+
+        this.groupUid = groupUid
     },
 };
 </script>

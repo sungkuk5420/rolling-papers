@@ -1,9 +1,9 @@
 <template>
     <div class="bottom-buttons-container">
-        <button v-if="!isDetailPage" @click="onModify" class="on-share-button">
+        <button v-if="!isDetailPage" @click="onShared" class="on-share-button">
             공유하기
         </button>
-        <button v-else @click="onShared" class="on-share-button">
+        <button v-else @click="onModify" class="on-share-button">
             편집
         </button>
         <button class="on-write-button" @click="onCreate">
@@ -18,17 +18,21 @@ export default {
         isDetailPage: {
             type: Boolean,
             default: false,
+        },
+        groupUid: {
+          type: String,
+          required: true,
         }
     },
     methods: {
         onShared() {
-            console.log('나중에 추가할 기능');
+            // 피그마를 봤을 때는 이 공유하기 페이지와 다를 수도 있을 것 같아 확인 필요
+            this.$router.push(`/share-group?groupUid=${this.groupUid}`);
         },
         onModify() {
             console.log('나중에 추가할 기능');
         },
         onCreate() {
-          console.log('나중에 추가할 기능');
           this.$router.push(`/write-message?groupUid=${this.groupUid}`);
         }
     }
