@@ -64,7 +64,11 @@
                 >
                     💛 {{ $t('후원하기') }}
                 </q-item-label>
-                <q-item-label header class="left-drawer__sub-title">
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/send-service-message')"
+                >
                     ✍🏻 {{ $t('서비스 의견 보내기') }}
                 </q-item-label>
             </q-list>
