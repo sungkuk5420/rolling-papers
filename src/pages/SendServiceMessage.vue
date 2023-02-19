@@ -45,6 +45,7 @@
                 </div>
             </div>
             <textarea
+                v-model="message"
                 name=""
                 id=""
                 cols="30"
@@ -53,6 +54,7 @@
             ></textarea>
 
             <q-btn
+                @click="writeMessage"
                 style="
                     background: #fae54d;
                     color: #000;
@@ -71,14 +73,51 @@
 <script>
 import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { uid } from 'quasar';
 export default {
     mixins: [ComputedMixin, UtilMethodMixin],
     props: ['changeLeftDrawer'],
     mounted() {},
     data() {
-        return { selectEmoticon: 0 };
+        return { selectEmoticon: 0, message: '' };
     },
-    methods: {},
+    methods: {
+        async writeMessage() {
+            if (this.selectEmoticon == 0) {
+                let err = this.$t('이모티콘을 선택해주세요');
+                this.errorMessage(err);
+                return false;
+            }
+            if (this.message == '') {
+                let err = this.$t('메세지를 입력해주세요.');
+                this.errorMessage(err);
+                return false;
+            }
+            const db = getFirestore();
+            // Add a new document in collection "cities"
+            const createdUid = uid();
+            let messageText = '';
+            if (this.selectEmoticon == 1) {
+                messageText = '[싫어요]';
+            } else if (this.selectEmoticon == 2) {
+                messageText = '[보통이에요]';
+            } else if (this.selectEmoticon == 3) {
+                messageText = '[좋아요]';
+            }
+            messageText = messageText + this.message;
+            await setDoc(doc(db, 'mails', createdUid), {
+                to: 'sungkuk5420@gmail.com',
+                message: {
+                    subject: '고객 의견이 도착했어요',
+                    text: messageText,
+                },
+            }).then(() => {
+                this.message = '';
+                this.successMessage('의견을 전송하였습니다.');
+            });
+        },
+    },
 };
 </script>
 
