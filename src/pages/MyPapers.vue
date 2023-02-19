@@ -4,6 +4,13 @@
             class="group-card"
             v-for="(currentGroup, index) in myGroups"
             :key="index"
+            @click="
+                () => {
+                    $router.push(
+                        `/group-info?groupUid=${currentGroup.groupUid}&groupCode=${currentGroup.code}`
+                    );
+                }
+            "
         >
             <div class="group-card__image-content">
                 <div
