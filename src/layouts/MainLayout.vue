@@ -50,7 +50,11 @@
                 </q-item-label>
             </q-list>
             <q-list class="left-drawer__bottom">
-                <q-item-label header class="left-drawer__sub-title">
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/creators')"
+                >
                     🙋🏻‍♀️ {{ $t('만든 사람들') }}
                 </q-item-label>
                 <q-item-label
