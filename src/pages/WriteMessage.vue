@@ -1,14 +1,21 @@
 <template>
-    <q-page class="flex flex-center write-message-page">
+    <q-page class="flex write-message-page">
         <div class="container">
             <div class="header">
                 <q-icon
                     name="arrow_back_ios"
                     style="font-size: 24px; cursor: pointer"
                     @click="$router.go(-1)"
-                ></q-icon>
+                />
+                <p class="header-title">
+                    롤링페이퍼 작성
+                </p>
+                <q-icon
+                    name="mode"
+                    style="font-size: 24px; cursor: pointer"
+                />
             </div>
-            <div class="row-div">
+            <div class="row-div text-area">
                 <q-input
                     class="message-input"
                     :class="fontStyle"
@@ -16,15 +23,14 @@
                     :rules="[(val) => val.length <= 20]"
                     outlined
                     v-model="message"
-                    placeholder="메세지를 남겨주세요."
+                    placeholder="이곳에 작성해줘"
                 >
                     <span class="input-length"
                         >{{ message.toString().length }}/20</span
                     >
                 </q-input>
             </div>
-            <div class="row-div title q-mt-md">작성자명</div>
-            <div class="row-div">
+            <div class="row-div id-area">
                 <q-input
                     class="writer-input"
                     :rules="[(val) => val.length <= 10]"
@@ -36,11 +42,19 @@
                         >{{ writerNickName.toString().length }}/10</span
                     >
                 </q-input>
-                <div class="row-div title q-mt-md">폰트</div>
+                <q-input
+                    class="writer-input password"
+                    type="password"
+                    :rules="[(val) => val.length <= 10]"
+                    outlined
+                    v-model="password"
+                    placeholder="비미번호를 입력해주세요."
+                >
+                </q-input>
                 <div class="font-button-group">
                     <q-btn
-                        class="first-font"
-                        push
+                        class="font first-font"
+                        :class="{'active-font': fontStyle === 'first-font'}"
                         label="폰트 1"
                         @click="
                             () => {
@@ -49,8 +63,8 @@
                         "
                     />
                     <q-btn
-                        class="second-font"
-                        push
+                        class="font second-font"
+                        :class="{'active-font': fontStyle === 'second-font'}"
                         label="폰트 2"
                         @click="
                             () => {
@@ -59,8 +73,8 @@
                         "
                     />
                     <q-btn
-                        class="third-font"
-                        push
+                        class="font third-font"
+                        :class="{'active-font': fontStyle === 'third-font'}"
                         label="폰트 3"
                         @click="
                             () => {
@@ -69,10 +83,10 @@
                         "
                     />
                 </div>
-                <div class="row-div title q-mt-md">
+                <div class="title q-mt-md">
                     <div class="title__left">
-                        <div>익명</div>
-                        <div class="title__sub">작성자만 볼 수 있습니다.</div>
+                        <div>익명으로 작성</div>
+                        <div class="title__sub">오직 주인공만 볼 수 있어</div>
                     </div>
                     <div class="title__right">
                         <q-toggle size="xl" v-model="toggle" />
@@ -117,6 +131,7 @@ export default {
                 '🎉',
                 '🎉',
             ],
+            password: '',
         };
     },
     watch: {
@@ -195,11 +210,67 @@ export default {
 .write-message-page {
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex: 1;
     height: 100%;
 
-    .header {
-        padding: 0 0 20px 0;
+    .container {
+        width: 100%;
+
+        .header {
+            height: 57px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: solid 1px #e0e0e0;
+
+            .header-title {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 700;
+            }
+        }
+
+        .row-div {
+            padding: 0 19px;
+        }
+
+        .text-area {
+            margin-top: 24px;
+
+            .q-field--outlined .q-field__control:before {
+                border: none;
+            }
+
+            textarea {
+                font-size: 24px;
+                font-weight: 700;
+
+                &::placeholder {
+                    color: #999;
+                    font-size: 24px;
+                    font-weight: 700;
+                }
+            }
+        }
+
+        .id-area {
+            margin-top: 16px;
+
+            .writer-input {
+                box-sizing: border-box;
+                height: 44px;
+
+                .q-field__control {
+                    height: 44px;
+                }
+            }
+
+            .password {
+                margin-top: 16px;
+            }
+        }
     }
 
     .title {
@@ -239,7 +310,7 @@ export default {
 
     .second-font {
         .q-btn__content {
-            font-size: 20px;
+            font-size: 20px !important;
         }
 
         .q-btn__content,
@@ -250,13 +321,26 @@ export default {
 
     .third-font {
         .q-btn__content {
-            font-size: 20px;
+            font-size: 20px !important;
         }
 
         .q-btn__content,
         textarea {
             font-family: 'Nanum Pen Script', cursive;
         }
+    }
+
+    .font {
+        flex: 1;
+        height: 44px;
+        border-radius: 8px;
+        background-color: #faf4c6;
+        color: #666;
+    }
+
+    .active-font {
+        background-color: #fae54d;
+        color: #000;
     }
 
     .q-toggle__track {
@@ -266,9 +350,12 @@ export default {
     }
 
     .message-input {
+        background-color: #faf4c6;
+        border: none;
         height: 300px;
-        font-size: 30px;
+        font-size: 18px;
         letter-spacing: 0;
+        border-radius: 12px;
     }
 
     .q-field__inner,
@@ -279,8 +366,6 @@ export default {
     .q-field__control {
         padding-left: 20px;
     }
-
-    position: relative;
 
     .input-length {
         position: absolute;
@@ -318,6 +403,7 @@ export default {
 }
 
 .font-button-group {
+    margin-top: 24px;
     display: flex;
     gap: 10px;
     justify-content: space-between;
