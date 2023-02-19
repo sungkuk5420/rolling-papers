@@ -90,7 +90,7 @@ export default {
                 return false;
             }
             if (this.message == '') {
-                let err = this.$t('메세지를 입력해주세요.');
+                let err = this.$t('메세지를 입력해주세요');
                 this.errorMessage(err);
                 return false;
             }
@@ -99,22 +99,22 @@ export default {
             const createdUid = uid();
             let messageText = '';
             if (this.selectEmoticon == 1) {
-                messageText = '[싫어요]';
+                messageText = this.$t('[싫어요]');
             } else if (this.selectEmoticon == 2) {
-                messageText = '[보통이에요]';
+                messageText = this.$t('[보통이에요]');
             } else if (this.selectEmoticon == 3) {
-                messageText = '[좋아요]';
+                messageText = this.$t('[좋아요]');
             }
             messageText = messageText + this.message;
             await setDoc(doc(db, 'mails', createdUid), {
                 to: 'sungkuk5420@gmail.com',
                 message: {
-                    subject: '고객 의견이 도착했어요',
+                    subject: '서비스 의견이 도착했어요',
                     text: messageText,
                 },
             }).then(() => {
                 this.message = '';
-                this.successMessage('의견을 전송하였습니다.');
+                this.successMessage(this.$t('의견을 전송하였습니다.'));
             });
         },
     },
