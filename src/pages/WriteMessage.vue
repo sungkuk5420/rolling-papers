@@ -7,13 +7,8 @@
                     style="font-size: 24px; cursor: pointer"
                     @click="$router.go(-1)"
                 />
-                <p class="header-title">
-                    롤링페이퍼 작성
-                </p>
-                <q-icon
-                    name="mode"
-                    style="font-size: 24px; cursor: pointer"
-                />
+                <p class="header-title">롤링페이퍼 작성</p>
+                <q-icon name="mode" style="font-size: 24px; cursor: pointer" />
             </div>
             <div class="row-div text-area">
                 <q-input
@@ -54,7 +49,7 @@
                 <div class="font-button-group">
                     <q-btn
                         class="font first-font"
-                        :class="{'active-font': fontStyle === 'first-font'}"
+                        :class="{ 'active-font': fontStyle === 'first-font' }"
                         label="폰트 1"
                         @click="
                             () => {
@@ -64,7 +59,7 @@
                     />
                     <q-btn
                         class="font second-font"
-                        :class="{'active-font': fontStyle === 'second-font'}"
+                        :class="{ 'active-font': fontStyle === 'second-font' }"
                         label="폰트 2"
                         @click="
                             () => {
@@ -74,7 +69,7 @@
                     />
                     <q-btn
                         class="font third-font"
-                        :class="{'active-font': fontStyle === 'third-font'}"
+                        :class="{ 'active-font': fontStyle === 'third-font' }"
                         label="폰트 3"
                         @click="
                             () => {

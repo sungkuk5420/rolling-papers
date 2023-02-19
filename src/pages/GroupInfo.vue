@@ -49,9 +49,7 @@
                     </div>
                 </div>
             </div>
-            <BottomButtons
-                :groupUid="groupUid"
-            />
+            <BottomButtons :groupUid="groupUid" />
             <van-action-sheet
                 :round="false"
                 v-model="bottomLayer"
@@ -139,7 +137,11 @@ export default {
                             this.groupName
                         );
                         this.groupCode = data.code;
-                        this.messages = data.messages ? data.messages : [];
+                        this.messages = data.messages
+                            ? data.messages.map((i, index) => {
+                                  return { ...i, id: index };
+                              })
+                            : [];
                         // console.log("그룹코드가 존재합니다")
                     } else {
                         // console.log("그룹코드가 없습니다!")
