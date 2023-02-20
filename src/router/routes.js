@@ -1,12 +1,5 @@
 const routes = [
   {
-    path: "/set-nickname",
-    component: () => import("layouts/PlainLayout.vue"),
-    children: [
-      { path: "", component: () => import("src/pages/SetNickname.vue") }
-    ]
-  },
-  {
     path: "/line-login",
     component: () => import("layouts/PlainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/LineLogin.vue") }]
@@ -48,16 +41,6 @@ const routes = [
     path: "/my-papers",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("src/pages/MyPapers.vue") }]
-  },
-  {
-    path: "/login",
-    component: () => import("layouts/PlainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/Login.vue") }]
-  },
-  {
-    path: "/join",
-    component: () => import("layouts/PlainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/Join.vue") }]
   },
   {
     path: "/join-group",

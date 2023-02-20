@@ -48,7 +48,7 @@
                 {{ $t('구글로 시작하기') }}
             </span>
         </q-btn>
-        <q-btn
+        <!-- <q-btn
             style="
                 background: white;
                 color: #000;
@@ -58,7 +58,7 @@
             class="login-guide-layer__login-button"
             :label="$t('이메일로 시작하기')"
             @click="$router.push('/login')"
-        />
+        /> -->
     </van-action-sheet>
 </template>
 
