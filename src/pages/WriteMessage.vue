@@ -28,6 +28,7 @@
             </div>
             <div class="row-div id-area">
                 <q-input
+                    autoComplete="new-password"
                     class="writer-input"
                     :rules="[(val) => val.length <= 10]"
                     outlined
@@ -39,6 +40,7 @@
                     >
                 </q-input>
                 <q-input
+                    autoComplete="new-password"
                     class="writer-input password"
                     type="password"
                     :rules="[(val) => val.length <= 10]"
@@ -289,6 +291,7 @@ export default {
             textarea {
                 font-size: 24px;
                 font-weight: 700;
+                resize: none;
 
                 &::placeholder {
                     color: #999;
