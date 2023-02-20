@@ -77,6 +77,11 @@ const routes = [
     component: () => import("layouts/PlainLayout.vue"),
     children: [{ path: "", component: () => import("pages/Creators.vue") }]
   },
+  {
+    path: "/send-service-message",
+    component: () => import("layouts/PlainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/SendServiceMessage.vue") }]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

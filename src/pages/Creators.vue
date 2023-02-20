@@ -3,7 +3,7 @@
         <div class="header">
             <div class="header__left"></div>
             <div class="header__center">
-                <div class="group-name">
+                <div class="title">
                     {{ $t('만든사람들') }}
                 </div>
             </div>
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="title">
+            <div class="container__title">
                 {{ $t('우리가 만들었어!') }}
             </div>
             <div
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import ComputedMixin from '../ComputedMixin';
 import UtilMethodMixin from '../UtilMethodMixin';
 export default {
@@ -123,7 +122,7 @@ export default {
             justify-content: center;
             align-items: center;
 
-            .group-name {
+            .title {
                 margin-left: 5px;
                 font-size: 16px;
                 font-weight: bold;
@@ -148,7 +147,7 @@ export default {
         height: 100%;
         flex-wrap: nowrap;
         overflow: auto;
-        .title {
+        &__title {
             font-weight: 700;
             font-size: 24px;
             line-height: 32px;
