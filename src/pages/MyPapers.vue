@@ -1,6 +1,23 @@
 <template>
     <q-page class="flex flex-center my-papers-page">
-        <div v-show="loadingStatus == 'empty'">내 롤링페이퍼가 없습니다.</div>
+        <div class="empty" v-show="loadingStatus == 'empty'">
+            <div>
+                <img
+                    src="~assets/my-papers-empty.png"
+                    alt=""
+                    style="width: 255px; height: 255px"
+                />
+            </div>
+            <div class="title">
+                {{ $t('롤링페이퍼가 없어요.') }}
+            </div>
+            <div class="title">
+                {{ $t('만들러 가볼래?') }}
+            </div>
+            <q-btn @click="$router.push('/create-group')"
+                >롤링페이퍼 만들기</q-btn
+            >
+        </div>
         <div
             class="group-card"
             v-for="(currentGroup, index) in myGroups"
@@ -181,9 +198,6 @@ export default {
                     if (this.myGroups.length == 0) {
                         this.loadingStatus = 'empty';
                     }
-                    // console.log("그룹코드가 존재합니다")
-                } else {
-                    // console.log("그룹코드가 없습니다!")
                 }
             })
             .catch((error) => {
@@ -229,6 +243,29 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    .empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+        img {
+            margin-bottom: 20px;
+        }
+        .q-btn {
+            margin-top: 20px;
+            background: #fae54d;
+            font-weight: 700;
+            line-height: 20px;
+            color: #333;
+            width: 155px;
+            height: 44px;
+        }
+    }
+    .title {
+        line-height: 20px;
+        color: #999;
+    }
     .group-card {
         display: flex;
         width: 100%;
