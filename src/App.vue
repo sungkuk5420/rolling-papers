@@ -249,6 +249,23 @@ body,
     margin-top: 12px;
 }
 
+.add-group,
+.join-group {
+    width: 100%;
+    height: 60px;
+    flex: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background: #ddd;
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
 .password-guide-layer {
 }
 .login-guide-layer {

@@ -180,45 +180,37 @@ export default {
         async writeMessage() {
             let groupUid = this.$route.query['groupUid'];
             const db = getDatabase();
-            if (this.uid) {
-                const updates = {};
-                const dbRef = ref(db);
-                get(child(dbRef, `groups/${groupUid}`))
-                    .then((snapshot) => {
-                        const data = snapshot.val();
-                        const groupCode = data.code;
+            const updates = {};
+            const dbRef = ref(db);
+            get(child(dbRef, `groups/${groupUid}`))
+                .then((snapshot) => {
+                    const data = snapshot.val();
+                    const groupCode = data.code;
 
-                        let originalMessage = data.messages
-                            ? data.messages
-                            : [];
-                        updates['/groups/' + groupUid] = {
-                            ...data,
-                            messages: [
-                                ...originalMessage,
-                                {
-                                    createUserUid: this.uid,
-                                    createUserEmail: this.email,
-                                    message: this.message,
-                                    writerNickName: this.toggle
-                                        ? this.$t('익명')
-                                        : this.writerNickName,
-                                    password: this.password,
-                                    toggle: this.toggle,
-                                    fontStyle: this.fontStyle,
-                                },
-                            ],
-                        };
-                        update(dbRef, updates);
-                        this.$router.push(
-                            `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
-                        );
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else {
-                this.$router.push('/login');
-            }
+                    let originalMessage = data.messages ? data.messages : [];
+                    updates['/groups/' + groupUid] = {
+                        ...data,
+                        messages: [
+                            ...originalMessage,
+                            {
+                                message: this.message,
+                                writerNickName: this.toggle
+                                    ? this.$t('익명')
+                                    : this.writerNickName,
+                                password: this.password,
+                                toggle: this.toggle,
+                                fontStyle: this.fontStyle,
+                            },
+                        ],
+                    };
+                    update(dbRef, updates);
+                    this.$router.push(
+                        `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
+                    );
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
         async editMessage() {
             let groupUid = this.$route.query['groupUid'];
