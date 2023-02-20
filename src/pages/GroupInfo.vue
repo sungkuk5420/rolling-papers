@@ -136,9 +136,17 @@ export default {
                         );
                         this.groupCode = data.code;
                         this.messages = data.messages
-                            ? data.messages.map((i, index) => {
-                                  return { ...i, id: index };
-                              })
+                            ? [
+                                  ...data.messages
+                                      .filter((i) => !i.toggle)
+                                      .map((i, index) => {
+                                          return { ...i, id: index };
+                                      })
+                                      .sort((a, b) => {
+                                          return b.createdAt - a.createdAt;
+                                      }),
+                                  ...data.messages.filter((i) => i.toggle),
+                              ]
                             : [];
                         // console.log("그룹코드가 존재합니다")
                     } else {
@@ -243,7 +251,6 @@ export default {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px 15px;
-        height: 100%;
         overflow: auto;
     }
 

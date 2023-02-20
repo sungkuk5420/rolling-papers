@@ -200,6 +200,7 @@ export default {
                                 password: this.password,
                                 toggle: this.toggle,
                                 fontStyle: this.fontStyle,
+                                createdAt: this.createNowTime(),
                             },
                         ],
                     };
