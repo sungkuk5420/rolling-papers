@@ -24,27 +24,16 @@
                     >
                         <div
                             :class="`${item.fontStyle}`"
-                            v-show="
-                                uid ? uid == item.createUserUid : !item.toggle
-                            "
+                            v-show="!item.toggle"
                             v-html="item.message.replaceAll('\n', '<br>')"
                         ></div>
-                        <div
-                            v-show="
-                                uid ? uid !== item.createUserUid : item.toggle
-                            "
-                            class="flex justify-center"
-                        >
+                        <div v-show="item.toggle" class="flex justify-center">
                             <div style="font-size: 40px">🤫</div>
                             <div>당사자만 볼 수 있어</div>
                         </div>
                         <div class="message-writer">
                             from
-                            {{
-                                (uid ? uid !== item.createUserUid : item.toggle)
-                                    ? '익명'
-                                    : item.writerNickName
-                            }}
+                            {{ item.toggle ? '익명' : item.writerNickName }}
                         </div>
                     </div>
                 </div>

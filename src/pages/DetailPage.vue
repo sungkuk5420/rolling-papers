@@ -24,9 +24,21 @@
         </div>
         <div class="wrap-contents">
             <div class="contents">
-                <p class="content" :class="`${getMessage.fontStyle}`">
+                <p
+                    v-show="!getMessage.toggle"
+                    class="content"
+                    :class="`${getMessage.fontStyle}`"
+                >
                     {{ getMessage.message }}
                 </p>
+
+                <div
+                    v-show="getMessage.toggle"
+                    class="flex justify-center items-center column"
+                >
+                    <div style="font-size: 40px">🤫</div>
+                    <div>당사자만 볼 수 있어</div>
+                </div>
                 <p class="writer">from {{ getMessage.writerNickName }}</p>
             </div>
         </div>
