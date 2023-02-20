@@ -156,7 +156,7 @@ export default {
 }
 
 .password-guide-layer {
-    position: absolute;
+    position: absolute !important;
 }
 
 .share-by-qrcode-layer,
@@ -266,8 +266,6 @@ body,
     cursor: pointer;
 }
 
-.password-guide-layer {
-}
 .login-guide-layer {
     &.create-group {
         padding-top: 30px;

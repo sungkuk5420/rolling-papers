@@ -3,11 +3,7 @@
         <button v-if="!isDetailPage" @click="onShared" class="on-share-button">
             공유하기
         </button>
-        <button
-            v-else
-            @click="passwordActionLayer = true"
-            class="on-share-button"
-        >
+        <button v-else @click="editActionlayer = true" class="on-share-button">
             편집
         </button>
         <button class="on-write-button" @click="onCreate">
@@ -23,7 +19,7 @@
                 <div class="header__left"></div>
                 <div class="header__center">
                     <div class="group-name">
-                        {{ $t('내용 편집') }}
+                        {{ $t(editType == 'edit' ? '내용 편집' : '삭제') }}
                     </div>
                 </div>
                 <div class="header__right" @click="passwordActionLayer = false">
@@ -31,7 +27,10 @@
                 </div>
             </div>
             <div class="container">
-                <div class="title">롤링페이퍼를 편집하려면</div>
+                <div class="title">
+                    롤링페이퍼를
+                    {{ editType == 'edit' ? '편집' : '삭제' }}하려면
+                </div>
                 <div class="title">비밀번호를 입력해줘</div>
                 <q-input
                     class="password-input"
@@ -41,8 +40,8 @@
                     v-model="password"
                     placeholder="비밀번호를 입력"
                 />
-                <q-btn class="button" @click="onModify">
-                    {{ $t('내용 편집하기') }}
+                <q-btn class="button" @click="handleButtonOnPasswordPopup">
+                    {{ $t(editType == 'edit' ? '내용 편집하기' : '삭제하기') }}
                 </q-btn>
             </div>
         </van-popup>
@@ -60,7 +59,10 @@
                 "
                 class="login-guide-layer__login-button"
                 :label="$t('내용 편집')"
-                @click="editMessage"
+                @click="
+                    passwordActionLayer = true;
+                    editType = 'edit';
+                "
             />
             <q-btn
                 style="
@@ -71,7 +73,10 @@
                 "
                 class="login-guide-layer__login-button"
                 :label="$t('롤링페이퍼 삭제')"
-                @click="deleteMessage"
+                @click="
+                    passwordActionLayer = true;
+                    editType = 'delete';
+                "
             />
         </van-action-sheet>
     </div>
@@ -109,16 +114,11 @@ export default {
             passwordActionLayer: false,
             editActionlayer: false,
             currentGroup: null,
+            editType: '',
         };
     },
     methods: {
-        onShared() {
-            // 피그마를 봤을 때는 이 공유하기 페이지와 다를 수도 있을 것 같아 확인 필요
-            this.$router.push(`/share-group?groupUid=${this.groupUid}`);
-        },
-        onModify() {
-            const db = getDatabase();
-            console.log(this.getMessage.password);
+        handleButtonOnPasswordPopup() {
             if (this.getMessage.password != this.password) {
                 Notify({
                     message: '비밀번호가 일치하지 않습니다.',
@@ -127,7 +127,11 @@ export default {
                 });
                 return false;
             }
-            this.editActionlayer = true;
+            this.editType == 'edit' ? this.editMessage() : this.deleteMessage();
+        },
+        onShared() {
+            // 피그마를 봤을 때는 이 공유하기 페이지와 다를 수도 있을 것 같아 확인 필요
+            this.$router.push(`/share-group?groupUid=${this.groupUid}`);
         },
         onCreate() {
             this.$router.push(`/write-message?groupUid=${this.groupUid}`);
@@ -138,8 +142,6 @@ export default {
             get(child(dbRef, `groups/${this.groupUid}`))
                 .then((snapshot) => {
                     const data = snapshot.val();
-                    console.log(this.getMessage);
-                    debugger;
                     this.$router.push({
                         name: 'writeMessage',
                         query: {
@@ -172,6 +174,10 @@ export default {
                     this.$router.push(
                         `/group-info?groupUid=${this.groupUid}&groupCode=${data.code}`
                     );
+                    Notify({
+                        message: '삭제 완료',
+                        type: 'success',
+                    });
                 })
                 .catch((error) => {
                     console.error(error);
