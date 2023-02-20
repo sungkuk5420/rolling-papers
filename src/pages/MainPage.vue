@@ -12,17 +12,19 @@
                 </div>
             </div>
             <div class="button-list">
-                <div class="add-group" @click="createGroup">
+                <q-btn class="add-group" @click="createGroup">
                     {{ $t('롤링페이퍼 만들기') }}
-                </div>
-                <div class="join-group" @click="$router.push('join-group')">
+                </q-btn>
+                <q-btn class="join-group" @click="$router.push('join-group')">
                     {{ $t('참여하기') }}
-                </div>
+                </q-btn>
                 <div class="login-join-buttons">
                     <span v-show="!uid">{{
                         $t('이미 계정이 있으신가요?')
                     }}</span>
-                    <div @click="login" v-show="!uid">{{ $t('로그인') }}</div>
+                    <div @click="login" v-show="!uid" style="cursor: pointer">
+                        {{ $t('로그인') }}
+                    </div>
                 </div>
             </div>
         </div>
