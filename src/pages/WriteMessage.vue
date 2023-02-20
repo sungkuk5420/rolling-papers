@@ -28,6 +28,7 @@
             </div>
             <div class="row-div id-area">
                 <q-input
+                    v-show="!toggle"
                     autoComplete="new-password"
                     class="writer-input"
                     :rules="[(val) => val.length <= 10]"
@@ -91,12 +92,21 @@
                         <q-toggle size="xl" v-model="toggle" />
                     </div>
                 </div>
-            </div>
-            <div class="add-group" @click="writeMessage" v-show="!getMessage">
-                메세지 남기기
-            </div>
-            <div class="add-group" @click="editMessage" v-show="getMessage">
-                메세지 편집
+
+                <q-btn
+                    class="message-button"
+                    @click="writeMessage"
+                    v-show="!getMessage"
+                >
+                    메세지 남기기
+                </q-btn>
+                <q-btn
+                    class="message-button"
+                    @click="editMessage"
+                    v-show="getMessage"
+                >
+                    메세지 편집
+                </q-btn>
             </div>
         </div>
     </div>
@@ -189,7 +199,9 @@ export default {
                                     createUserUid: this.uid,
                                     createUserEmail: this.email,
                                     message: this.message,
-                                    writerNickName: this.writerNickName,
+                                    writerNickName: this.toggle
+                                        ? this.$t('익명')
+                                        : this.writerNickName,
                                     password: this.password,
                                     toggle: this.toggle,
                                     fontStyle: this.fontStyle,
@@ -467,10 +479,15 @@ export default {
         flex-direction: column;
         flex: none;
     }
+}
 
-    .add-group {
-        margin-top: auto;
-        display: flex;
-    }
+.message-button {
+    margin-top: auto;
+    display: flex;
+    background: #fae54d;
+    width: 100%;
+    height: 44px;
+    font-weight: 700;
+    line-height: 20px;
 }
 </style>
