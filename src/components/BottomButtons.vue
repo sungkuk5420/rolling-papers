@@ -3,14 +3,53 @@
         <button v-if="!isDetailPage" @click="onShared" class="on-share-button">
             공유하기
         </button>
-        <button v-else @click="onModify" class="on-share-button">편집</button>
+        <button
+            v-else
+            @click="passwordActionLayer = true"
+            class="on-share-button"
+        >
+            편집
+        </button>
         <button class="on-write-button" @click="onCreate">
             롤링페이퍼 작성
         </button>
+        <van-popup
+            v-model="passwordActionLayer"
+            class="password-guide-layer"
+            position="right"
+            :style="{ height: '100%' }"
+        >
+            <div class="header">
+                <div class="header__left"></div>
+                <div class="header__center">
+                    <div class="group-name">
+                        {{ $t('내용 편집') }}
+                    </div>
+                </div>
+                <div class="header__right" @click="passwordActionLayer = false">
+                    <img src="~assets/close.png" alt srcset />
+                </div>
+            </div>
+            <div class="container">
+                <div class="title">롤링페이퍼를 편집하려면</div>
+                <div class="title">비밀번호를 입력해줘</div>
+                <q-input
+                    class="password-input"
+                    type="password"
+                    :rules="[(val) => val.length <= 10]"
+                    outlined
+                    v-model="password"
+                    placeholder="비밀번호를 입력"
+                />
+                <q-btn class="button" @click="onModify">
+                    {{ $t('내용 편집하기') }}
+                </q-btn>
+            </div>
+        </van-popup>
         <van-action-sheet
             :round="false"
             v-model="editActionlayer"
-            class="login-guide-layer"
+            class="edit-guide-layer"
         >
             <q-btn
                 style="
@@ -48,6 +87,7 @@ import {
     push,
     update,
 } from 'firebase/database';
+import { Notify } from 'vant';
 export default {
     props: {
         isDetailPage: {
@@ -65,7 +105,10 @@ export default {
     },
     data() {
         return {
+            password: '',
+            passwordActionLayer: false,
             editActionlayer: false,
+            currentGroup: null,
         };
     },
     methods: {
@@ -74,6 +117,16 @@ export default {
             this.$router.push(`/share-group?groupUid=${this.groupUid}`);
         },
         onModify() {
+            const db = getDatabase();
+            console.log(this.getMessage.password);
+            if (this.getMessage.password != this.password) {
+                Notify({
+                    message: '비밀번호가 일치하지 않습니다.',
+                    color: '#fff',
+                    background: '#EF5350',
+                });
+                return false;
+            }
             this.editActionlayer = true;
         },
         onCreate() {
@@ -127,6 +180,78 @@ export default {
 
     .on-write-button {
         background-color: #fae54d;
+    }
+    .password-guide-layer {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+        height: 100%;
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 56px;
+            border-bottom: 1px solid #e0e0e0;
+
+            &__left {
+                width: 57px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            &__center {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .group-name {
+                    margin-left: 5px;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            &__right {
+                width: 57px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+        }
+
+        .container {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding-bottom: 40px;
+            .title {
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 32px;
+                color: #333;
+            }
+            .password-input {
+                margin-top: 24px;
+            }
+            .button {
+                background: #fae54d;
+                font-weight: 700;
+                line-height: 20px;
+                width: 100%;
+                height: 44px;
+                margin-top: auto;
+            }
+        }
     }
 }
 </style>

@@ -43,7 +43,7 @@
                     :rules="[(val) => val.length <= 10]"
                     outlined
                     v-model="password"
-                    placeholder="비미번호를 입력해주세요."
+                    placeholder="비밀번호를 입력해주세요."
                 >
                 </q-input>
                 <div class="font-button-group">
@@ -115,17 +115,6 @@ export default {
             message: '',
             writerNickName: '',
             fontStyle: '',
-            themeList: [
-                '직접추가',
-                '🎉',
-                '🎉',
-                '🎉',
-                '🎉',
-                '🎉',
-                '🎉',
-                '🎉',
-                '🎉',
-            ],
             password: '',
         };
     },
@@ -180,6 +169,7 @@ export default {
                                     createUserEmail: this.email,
                                     message: this.message,
                                     writerNickName: this.writerNickName,
+                                    password: this.password,
                                     toggle: this.toggle,
                                     fontStyle: this.fontStyle,
                                 },
