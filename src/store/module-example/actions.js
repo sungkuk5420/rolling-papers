@@ -1,7 +1,5 @@
 import { T } from "./types";
 import { ajaxActions } from "./ajaxActions";
-import { firestoreAction } from 'vuexfire'
-import User from '../../models/User.js'
 
 export const actions = {
     [T.AJAX_ACTION]({ commit }, { data, cb }) {
@@ -40,5 +38,10 @@ export const actions = {
         console.log(`store CHANGE_HEADER_TITLE [T.CHANGE_HEADER_TITLE] data`);
         console.log(data);
         commit(T.CHANGE_HEADER_TITLE, data);
+    },
+    [T.SET_THEME_GROUP_LIST]({ commit }, data) {
+        console.log(`store SET_THEME_GROUP_LIST [T.SET_THEME_GROUP_LIST] data`);
+        console.log(data);
+        commit(T.SET_THEME_GROUP_LIST, data);
     },
 };

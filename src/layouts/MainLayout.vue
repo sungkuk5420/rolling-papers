@@ -15,14 +15,14 @@
                     class="left-drawer__title"
                     @click="$router.push('/')"
                 >
-                    롤링페이퍼
+                    {{ $t('롤링페이퍼') }}
                 </q-item-label>
                 <q-item-label
                     header
                     class="left-drawer__sub-title"
                     @click="$router.push('/create-group')"
                 >
-                    롤링페이퍼 만들기
+                    {{ $t('롤링페이퍼 만들기') }}
                 </q-item-label>
                 <q-item-label
                     header
@@ -30,7 +30,7 @@
                     v-show="uid"
                     @click="$router.push('/my-papers')"
                 >
-                    내 롤링페이퍼
+                    {{ $t('내 롤링페이퍼') }}
                 </q-item-label>
                 <q-item-label
                     header
@@ -38,7 +38,7 @@
                     v-show="!uid"
                     @click="login"
                 >
-                    로그인
+                    {{ $t('로그인') }}
                 </q-item-label>
                 <q-item-label
                     header
@@ -46,18 +46,26 @@
                     v-show="uid"
                     @click="logout"
                 >
-                    로그아웃
+                    {{ $t('로그아웃') }}
                 </q-item-label>
             </q-list>
             <q-list class="left-drawer__bottom">
-                <q-item-label header class="left-drawer__sub-title">
-                    🙋🏻‍♀️ 만든 사람들
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/creators')"
+                >
+                    🙋🏻‍♀️ {{ $t('만든 사람들') }}
+                </q-item-label>
+                <q-item-label
+                    header
+                    class="left-drawer__sub-title"
+                    @click="$router.push('/buy-me-a-coffee')"
+                >
+                    💛 {{ $t('후원하기') }}
                 </q-item-label>
                 <q-item-label header class="left-drawer__sub-title">
-                    💛 후원하기
-                </q-item-label>
-                <q-item-label header class="left-drawer__sub-title">
-                    ✍🏻 서비스 의견 보내기
+                    ✍🏻 {{ $t('서비스 의견 보내기') }}
                 </q-item-label>
             </q-list>
         </q-drawer>

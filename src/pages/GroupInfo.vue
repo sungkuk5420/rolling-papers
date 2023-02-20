@@ -14,7 +14,7 @@
                     </p>
                 </div>
             </div>
-            <div class="row-div q-mt-md message-wapper">
+            <div class="row-div q-mt-md message-wapper" v-else>
                 <div class="message-list">
                     <div
                         v-for="(item, index) in messages"
@@ -49,7 +49,9 @@
                     </div>
                 </div>
             </div>
-            <BottomButtons />
+            <BottomButtons
+                :groupUid="groupUid"
+            />
             <van-action-sheet
                 :round="false"
                 v-model="bottomLayer"
@@ -238,20 +240,15 @@ export default {
     }
 
     .message-list {
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex: 0;
-        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 15px;
         height: 100%;
         overflow: auto;
-        flex-wrap: wrap;
     }
 
     .message-post {
-        width: calc(50% - 5px);
-        height: calc(50% - 30px);
-        max-height: 200px;
+        height: 200px;
         padding: 20px;
         position: relative;
         border-radius: 12px;

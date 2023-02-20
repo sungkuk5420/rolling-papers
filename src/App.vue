@@ -10,6 +10,47 @@ import { getDatabase, ref, set, get, child } from 'firebase/database';
 export default {
     name: 'App',
     mounted() {
+        this.$i18n.locale = 'ja';
+        this.$i18n.locale = '';
+
+        this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
+            {
+                name: this.$t('축하해요'),
+                content: this.$t('축하의 메세지를 전해보세요'),
+                img: 'theme-1.png',
+                background: '#F3F3F3',
+            },
+            {
+                name: this.$t('고마워요'),
+                content: this.$t('감사의 메세지를 전해보세요'),
+                img: 'theme-2.png',
+                background: '#F3F3F3',
+            },
+            {
+                name: this.$t('힘내요'),
+                content: this.$t('응원의 메세지를 전해보세요'),
+                img: 'theme-3.png',
+                background: '#F3F3F3',
+            },
+            {
+                name: this.$t('기뻐요'),
+                content: this.$t('기쁨의 메세지를 전해보세요'),
+                img: 'theme-4.png',
+                background: '#F3F3F3',
+            },
+            {
+                name: this.$t('슬퍼요'),
+                content: this.$t('슬픔의 메세지를 전해보세요'),
+                img: 'theme-1.png',
+                background: '#F3F3F3',
+            },
+            {
+                name: this.$t('아쉬워요'),
+                content: this.$t('아쉬움의 메세지를 전해보세요'),
+                img: 'theme-2.png',
+                background: '#F3F3F3',
+            },
+        ]);
         const thisObj = this;
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
@@ -220,6 +261,9 @@ body,
 }
 
 .login-guide-layer {
+    &.create-group {
+        padding-top: 30px;
+    }
     & > * {
         display: flex;
         flex-direction: column;
@@ -235,6 +279,35 @@ body,
 
     &__image {
         margin: 20px 0;
+    }
+    .group-card {
+        display: flex;
+        background: #f2f2f2;
+        width: 100%;
+        height: 100px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 26px;
+        border-radius: 12px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        &__left {
+            &__title {
+                font-size: 18px;
+                font-weight: 700;
+                line-height: 24px;
+                margin-bottom: 5px;
+            }
+            &__sub-title {
+                font-size: 12px;
+                line-height: 18px;
+            }
+        }
+        &__right {
+            img {
+                height: 85px;
+            }
+        }
     }
 
     &__login-button {
@@ -272,7 +345,10 @@ body,
 
         .q-btn {
             width: 50%;
+            height: 44px;
             display: flex;
+            font-weight: bold;
+            border-radius: 8px;
 
             .q-btn__wrapper:before {
                 box-shadow: none;

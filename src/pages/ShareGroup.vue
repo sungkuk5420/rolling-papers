@@ -3,7 +3,9 @@
         <div class="header">
             <div class="header__left"></div>
             <div class="header__center">
-                <div class="group-name">롤링페이퍼 공유하기</div>
+                <div class="group-name">
+                    {{ $t('롤링페이퍼 공유하기') }}
+                </div>
             </div>
             <div class="header__right" @click="$router.go(-1)">
                 <img src="~assets/close.png" alt srcset />
@@ -12,25 +14,25 @@
         <div class="container">
             <!-- {{ groupStatus }} -->
             <div class="share-group__title" v-if="groupStatus != 'done'">
-                자 이제 롤링페이퍼를
+                {{ $t('자 이제 롤링페이퍼를') }}
             </div>
             <div class="share-group__title" v-if="groupStatus != 'done'">
-                작성해줄 사람들을 초대해보자!
+                {{ $t('작성해줄 사람들을 초대해보자!') }}
             </div>
             <div class="share-group__title" v-if="groupStatus == 'done'">
-                자 이제 롤링페이퍼를
+                {{ $t('자 이제 롤링페이퍼를') }}
             </div>
             <div class="share-group__title" v-if="groupStatus == 'done'">
-                주인공에게 전달해보자!
+                {{ $t('주인공에게 전달해보자!') }}
             </div>
             <div class="share-group__sub-title">
-                지금 옆에 있는 사람에게 공유
+                {{ $t('지금 옆에 있는 사람에게 공유') }}
             </div>
             <div class="share-group__content">
-                QR코드를 통해 옆에 있는 사람들에게
+                {{ $t('QR코드를 통해 옆에 있는 사람들에게') }}
             </div>
             <div class="share-group__content">
-                롤링페이퍼를 작성할 수 있게 하자.
+                {{ $t('롤링페이퍼를 작성할 수 있게 하자.') }}
             </div>
 
             <div class="share-group__buttons">
@@ -44,36 +46,28 @@
                         srcset=""
                         style="width: 20px; height: 20px; margin-right: 8px"
                     />
-                    <span>QR코드로 공유하기</span>
+                    <span>
+                        {{ $t(' QR코드로 공유하기') }}
+                    </span>
                 </q-btn>
             </div>
-            <div class="share-group__sub-title">멀리 있는 사람들에게 공유</div>
-            <div class="share-group__content">
-                라인이나 메시지를 통해 멀리 있는 사람에게
+            <div class="share-group__sub-title">
+                {{ $t('멀리 있는 사람들에게 공유') }}
             </div>
             <div class="share-group__content">
-                롤링페이러 링크를 보내 작성할 수 있게 하자.
+                {{ $t('라인이나 메시지를 통해 멀리 있는 사람에게') }}
+            </div>
+            <div class="share-group__content">
+                {{ $t('롤링페이퍼 링크를 보내 작성할 수 있게 하자.') }}
             </div>
             <div class="share-group__buttons">
-                <div
-                    class="line-it-button"
-                    data-lang="ja"
-                    data-type="share-a"
-                    data-env="REAL"
-                    data-url="https://rolling-papers.netlify.app/join-group?groupUid=f4f522d8"
-                    data-color="default"
-                    data-size="large"
-                    data-count="true"
-                    data-ver="3"
-                    style="display: none"
-                ></div>
                 <q-btn class="share-button line" @click="shareLine">
-                    <img src="~assets/line-icon.png" alt="" srcset="" />라인으로
-                    공유하기</q-btn
-                >
+                    <img src="~assets/line-icon.png" alt="" srcset="" />
+                    {{ $t('라인으로 공유하기') }}
+                </q-btn>
                 <q-btn
                     class="share-button link"
-                    label="링크로 공유하기"
+                    :label="$t('링크로 공유하기')"
                     @click="clickShareMobile"
                 ></q-btn>
             </div>
@@ -84,12 +78,14 @@
                 class="share-by-qrcode-layer"
             >
                 <div class="share-by-qrcode-layer__title">
-                    옆에 있는 사람에게 공유하자!
+                    {{ $t('옆에 있는 사람에게 공유하자!') }}
                 </div>
                 <div class="share-by-qrcode-layer__sub-title">
-                    카메라를 켜서 QR코드를 통해 접속해.
+                    {{ $t('카메라를 켜서 QR코드를 통해 접속해.') }}
                 </div>
-                <div class="share-by-qrcode-layer__sub-title-2">입장 코드</div>
+                <div class="share-by-qrcode-layer__sub-title-2">
+                    {{ $t('입장 코드') }}
+                </div>
                 <div class="share-by-qrcode-layer__codes">
                     <div class="share-by-qrcode-layer__number">
                         {{ groupCode.toString()[0] }}
@@ -111,13 +107,13 @@
                     <q-btn
                         style="background: #f5f5f5; color: #999999"
                         class="login-guide-layer__cancel"
-                        label="닫기"
+                        :label="$t('닫기')"
                         @click="shareByQrcode = false"
                     />
                     <q-btn
                         style="background: #fae54d"
                         class="login-guide-layer__confirm"
-                        label="이미지 저장하기"
+                        :label="$t('이미지 저장하기')"
                     />
                 </div>
             </van-action-sheet>
@@ -184,7 +180,9 @@ export default {
                 return false;
             }
             const shareData = {
-                title: `롤링페이퍼를 작성해줘! ${this.groupName} [입장코드] ${this.groupCode}`,
+                title: `${this.$t('롤링페이퍼를 작성해줘!')} ${
+                    this.groupName
+                } ${this.$t('[입장코드]')} ${this.groupCode}`,
                 url,
             };
             if (navigator.canShare && navigator.canShare(shareData)) {

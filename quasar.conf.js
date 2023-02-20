@@ -70,7 +70,17 @@ module.exports = function (/* ctx */) {
 				chain.plugin('eslint-webpack-plugin')
 					.use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
 			},
-			devtool: 'source-map'
+			devtool: 'source-map',
+			extendWebpack(cfg) {
+				cfg.module.rules.push({
+					resourceQuery: /blockType=i18n/,
+					type: 'javascript/auto',
+					use: [
+						{ loader: '@kazupon/vue-i18n-loader' },
+						{ loader: 'yaml-loader' }
+					]
+				})
+			}
 		},
 
 		// Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
