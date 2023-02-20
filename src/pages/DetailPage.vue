@@ -34,12 +34,19 @@
 
                 <div
                     v-show="getMessage.toggle"
-                    class="flex justify-center items-center column"
+                    class="flex justify-center items-center column content"
+                    style="margin-top: auto; margin-bottom: auto"
                 >
                     <div style="font-size: 40px">🤫</div>
                     <div>당사자만 볼 수 있어</div>
                 </div>
-                <p class="writer">from {{ getMessage.writerNickName }}</p>
+                <p class="writer">
+                    {{
+                        getMessage.toggle
+                            ? ''
+                            : 'from ' + getMessage.writerNickName
+                    }}
+                </p>
             </div>
         </div>
         <BottomButtons
@@ -142,6 +149,10 @@ export default {
             flex-direction: column;
             justify-content: space-between;
             border-radius: 12px;
+            .content {
+                color: white;
+                font-weight: bold;
+            }
 
             .first-font {
                 font-family: 'Black Han Sans', sans-serif;
