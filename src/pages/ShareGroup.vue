@@ -166,8 +166,15 @@ export default {
     },
     methods: {
         shareLine() {
+            let content =
+                `${this.$t('롤링페이퍼를 작성해줘!')} ${
+                    this.groupName
+                } ${this.$t('[입장코드]')} ${this.groupCode}
+                ` + this.link;
+            content = encodeURIComponent(content);
+            content = this.link;
             var link =
-                'https://social-plugins.line.me/lineit/share?url=' + this.link;
+                'https://social-plugins.line.me/lineit/share?url=' + content;
             window.open(link, 'LINE');
         },
         clickShareMobile() {
