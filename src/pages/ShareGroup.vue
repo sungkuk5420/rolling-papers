@@ -60,6 +60,23 @@
             <div class="share-group__content">
                 {{ $t('롤링페이퍼 링크를 보내 작성할 수 있게 하자.') }}
             </div>
+            <div class="share-by-qrcode-layer__sub-title-2 q-mt-lg">
+                {{ $t('입장 코드') }}
+            </div>
+            <div class="share-by-qrcode-layer__codes">
+                <div class="share-by-qrcode-layer__number">
+                    {{ groupCode.toString()[0] }}
+                </div>
+                <div class="share-by-qrcode-layer__number">
+                    {{ groupCode.toString()[1] }}
+                </div>
+                <div class="share-by-qrcode-layer__number">
+                    {{ groupCode.toString()[2] }}
+                </div>
+                <div class="share-by-qrcode-layer__number">
+                    {{ groupCode.toString()[3] }}
+                </div>
+            </div>
             <div class="share-group__buttons">
                 <q-btn class="share-button line" @click="shareLine">
                     <img src="~assets/line-icon.png" alt="" srcset="" />
