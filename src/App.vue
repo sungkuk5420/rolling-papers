@@ -148,6 +148,9 @@ export default {
 </script>
 
 <style lang="scss">
+.van-toast {
+    position: absolute !important;
+}
 .q-drawer.fixed {
     position: absolute !important;
 }
