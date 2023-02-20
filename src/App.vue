@@ -152,6 +152,10 @@ export default {
     position: absolute !important;
 }
 
+.password-guide-layer {
+    position: absolute;
+}
+
 .share-by-qrcode-layer,
 .share-layer-on-my-papers,
 .share-action-sheet,
