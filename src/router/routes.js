@@ -21,10 +21,8 @@ const routes = [
   },
   {
     path: "/write-message",
-    component: () => import("layouts/PlainLayout.vue"),
-    children: [
-      { path: "", component: () => import("src/pages/WriteMessage.vue") }
-    ]
+    name: "writeMessage",
+    component: () => import("pages/WriteMessage.vue")
   },
   {
     path: "/group-info",

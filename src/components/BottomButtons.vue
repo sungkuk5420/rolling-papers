@@ -132,7 +132,29 @@ export default {
         onCreate() {
             this.$router.push(`/write-message?groupUid=${this.groupUid}`);
         },
-        editMessage() {},
+        editMessage() {
+            const db = getDatabase();
+            const dbRef = ref(db);
+            get(child(dbRef, `groups/${this.groupUid}`))
+                .then((snapshot) => {
+                    const data = snapshot.val();
+                    console.log(this.getMessage);
+                    debugger;
+                    this.$router.push({
+                        name: 'writeMessage',
+                        query: {
+                            groupUid: this.groupUid,
+                            groupCode: data.code,
+                        },
+                        params: {
+                            message: this.getMessage,
+                        },
+                    });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
         deleteMessage() {
             console.log(this.getMessage);
             const updates = {};

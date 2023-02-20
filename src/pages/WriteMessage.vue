@@ -1,5 +1,5 @@
 <template>
-    <q-page class="flex write-message-page">
+    <div class="flex write-message-page">
         <div class="container">
             <div class="header">
                 <q-icon
@@ -7,7 +7,8 @@
                     style="font-size: 24px; cursor: pointer"
                     @click="$router.go(-1)"
                 />
-                <p class="header-title">롤링페이퍼 작성</p>
+                <p class="header-title" v-show="!getMessage">롤링페이퍼 작성</p>
+                <p class="header-title" v-show="getMessage">롤링페이퍼 편집</p>
                 <q-icon name="mode" style="font-size: 24px; cursor: pointer" />
             </div>
             <div class="row-div text-area">
@@ -44,6 +45,7 @@
                     outlined
                     v-model="password"
                     placeholder="비밀번호를 입력해주세요."
+                    v-show="!getMessage"
                 >
                 </q-input>
                 <div class="font-button-group">
@@ -88,9 +90,14 @@
                     </div>
                 </div>
             </div>
-            <div class="add-group" @click="writeMessage">메세지 남기기</div>
+            <div class="add-group" @click="writeMessage" v-show="!getMessage">
+                메세지 남기기
+            </div>
+            <div class="add-group" @click="editMessage" v-show="getMessage">
+                메세지 편집
+            </div>
         </div>
-    </q-page>
+    </div>
 </template>
 
 <script>
@@ -118,6 +125,11 @@ export default {
             password: '',
         };
     },
+    computed: {
+        getMessage() {
+            return this.$route.params.message;
+        },
+    },
     watch: {
         message(value) {
             this.message = value.slice(0, 20);
@@ -128,6 +140,13 @@ export default {
     },
     mounted() {
         // this.showLoading();
+        if (this.getMessage) {
+            this.message = this.getMessage.message;
+            this.writerNickName = this.getMessage.writerNickName;
+            this.password = this.getMessage.password;
+            this.toggle = this.getMessage.toggle;
+            this.fontStyle = this.getMessage.fontStyle;
+        }
     },
     methods: {
         changeFont(value) {
@@ -174,6 +193,45 @@ export default {
                                     fontStyle: this.fontStyle,
                                 },
                             ],
+                        };
+                        update(dbRef, updates);
+                        this.$router.push(
+                            `/group-info?groupUid=${groupUid}&groupCode=${groupCode}`
+                        );
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                this.$router.push('/login');
+            }
+        },
+        async editMessage() {
+            let groupUid = this.$route.query['groupUid'];
+            const db = getDatabase();
+            if (this.uid) {
+                const updates = {};
+                const dbRef = ref(db);
+                get(child(dbRef, `groups/${groupUid}`))
+                    .then((snapshot) => {
+                        const data = snapshot.val();
+                        const groupCode = data.code;
+
+                        data.messages ? data.messages : [];
+                        let editMessage = data.messages[this.getMessage.id];
+                        editMessage = {
+                            ...editMessage,
+                            fontStyle: this.fontStyle,
+                            message: this.message,
+                            toggle: this.toggle,
+                            writerNickName: this.writerNickName,
+                        };
+
+                        data.messages[this.getMessage.id] = editMessage;
+                        const newMessage = data.messages;
+                        updates['/groups/' + groupUid] = {
+                            ...data,
+                            messages: [...newMessage],
                         };
                         update(dbRef, updates);
                         this.$router.push(
