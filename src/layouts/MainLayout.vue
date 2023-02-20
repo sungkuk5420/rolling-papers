@@ -158,6 +158,10 @@ export default {
     }
     &__sub-title {
         line-height: 20px;
+        &:hover {
+            background: #ddd;
+            cursor: pointer;
+        }
     }
 }
 </style>
