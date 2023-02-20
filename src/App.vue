@@ -152,9 +152,15 @@ export default {
     position: absolute !important;
 }
 
+.password-guide-layer {
+    position: absolute;
+}
+
 .share-by-qrcode-layer,
 .share-layer-on-my-papers,
 .share-action-sheet,
+.edit-guide-layer,
+.password-guide-layer,
 .login-guide-layer,
 .van-number-keyboard {
     width: 100%;
@@ -257,6 +263,8 @@ body,
     cursor: pointer;
 }
 
+.password-guide-layer {
+}
 .login-guide-layer {
     &.create-group {
         padding-top: 30px;

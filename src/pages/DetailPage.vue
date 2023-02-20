@@ -33,6 +33,7 @@
         <BottomButtons
             :isDetailPage="true"
             :groupUid="groupUid"
+            :getMessage="getMessage"
         />
     </div>
 </template>
@@ -45,7 +46,7 @@ export default {
     data() {
         return {
             groupUid: '',
-        }
+        };
     },
     computed: {
         getMessage() {
@@ -71,7 +72,7 @@ export default {
             );
         }
 
-        this.groupUid = groupUid
+        this.groupUid = groupUid;
     },
 };
 </script>

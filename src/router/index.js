@@ -5,8 +5,10 @@ import routes from './routes'
 import 'vant/lib/index.css';
 import '@vant/touch-emulator';
 import { ActionSheet } from 'vant';
+import { Popup } from 'vant';
 
 Vue.use(ActionSheet);
+Vue.use(Popup);
 Vue.use(VueRouter)
 /*
  * If not building with SSR mode, you can
