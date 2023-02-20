@@ -63,13 +63,13 @@ export default {
                 {
                     name: this.$t('슬퍼요'),
                     content: this.$t('슬픔의 메세지를 전해보세요'),
-                    img: 'theme-1.png',
+                    img: 'theme-5.png',
                     background: '#F3F3F3',
                 },
                 {
                     name: this.$t('아쉬워요'),
                     content: this.$t('아쉬움의 메세지를 전해보세요'),
-                    img: 'theme-2.png',
+                    img: 'theme-6.png',
                     background: '#F3F3F3',
                 },
             ]);

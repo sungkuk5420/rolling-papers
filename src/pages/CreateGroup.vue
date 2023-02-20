@@ -84,15 +84,25 @@
                         <div class="row-div create2__title">
                             {{
                                 selectTheme != 0
-                                    ? $t(themeGroupList[selectTheme - 1].name)
+                                    ? changeThemeTitle(
+                                          themeGroupList[selectTheme - 1].name
+                                      )
                                     : ''
                             }}{{ $t('의') }}
                             {{ $t('롤링페이퍼를 어떻게 불러드리면 될까요?') }}
                         </div>
                         <div class="row-div create2__sub-title">
+                            {{ $t('모두가') }}
+                            {{
+                                selectTheme != 0
+                                    ? changeThemeTitle(
+                                          themeGroupList[selectTheme - 1].name
+                                      )
+                                    : ''
+                            }}
                             {{
                                 $t(
-                                    '제목으로 롤링페이퍼의 주인공과 목적을 알려주세요'
+                                    '메세지를 쓸 수 있도록 제목으로 롤링페이퍼의 주인공과 목적을 알려주세요'
                                 )
                             }}
                         </div>
@@ -103,12 +113,22 @@
                                 :rules="[(val) => val.length <= 20]"
                                 outlined
                                 v-model="groupName"
-                                :placeholder="$t('20글자 내로 입력해주세요.')"
+                                :placeholder="
+                                    selectTheme != 0
+                                        ? changeThemePlaceholder(
+                                              $t(
+                                                  themeGroupList[
+                                                      selectTheme - 1
+                                                  ].name
+                                              )
+                                          )
+                                        : ''
+                                "
                             >
-                                <span class="input-length"
-                                    >{{ groupName.toString().length }}/20</span
-                                >
                             </q-input>
+                            <span class="input-length"
+                                >{{ groupName.toString().length }}/20</span
+                            >
                         </div>
                         <div
                             class="add-group"
@@ -211,6 +231,100 @@ export default {
         // this.showLoading();
     },
     methods: {
+        changeThemeTitle(value) {
+            let returnValue = '';
+
+            console.log(value);
+            switch (value) {
+                case '축하해요':
+                    returnValue = '축하';
+                    break;
+                case '고마워요':
+                    returnValue = '감사';
+                    break;
+                case '힘내요':
+                    returnValue = '응원';
+                    break;
+                case '기뻐요':
+                    returnValue = '기쁨';
+                    break;
+                case '슬퍼요':
+                    returnValue = '슬픔';
+                    break;
+                case '아쉬워요':
+                    returnValue = '아쉬움';
+                    break;
+                case 'おめでとう':
+                    returnValue = 'お祝い';
+                    break;
+                case 'ありがとう':
+                    returnValue = '感謝';
+                    break;
+                case '元気出して':
+                    returnValue = '応援';
+                    break;
+                case 'うれしい':
+                    returnValue = '喜び';
+                    break;
+                case '悲しい':
+                    returnValue = '悲しみ';
+                    break;
+                case '残念':
+                    returnValue = '名残';
+                    break;
+
+                default:
+                    break;
+            }
+            return returnValue;
+        },
+        changeThemePlaceholder(value) {
+            let returnValue = '';
+
+            console.log(value);
+            switch (value) {
+                case '축하해요':
+                    returnValue = '리사의 새로운 출발을 축하해!';
+                    break;
+                case '고마워요':
+                    returnValue = '리사, 지난 3년간 감사했어요';
+                    break;
+                case '힘내요':
+                    returnValue = '리사, 앞으로의 인생을 응원해요';
+                    break;
+                case '기뻐요':
+                    returnValue = '리사가 바라는 대로 되어서 기뻐요!';
+                    break;
+                case '슬퍼요':
+                    returnValue = '리사가 떠나서 너무 슬퍼요';
+                    break;
+                case '아쉬워요':
+                    returnValue = '리사와 더 이상 함께할 수 없어서 아쉬워요';
+                    break;
+                case 'おめでとう':
+                    returnValue = 'リサの新しい出発おめでとう！';
+                    break;
+                case 'ありがとう':
+                    returnValue = 'リサ、この3年間ありがとうございました。';
+                    break;
+                case '元気出して':
+                    returnValue = 'リサ、これから先の人生を応援します。';
+                    break;
+                case 'うれしい':
+                    returnValue = 'リサが望む通りになって嬉しいです！';
+                    break;
+                case '悲しい':
+                    returnValue = 'リサが離れてとても悲しいです。';
+                    break;
+                case '残念':
+                    returnValue = 'リサとこれ以上一緒にいられなくて残念です。';
+                    break;
+
+                default:
+                    break;
+            }
+            return returnValue;
+        },
         backPage() {
             if (this.slide == 'create2') {
                 this.slide = 'create1';
@@ -413,6 +527,7 @@ export default {
         .group-name-wrapper {
             display: flex;
             flex: 1;
+            position: relative;
         }
 
         .group-name-input {
@@ -421,6 +536,8 @@ export default {
             position: relative;
             font-size: 16px;
             line-height: 24px;
+            padding-right: 25px;
+            padding-bottom: 0;
 
             .q-field__inner,
             .q-field__control {
@@ -444,7 +561,7 @@ export default {
             position: absolute;
             top: 0;
             bottom: 0;
-            right: 0;
+            right: 0px;
             margin: auto;
         }
 
@@ -492,11 +609,12 @@ export default {
                     border-radius: 18px;
                     flex: 1;
                     width: 100%;
+                    height: 100px;
 
                     flex: none;
                     cursor: pointer;
                     position: relative;
-                    padding: 18px 12px;
+                    padding: 0px 12px;
                     box-sizing: border-box;
 
                     &:hover,
@@ -546,12 +664,13 @@ export default {
                         display: flex;
                         justify-content: flex-end;
                         align-items: flex-end;
-                        margin-right: 10px;
+                        margin-right: 5px;
                         position: absolute;
                         right: 0;
                         bottom: 0;
 
                         img {
+                            width: 130px;
                             -webkit-user-drag: none;
                             -khtml-user-drag: none;
                             -moz-user-drag: none;
