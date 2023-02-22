@@ -38,7 +38,7 @@
                 href="https://access.line.me/dialog/oauth/weblogin?response_type=code&client_id=1657857854&redirect_uri=http://localhost:8080/line-login&state=asmdkf">
                 <img src="~assets/line-icon.png"  alt="" srcset="">로컬 라인</a> -->
 
-        <q-btn
+        <div
             style="background: #f5f5f5; color: #666666; width: 100%"
             class="login-guide-layer__login-button google"
             @click="googleLogin"
@@ -47,7 +47,7 @@
             <span>
                 {{ $t('구글로 시작하기') }}
             </span>
-        </q-btn>
+        </div>
         <!-- <q-btn
             style="
                 background: white;

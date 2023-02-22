@@ -82,24 +82,10 @@
                         class="column no-wrap create2"
                     >
                         <div class="row-div create2__title">
-                            {{
-                                selectTheme != 0
-                                    ? changeThemeTitle(
-                                          themeGroupList[selectTheme - 1].name
-                                      )
-                                    : ''
-                            }}{{ $t('의') }}
                             {{ $t('롤링페이퍼를 어떻게 불러드리면 될까요?') }}
                         </div>
                         <div class="row-div create2__sub-title">
                             {{ $t('모두가') }}
-                            {{
-                                selectTheme != 0
-                                    ? changeThemeTitle(
-                                          themeGroupList[selectTheme - 1].name
-                                      )
-                                    : ''
-                            }}
                             {{
                                 $t(
                                     '메세지를 쓸 수 있도록 제목으로 롤링페이퍼의 주인공과 목적을 알려주세요'
@@ -260,7 +246,7 @@ export default {
                 case 'ありがとう':
                     returnValue = '感謝';
                     break;
-                case '元気出して':
+                case 'がんばれ':
                     returnValue = '応援';
                     break;
                 case 'うれしい':
@@ -302,22 +288,22 @@ export default {
                     returnValue = '리사와 더 이상 함께할 수 없어서 아쉬워요';
                     break;
                 case 'おめでとう':
-                    returnValue = 'リサの新しい出発おめでとう！';
+                    returnValue = 'リサ、お誕生日おめでとう！';
                     break;
                 case 'ありがとう':
-                    returnValue = 'リサ、この3年間ありがとうございました。';
+                    returnValue = 'リサ、3年間ありがとう！';
                     break;
-                case '元気出して':
-                    returnValue = 'リサ、これから先の人生を応援します。';
+                case 'がんばれ':
+                    returnValue = 'リサの夢を応援します！';
                     break;
                 case 'うれしい':
-                    returnValue = 'リサが望む通りになって嬉しいです！';
+                    returnValue = 'リサが来てくれてうれしい！';
                     break;
                 case '悲しい':
-                    returnValue = 'リサが離れてとても悲しいです。';
+                    returnValue = 'リサへのお別れメッセージ';
                     break;
                 case '残念':
-                    returnValue = 'リサとこれ以上一緒にいられなくて残念です。';
+                    returnValue = 'リサ、落選残念だったね。';
                     break;
 
                 default:

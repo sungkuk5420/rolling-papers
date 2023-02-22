@@ -11,7 +11,7 @@ export default {
     name: 'App',
     mounted() {
         this.$i18n.locale = 'ja';
-        this.$i18n.locale = '';
+        // this.$i18n.locale = '';
 
         this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
             {
@@ -340,6 +340,13 @@ body,
             &:hover {
                 opacity: 0.8;
             }
+        }
+        &.google {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
         }
     }
 

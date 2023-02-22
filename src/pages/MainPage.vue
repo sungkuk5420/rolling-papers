@@ -4,11 +4,10 @@
             <div class="main-image"></div>
             <div class="content">
                 <div class="content__main">
-                    {{ $t('롤링페이퍼를') }}
+                    {{ $t('롤링페이퍼를 작성해보자!') }}
                 </div>
-                <div class="content__main">{{ $t('작성해보자!') }}</div>
                 <div class="content__sub">
-                    {{ $t('친구,이성,동료가 생각하는 익명의 솔직한 이야기') }}
+                    {{ $t('친구,이성,동료가 전하는 익명의 솔직한 이야기') }}
                 </div>
             </div>
             <div class="button-list">
