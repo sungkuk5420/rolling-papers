@@ -72,6 +72,9 @@
                         {{ convertedDateFormat(currentGroup.createdAt) }}
                     </div>
                 </div>
+                <div class="group-card-on-mypaper__edit">
+                    <img :src="getImgUrl('edit.png')" alt="" srcset="" />
+                </div>
             </div>
             <div class="group-card-on-mypaper__buttons">
                 <q-btn
@@ -353,6 +356,8 @@ export default {
             align-items: flex-start;
             justify-content: center;
             flex-direction: column;
+            flex: 1;
+            padding: 0 10px;
             &__group-name {
                 //styleName: Subtitle2;
                 font-family: Spoqa Han Sans Neo;
@@ -383,6 +388,12 @@ export default {
                 text-align: left;
                 color: #999999;
             }
+        }
+        &__edit {
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
