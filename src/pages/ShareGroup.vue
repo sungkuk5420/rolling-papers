@@ -20,7 +20,7 @@
                 {{ $t('작성해줄 사람들을 초대해보자!') }}
             </div>
             <div class="share-group__title" v-if="groupStatus == 'done'">
-                {{ $t('자 이제 롤링페이퍼를') }}
+                {{ $t('자 이제 롤링페이퍼를　') }}
             </div>
             <div class="share-group__title" v-if="groupStatus == 'done'">
                 {{ $t('주인공에게 전달해보자!') }}

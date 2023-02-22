@@ -11,7 +11,7 @@ export default {
     name: 'App',
     mounted() {
         this.$i18n.locale = 'ja';
-        // this.$i18n.locale = '';
+        this.$i18n.locale = '';
 
         this.$store.dispatch(T.SET_THEME_GROUP_LIST, [
             {
@@ -266,6 +266,35 @@ body,
     cursor: pointer;
 }
 
+.group-card {
+    display: flex;
+    background: #f2f2f2;
+    width: 100%;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 26px;
+    border-radius: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    &__left {
+        &__title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 24px;
+            margin-bottom: 5px;
+        }
+        &__sub-title {
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+    &__right {
+        img {
+            height: 85px;
+        }
+    }
+}
 .login-guide-layer {
     &.create-group {
         padding-top: 30px;
@@ -285,35 +314,6 @@ body,
 
     &__image {
         margin: 20px 0;
-    }
-    .group-card {
-        display: flex;
-        background: #f2f2f2;
-        width: 100%;
-        height: 100px;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 26px;
-        border-radius: 12px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        &__left {
-            &__title {
-                font-size: 18px;
-                font-weight: 700;
-                line-height: 24px;
-                margin-bottom: 5px;
-            }
-            &__sub-title {
-                font-size: 12px;
-                line-height: 18px;
-            }
-        }
-        &__right {
-            img {
-                height: 85px;
-            }
-        }
     }
 
     &__login-button {

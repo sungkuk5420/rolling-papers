@@ -1,17 +1,49 @@
 <template>
     <q-page class="flex flex-center group-info-page">
         <div class="container">
-            <div class="row-div q-mt-xl empty" v-if="messages.length == 0">
+            <div class="group-card">
+                <div class="group-card__left">
+                    <div class="group-card__left__title">
+                        {{
+                            currentGroup.selectTheme != 0
+                                ? $t(
+                                      themeGroupList[
+                                          currentGroup.selectTheme - 1
+                                      ].name
+                                  )
+                                : ''
+                        }}
+                    </div>
+                    <div class="group-card__left__sub-title">
+                        {{ groupName }}
+                    </div>
+                </div>
+                <div class="group-card__right">
+                    <div class="login-guide-layer__image">
+                        <img
+                            :src="
+                                getImgUrl(
+                                    themeGroupList[currentGroup.selectTheme - 1]
+                                        .img
+                                )
+                            "
+                            alt=""
+                            srcset=""
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="row-div empty" v-if="loadingStatus == 'empty'">
                 <div class="empty-wrapper flex flex-center column-div">
                     <img
                         class="empty-image"
-                        :src="getImgUrl('theme-1.png')"
+                        :src="getImgUrl('group-info-empty.png')"
                         alt="cat"
                     />
                     <p class="empty-notice">
-                        아직 롤링페이퍼를 쓴 사람이 없어~ <br />
-                        너가 제일 먼저 작성해봐
+                        롤링페이퍼를 작성한 사람이 없어요.
                     </p>
+                    <p class="empty-notice">제일 먼저 작성해보실래요?</p>
                 </div>
             </div>
             <div class="row-div q-mt-md message-wapper" v-else>
@@ -20,6 +52,7 @@
                         v-for="(item, index) in messages"
                         :key="index"
                         class="message-post"
+                        :class="item.toggle ? 'secret' : ''"
                         @click="goDetail(item)"
                     >
                         <div
@@ -37,12 +70,10 @@
                             "
                         >
                             <div style="font-size: 40px">🤫</div>
-                            <div>당사자만 볼 수 있어</div>
+                            <div>비밀글 이에요</div>
                         </div>
                         <div class="message-writer">
-                            {{
-                                item.toggle ? '' : 'from' + item.writerNickName
-                            }}
+                            {{ 'from ' + item.writerNickName }}
                         </div>
                     </div>
                 </div>
@@ -77,6 +108,7 @@ import UtilMethodMixin from '../UtilMethodMixin';
 import { T } from '../store/module-example/types';
 import { getDatabase, ref, set, child, get } from 'firebase/database';
 import BottomButtons from 'src/components/BottomButtons.vue';
+import { Toast } from 'vant';
 export default {
     components: { BottomButtons },
     mixins: [ComputedMixin, UtilMethodMixin],
@@ -85,13 +117,20 @@ export default {
             groupUid: '',
             groupName: '',
             groupCode: '',
+            currentGroup: '',
             messages: [],
             bottomLayer: false,
             actions: [{ name: '생성하기' }, { name: '참여하기' }],
+            loadingStatus: 'loading',
         };
     },
     mounted() {
-        // this.showLoading();
+        Toast.loading({
+            message: 'Loading...',
+            forbidClick: true,
+            loadingType: 'spinner',
+            duration: 10000,
+        });
         const groupCode = this.$route.query['groupCode'];
         const groupUid = this.$route.query['groupUid'];
         if (!groupCode) {
@@ -129,6 +168,7 @@ export default {
                     if (snapshot.exists()) {
                         console.log(snapshot.val());
                         const data = snapshot.val();
+                        this.currentGroup = data;
                         this.groupName = data.groupName;
                         this.$store.dispatch(
                             T.CHANGE_HEADER_TITLE,
@@ -148,6 +188,11 @@ export default {
                                   ...data.messages.filter((i) => i.toggle),
                               ]
                             : [];
+
+                        Toast.clear();
+                        if (this.messages.length == 0) {
+                            this.loadingStatus = 'empty';
+                        }
                         // console.log("그룹코드가 존재합니다")
                     } else {
                         // console.log("그룹코드가 없습니다!")
@@ -214,25 +259,24 @@ export default {
 
     .empty {
         font-size: 20px;
-        opacity: 0.3;
         display: flex;
         justify-content: center;
         align-items: center;
         flex: 1;
 
         .empty-wrapper {
-            gap: 20px;
-
             .empty-image {
-                width: 145px;
-                height: 181px;
+                width: 255px;
+                height: 255px;
                 object-fit: contain;
+                margin-bottom: 20px;
             }
 
             .empty-notice {
                 color: #999;
                 text-align: center;
                 font-size: 16px;
+                margin: 0;
             }
         }
     }
@@ -252,6 +296,7 @@ export default {
         grid-template-columns: 1fr 1fr;
         gap: 16px 15px;
         overflow: auto;
+        height: 100%;
     }
 
     .message-post {
@@ -260,22 +305,11 @@ export default {
         position: relative;
         border-radius: 12px;
         font-weight: 700;
-        color: #fff;
-
-        &:nth-child(4n-3) {
-            background-color: #4b69fe;
-        }
-
-        &:nth-child(4n-2) {
-            background-color: #ff7d5a;
-        }
-
-        &:nth-child(4n-1) {
-            background-color: #6532e9;
-        }
-
-        &:nth-child(4n) {
-            background-color: #32e978;
+        color: #333;
+        background: #faf4c6;
+        &.secret {
+            background: #333;
+            color: #666;
         }
     }
 

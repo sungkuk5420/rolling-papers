@@ -19,23 +19,23 @@
             >
         </div>
         <div
-            class="group-card"
+            class="group-card-on-mypaper"
             v-for="(currentGroup, index) in myGroups"
             :key="index"
-            @click="
-                () => {
-                    $router.push(
-                        `/group-info?groupUid=${currentGroup.groupUid}&groupCode=${currentGroup.code}`
-                    );
-                }
-            "
         >
-            <div class="group-card__image-content">
+            <div class="group-card-on-mypaper__image-content">
                 <div
-                    class="group-card__image"
+                    class="group-card-on-mypaper__image"
                     :style="`background:${
                         themeGroupList[currentGroup.selectTheme - 1].background
                     };`"
+                    @click="
+                        () => {
+                            $router.push(
+                                `/group-info?groupUid=${currentGroup.groupUid}&groupCode=${currentGroup.code}`
+                            );
+                        }
+                    "
                 >
                     <img
                         :src="
@@ -47,33 +47,42 @@
                         srcset=""
                     />
                 </div>
-                <div class="group-card__content">
-                    <div class="group-card__content__group-name">
+                <div
+                    class="group-card-on-mypaper__content"
+                    @click="
+                        () => {
+                            $router.push(
+                                `/group-info?groupUid=${currentGroup.groupUid}&groupCode=${currentGroup.code}`
+                            );
+                        }
+                    "
+                >
+                    <div class="group-card-on-mypaper__content__group-name">
                         {{ currentGroup.groupName }}
                     </div>
-                    <div class="group-card__content__count">
+                    <div class="group-card-on-mypaper__content__count">
                         {{
-                            (currentGroup.message &&
-                                currentGroup.message.length) ||
+                            (currentGroup.messages &&
+                                currentGroup.messages.length) ||
                             0
                         }}
                         {{ $t('명 참여중') }}
                     </div>
-                    <div class="group-card__content__created-at">
+                    <div class="group-card-on-mypaper__content__created-at">
                         {{ convertedDateFormat(currentGroup.createdAt) }}
                     </div>
                 </div>
             </div>
-            <div class="group-card__buttons">
+            <div class="group-card-on-mypaper__buttons">
                 <q-btn
                     v-show="currentGroup.status == 'done'"
-                    class="group-card__button-left"
+                    class="group-card-on-mypaper__button-left"
                     disabled
                     :label="$t('공유완료')"
                 ></q-btn>
                 <q-btn
                     v-show="currentGroup.status == 'created'"
-                    class="group-card__button-left"
+                    class="group-card-on-mypaper__button-left"
                     :label="$t('작성자에게 공유')"
                     @click="
                         () => {
@@ -82,7 +91,7 @@
                     "
                 ></q-btn>
                 <q-btn
-                    class="group-card__button-right"
+                    class="group-card-on-mypaper__button-right"
                     :label="$t('주인공에게 공유')"
                     @click="
                         () => {
@@ -106,10 +115,10 @@
             <div class="share-layer-on-my-papers__sub-title">
                 {{ $t('공유하면 롤링페이퍼는 이제 못 쓰게 될거야.') }}
             </div>
-            <div class="group-card" v-if="selectGroup">
-                <div class="group-card__image-content">
+            <div class="group-card-on-mypaper" v-if="selectGroup">
+                <div class="group-card-on-mypaper__image-content">
                     <div
-                        class="group-card__image"
+                        class="group-card-on-mypaper__image"
                         :style="`background:${
                             themeGroupList[selectGroup.selectTheme - 1]
                                 .background
@@ -126,30 +135,30 @@
                             srcset=""
                         />
                     </div>
-                    <div class="group-card__content">
-                        <div class="group-card__content__group-name">
+                    <div class="group-card-on-mypaper__content">
+                        <div class="group-card-on-mypaper__content__group-name">
                             {{ selectGroup.groupName }}
                         </div>
-                        <div class="group-card__content__count">
+                        <div class="group-card-on-mypaper__content__count">
                             {{
-                                (selectGroup.message &&
-                                    selectGroup.message.length) ||
+                                (selectGroup.messages &&
+                                    selectGroup.messages.length) ||
                                 0
                             }}{{ $t('명 참여중') }}
                         </div>
-                        <div class="group-card__content__created-at">
+                        <div class="group-card-on-mypaper__content__created-at">
                             {{ convertedDateFormat(selectGroup.createdAt) }}
                         </div>
                     </div>
                 </div>
-                <div class="group-card__buttons">
+                <div class="group-card-on-mypaper__buttons">
                     <q-btn
-                        class="group-card__button-left"
+                        class="group-card-on-mypaper__button-left"
                         @click="shareLayer = false"
                         :label="$t('취소')"
                     ></q-btn>
                     <q-btn
-                        class="group-card__button-right"
+                        class="group-card-on-mypaper__button-right"
                         :label="$t('주인공에게 공유')"
                         @click="shareToMainPerson"
                     ></q-btn>
@@ -250,6 +259,10 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    height: 100%;
+    overflow: auto;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
     .empty {
         display: flex;
         flex-direction: column;
@@ -273,7 +286,7 @@ export default {
         line-height: 20px;
         color: #999;
     }
-    .group-card {
+    .group-card-on-mypaper {
         display: flex;
         width: 100%;
         align-items: center;

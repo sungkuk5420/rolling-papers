@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="wrap-contents">
-            <div class="contents">
+            <div class="contents" :class="getMessage.toggle ? 'secret' : ''">
                 <p
                     v-show="!getMessage.toggle"
                     class="content"
@@ -38,7 +38,7 @@
                     style="margin-top: auto; margin-bottom: auto"
                 >
                     <div style="font-size: 40px">🤫</div>
-                    <div>당사자만 볼 수 있어</div>
+                    <div>비밀글 이에요</div>
                 </div>
                 <p class="writer">
                     {{
@@ -143,14 +143,20 @@ export default {
         .contents {
             width: 100%;
             height: 328px;
-            background-color: #ff7d5a;
+            background-color: #faf4c6;
             padding: 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             border-radius: 12px;
+            &.secret {
+                background: #333;
+                .content {
+                    color: #666;
+                }
+            }
             .content {
-                color: white;
+                color: #333;
                 font-weight: bold;
             }
 
@@ -170,7 +176,7 @@ export default {
 
             .writer {
                 text-align: right;
-                color: #fff;
+                color: #333;
                 font-weight: 400;
             }
         }

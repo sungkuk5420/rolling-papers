@@ -16,40 +16,42 @@
                     class="message-input"
                     :class="fontStyle"
                     type="textarea"
-                    :rules="[(val) => val.length <= 20]"
+                    :rules="[(val) => val.length <= 50]"
                     outlined
                     v-model="message"
-                    placeholder="이곳에 작성해줘"
+                    placeholder="롤링페이퍼를 작성해주세요"
                 >
                     <span class="input-length"
-                        >{{ message.toString().length }}/20</span
+                        >{{ message.toString().length }}/50</span
                     >
                 </q-input>
             </div>
             <div class="row-div id-area">
                 <q-input
-                    v-show="!toggle"
                     autoComplete="new-password"
                     class="writer-input"
-                    :rules="[(val) => val.length <= 10]"
+                    :rules="[(val) => val.length <= 12]"
                     outlined
                     v-model="writerNickName"
                     placeholder="이름이나 단어, 문장을 입력해주세요."
                 >
                     <span class="input-length"
-                        >{{ writerNickName.toString().length }}/10</span
+                        >{{ writerNickName.toString().length }}/12</span
                     >
                 </q-input>
                 <q-input
                     autoComplete="new-password"
                     class="writer-input password"
                     type="password"
-                    :rules="[(val) => val.length <= 10]"
+                    :rules="[(val) => val.length <= 12]"
                     outlined
                     v-model="password"
-                    placeholder="비밀번호를 입력해주세요."
+                    placeholder="최대 12자까지 입력해주세요."
                     v-show="!getMessage"
                 >
+                    <span class="input-length"
+                        >{{ password.toString().length }}/12</span
+                    >
                 </q-input>
                 <div class="font-button-group">
                     <q-btn
@@ -89,7 +91,12 @@
                         <div class="title__sub">오직 주인공만 볼 수 있어</div>
                     </div>
                     <div class="title__right">
-                        <q-toggle size="xl" v-model="toggle" />
+                        <q-toggle
+                            size="xl"
+                            v-model="toggle"
+                            color="yellow"
+                            keep-color
+                        />
                     </div>
                 </div>
 
@@ -132,7 +139,7 @@ export default {
         return {
             toggle: false,
             message: '',
-            writerNickName: '',
+            writerNickName: 'first-font',
             fontStyle: '',
             password: '',
         };
@@ -144,10 +151,13 @@ export default {
     },
     watch: {
         message(value) {
-            this.message = value.slice(0, 20);
+            this.message = value.slice(0, 50);
         },
         writerNickName(value) {
-            this.writerNickName = value.slice(0, 10);
+            this.writerNickName = value.slice(0, 12);
+        },
+        password(value) {
+            this.password = value.slice(0, 12);
         },
     },
     mounted() {

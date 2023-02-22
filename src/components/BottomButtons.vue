@@ -1,18 +1,22 @@
 <template>
     <div class="bottom-buttons-container">
-        <button v-if="!isDetailPage" @click="onShared" class="on-share-button">
-            공유하기
-        </button>
-        <button v-else @click="editActionlayer = true" class="on-share-button">
-            편집
-        </button>
-        <button class="on-write-button" @click="onCreate">
+        <q-btn v-if="!isDetailPage" @click="onShared" class="on-share-button">
+            롤링페이퍼 공유
+        </q-btn>
+        <q-btn v-else @click="editActionlayer = true" class="on-share-button">
+            내용 편집/삭제
+        </q-btn>
+        <q-btn class="on-write-button" @click="onCreate" v-if="!isDetailPage">
             롤링페이퍼 작성
-        </button>
+        </q-btn>
+        <q-btn class="on-write-button" @click="onShared" v-if="isDetailPage">
+            롤링페이퍼 공유
+        </q-btn>
         <van-popup
             v-model="passwordActionLayer"
             class="password-guide-layer"
-            position="right"
+            position="center"
+            duration="0"
             :style="{ height: '100%' }"
         >
             <div class="header">
