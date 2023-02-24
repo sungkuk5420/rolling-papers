@@ -53,32 +53,37 @@ export default {
         this.list = [
             {
                 name: 'Jason',
-                position: '개발자',
-                description: '하고싶은말 적기',
-                url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
-            },
-            {
-                name: 'East',
-                position: '디자이너',
-                description: '하고싶은말 적기',
+                position: '4년차 프로덕트 디자이너',
+                description:
+                    '사용자와 소통하며 니즈를 파악하고, 변화하는 트렌드에 맞추기 위해 항상 배우고 있어요!',
                 url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
             },
             {
                 name: 'Jyn',
-                position: '디자이너',
-                description: '하고싶은말 적기',
+                position: '4년차 프로덕트 디자이너',
+                description:
+                    '돈과 재미를 추구하는 불나방 디자이너입니다. 하고싶은게 너무 많아요',
+                url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
+            },
+            {
+                name: 'East',
+                position: '3년차 프론트엔드 개발자',
+                description:
+                    'Vue.js를 주로 사용하고 있는 프론트엔드 개발자입니다! 알고 있는 기술을 공유하는 것, 사람들과 소통하는 것을 좋아합니다!!',
                 url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
             },
             {
                 name: 'Sophia',
-                position: '디자이너',
-                description: '하고싶은말 적기',
+                position: '2년차 그래픽 디자이너',
+                description:
+                    'UIUX를 공부하고 있습니다. 다방면에서 새로운 분야를 배우려고 항상 노력하고 있습니다.',
                 url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
             },
             {
                 name: 'Alex',
                 position: '8년차 개발자',
-                description: '오사카에 거주하는 프리랜서입니다',
+                description:
+                    '오사카에 거주하는 프리랜서 개발자입니다. 재밌는 서비스개발을 많이 하고 싶습니다.',
                 url: 'https://www.linkedin.com/in/sungkuk-kim-914748142/',
             },
         ];
