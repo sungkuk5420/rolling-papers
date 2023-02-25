@@ -70,7 +70,7 @@
                             "
                         >
                             <div style="font-size: 40px">🤫</div>
-                            <div>비밀글 이에요</div>
+                            <div>{{ $t('비밀글 이에요') }}</div>
                         </div>
                         <div class="message-writer">
                             {{ 'from ' + item.writerNickName }}

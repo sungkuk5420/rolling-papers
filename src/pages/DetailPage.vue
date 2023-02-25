@@ -9,13 +9,14 @@
                 ></q-icon>
             </div>
             <div class="header__center">
-                <q-icon
-                    name="celebration"
-                    style="font-size: 24px; cursor: pointer"
-                ></q-icon>
-                <div class="group-name">롤링페이퍼 상세</div>
+                <div class="group-name">
+                    {{ $t('롤링페이퍼 상세') }}
+                </div>
             </div>
-            <div class="header__right">
+            <div
+                class="header__right"
+                @click="$router.push(`/share-group?groupUid=${groupUid}`)"
+            >
                 <q-icon
                     name="ios_share"
                     style="font-size: 24px; cursor: pointer"
@@ -38,7 +39,9 @@
                     style="margin-top: auto; margin-bottom: auto"
                 >
                     <div style="font-size: 40px">🤫</div>
-                    <div>비밀글 이에요</div>
+                    <div>
+                        {{ $t('비밀글 이에요') }}
+                    </div>
                 </div>
                 <p class="writer">
                     {{

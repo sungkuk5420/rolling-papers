@@ -32,10 +32,15 @@
             </div>
             <div class="container">
                 <div class="title">
-                    롤링페이퍼를
-                    {{ editType == 'edit' ? '편집' : '삭제' }}하려면
+                    {{
+                        $t(
+                            '롤링페이퍼를 ' +
+                                (editType == 'edit' ? '편집' : '삭제') +
+                                '하려면'
+                        )
+                    }}
                 </div>
-                <div class="title">비밀번호를 입력해줘</div>
+                <div class="title">{{ $t('비밀번호를 입력해줘') }}</div>
                 <q-input
                     class="password-input"
                     type="password"
