@@ -73,9 +73,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="add-group" @click="createStep2">
+                        <q-btn class="add-group" @click="createStep2">
                             {{ $t('다음으로') }}
-                        </div>
+                        </q-btn>
                     </q-carousel-slide>
                     <q-carousel-slide
                         name="create2"
@@ -116,13 +116,13 @@
                                 >{{ groupName.toString().length }}/20</span
                             >
                         </div>
-                        <div
+                        <q-btn
                             class="add-group"
                             @click="createGroup"
                             :disabled="selectTheme == 0"
                         >
                             {{ $t('생성하기') }}
-                        </div>
+                        </q-btn>
                     </q-carousel-slide>
                 </q-carousel>
             </div>

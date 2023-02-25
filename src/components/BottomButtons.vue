@@ -1,16 +1,16 @@
 <template>
     <div class="bottom-buttons-container">
         <q-btn v-if="!isDetailPage" @click="onShared" class="on-share-button">
-            롤링페이퍼 공유
+            {{ $t('롤링페이퍼 공유') }}
         </q-btn>
         <q-btn v-else @click="editActionlayer = true" class="on-share-button">
-            내용 편집/삭제
+            {{ $t('내용 편집/삭제') }}
         </q-btn>
         <q-btn class="on-write-button" @click="onCreate" v-if="!isDetailPage">
-            롤링페이퍼 작성
+            {{ $t('롤링페이퍼 작성') }}
         </q-btn>
         <q-btn class="on-write-button" @click="onShared" v-if="isDetailPage">
-            롤링페이퍼 공유
+            {{ $t('롤링페이퍼 공유') }}
         </q-btn>
         <van-popup
             v-model="passwordActionLayer"
