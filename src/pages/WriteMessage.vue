@@ -7,8 +7,12 @@
                     style="font-size: 24px; cursor: pointer"
                     @click="$router.go(-1)"
                 />
-                <p class="header-title" v-show="!getMessage">롤링페이퍼 작성</p>
-                <p class="header-title" v-show="getMessage">롤링페이퍼 편집</p>
+                <p class="header-title" v-show="!getMessage">
+                    {{ $t('롤링페이퍼 작성') }}
+                </p>
+                <p class="header-title" v-show="getMessage">
+                    {{ $t('롤링페이퍼 편집') }}
+                </p>
                 <q-icon name="mode" style="font-size: 24px; cursor: pointer" />
             </div>
             <div class="row-div text-area">
@@ -19,7 +23,7 @@
                     :rules="[(val) => val.length <= 50]"
                     outlined
                     v-model="message"
-                    placeholder="롤링페이퍼를 작성해주세요"
+                    :placeholder="$t('롤링페이퍼를 작성해주세요')"
                 >
                     <span class="input-length"
                         >{{ message.toString().length }}/50</span
@@ -33,7 +37,7 @@
                     :rules="[(val) => val.length <= 12]"
                     outlined
                     v-model="writerNickName"
-                    placeholder="이름이나 단어, 문장을 입력해주세요."
+                    :placeholder="$t('이름이나 단어, 문장을 입력해주세요.')"
                 >
                     <span class="input-length"
                         >{{ writerNickName.toString().length }}/12</span
@@ -46,7 +50,7 @@
                     :rules="[(val) => val.length <= 12]"
                     outlined
                     v-model="password"
-                    placeholder="최대 12자까지 입력해주세요."
+                    :placeholder="$t('최대 12자까지 입력해주세요.')"
                     v-show="!getMessage"
                 >
                     <span class="input-length"
@@ -57,7 +61,7 @@
                     <q-btn
                         class="font first-font"
                         :class="{ 'active-font': fontStyle === 'first-font' }"
-                        label="폰트 1"
+                        :label="$t('폰트') + '1'"
                         @click="
                             () => {
                                 changeFont(1);
@@ -67,7 +71,7 @@
                     <q-btn
                         class="font second-font"
                         :class="{ 'active-font': fontStyle === 'second-font' }"
-                        label="폰트 2"
+                        :label="$t('폰트') + '2'"
                         @click="
                             () => {
                                 changeFont(2);
@@ -77,7 +81,7 @@
                     <q-btn
                         class="font third-font"
                         :class="{ 'active-font': fontStyle === 'third-font' }"
-                        label="폰트 3"
+                        :label="$t('폰트') + '3'"
                         @click="
                             () => {
                                 changeFont(3);
@@ -87,8 +91,10 @@
                 </div>
                 <div class="title q-mt-md">
                     <div class="title__left">
-                        <div>익명으로 작성</div>
-                        <div class="title__sub">오직 주인공만 볼 수 있어</div>
+                        <div>{{ $t('익명으로 작성') }}</div>
+                        <div class="title__sub">
+                            {{ $t('오직 주인공만 볼 수 있어') }}
+                        </div>
                     </div>
                     <div class="title__right">
                         <q-toggle
@@ -105,14 +111,14 @@
                     @click="writeMessage"
                     v-show="!getMessage"
                 >
-                    메세지 남기기
+                    {{ $t('메세지 남기기') }}
                 </q-btn>
                 <q-btn
                     class="message-button"
                     @click="editMessage"
                     v-show="getMessage"
                 >
-                    메세지 편집
+                    {{ $t('메세지 편집') }}
                 </q-btn>
             </div>
         </div>
@@ -139,8 +145,8 @@ export default {
         return {
             toggle: false,
             message: '',
-            writerNickName: 'first-font',
-            fontStyle: '',
+            writerNickName: '',
+            fontStyle: 'first-font',
             password: '',
         };
     },
@@ -371,7 +377,7 @@ export default {
 
     .second-font {
         .q-btn__content {
-            font-size: 20px !important;
+            font-size: 17px !important;
         }
 
         .q-btn__content,
@@ -382,7 +388,7 @@ export default {
 
     .third-font {
         .q-btn__content {
-            font-size: 20px !important;
+            font-size: 17px !important;
         }
 
         .q-btn__content,
