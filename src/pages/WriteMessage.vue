@@ -13,7 +13,6 @@
                 <p class="header-title" v-show="getMessage">
                     {{ $t('롤링페이퍼 편집') }}
                 </p>
-                <q-icon name="mode" style="font-size: 24px; cursor: pointer" />
             </div>
             <div class="row-div text-area">
                 <q-input
