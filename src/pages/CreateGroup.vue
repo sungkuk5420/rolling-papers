@@ -73,9 +73,6 @@
                                 </div>
                             </div>
                         </div>
-                        <q-btn class="add-group" @click="createStep2">
-                            {{ $t('다음으로') }}
-                        </q-btn>
                     </q-carousel-slide>
                     <q-carousel-slide
                         name="create2"
@@ -320,6 +317,7 @@ export default {
         },
         selectThemeFunc(index) {
             this.selectTheme = index + 1;
+            this.createStep2();
         },
         createStep2() {
             if (this.selectTheme == 0) {
