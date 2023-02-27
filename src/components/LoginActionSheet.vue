@@ -39,7 +39,12 @@
                 <img src="~assets/line-icon.png"  alt="" srcset="">로컬 라인</a> -->
 
         <div
-            style="background: #f5f5f5; color: #666666; width: 100%"
+            style="
+                background: #f5f5f5;
+                color: #666666;
+                width: 100%;
+                cursor: pointer;
+            "
             class="login-guide-layer__login-button google"
             @click="googleLogin"
         >

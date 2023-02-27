@@ -350,6 +350,9 @@ body,
             justify-content: center;
             align-items: center;
             color: #333;
+            &:hover {
+                opacity: 0.8;
+            }
         }
     }
 
