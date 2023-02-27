@@ -228,7 +228,7 @@ export default {
                         this.link =
                             'https://rolling-papers.netlify.app' +
                             '/join-group?' +
-                            `groupUid=${this.groupUid}`;
+                            `groupUid=${this.groupUid}&groupCode=${this.groupCode}`;
                     }
                 })
                 .catch((error) => {

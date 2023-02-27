@@ -104,8 +104,8 @@ export default {
                         createdAt: this.createNowTime(),
                         status: 'created',
                     });
-                    set(ref(db, 'groupCodes/' + this.groupCode), {
-                        groupUid: this.groupUid,
+                    set(ref(db, 'groupCodes/' + groupCode), {
+                        groupUid: groupUid,
                     });
                     setTimeout(() => {
                         thisObj.$q.notify({

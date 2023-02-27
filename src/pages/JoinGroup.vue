@@ -275,6 +275,7 @@ export default {
     },
     beforeMount() {
         this.groupUid = this.$route.query['groupUid'];
+        this.groupCode = this.$route.query['groupCode'];
         if (this.groupUid) {
             const dbRef = ref(getDatabase());
             get(child(dbRef, `groups/${this.groupUid}`))
