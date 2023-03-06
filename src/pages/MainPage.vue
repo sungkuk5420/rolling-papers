@@ -89,7 +89,6 @@ export default {
     height: 100%;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 0 20px 20px 20px;
 
     .container {
         width: 100%;
@@ -100,10 +99,11 @@ export default {
     .main-image {
         top: 0;
         position: relative;
-        background-image: url('../assets/main-image.svg');
+        background-image: url('../assets/main-image.png');
         height: 100%;
         background-size: cover;
-        background-position: center top;
+        background-position: center center;
+        background-repeat: no-repeat;
     }
 
     .button-list {
@@ -111,6 +111,7 @@ export default {
         display: flex;
         flex-direction: column;
         margin-top: auto;
+        padding: 0 20px 20px 20px;
     }
 
     .add-group {
@@ -155,6 +156,7 @@ export default {
     }
 
     .content {
+        padding: 20px 20px;
         &__main {
             font-weight: 700;
             font-size: 24px;
@@ -164,7 +166,7 @@ export default {
         &__sub {
             margin-top: 12px;
             line-height: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
     }
 
