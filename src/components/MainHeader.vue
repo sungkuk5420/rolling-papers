@@ -4,7 +4,10 @@
             <img src="~assets/menu.png" alt srcset />
         </div>
         <div class="header__center">{{ headerTitle }}</div>
-        <div class="header__right"></div>
+        <div class="header__right" @click="changeLangage">
+            <img src="~assets/menu.png" alt srcset />
+
+        </div>
     </q-header>
 </template>
 
